@@ -187,81 +187,67 @@ const tenses = {
     presente: {
         name: "现在时 (Presente)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "规则变位：-ar: o/as/a/amos/áis/an | -er: o/es/e/emos/éis/en | -ir: o/es/e/imos/ís/en",
-        examples: "hablar: hablo/hablas/habla/hablamos/habláis/hablan | comer: como/comes/come/comemos/coméis/comen | vivir: vivo/vives/vive/vivimos/vivís/viven"
+        rule: "-ar: o/as/a/amos/áis/an  |  -er/ir: o/es/e/imos/ís/en"
     },
     preterito: {
         name: "简单过去时 (Pretérito Indefinido)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "规则变位：-ar: é/aste/ó/amos/asteis/aron | -er/ir: í/iste/ió/imos/isteis/ieron",
-        examples: "hablar: hablé/hablaste/habló/hablamos/hablasteis/hablaron | comer: comí/comiste/comió/comimos/comisteis/comieron"
+        rule: "-ar: é/aste/ó/amos/asteis/aron  |  -er/ir: í/iste/ió/imos/isteis/ieron"
     },
     imperfecto: {
         name: "过去未完成时 (Pretérito Imperfecto)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "规则变位：-ar: aba/abas/aba/ábamos/abais/aban | -er/ir: ía/ías/ía/íamos/íais/ían",
-        examples: "hablar: hablaba/hablabas/hablaba/hablábamos/hablabais/hablaban | comer: comía/comías/comía/comíamos/comíais/comían"
+        rule: "-ar: aba/abas/aba/ábamos/abais/aban  |  -er/ir: ía/ías/ía/íamos/íais/ían"
     },
     futuro: {
         name: "简单将来时 (Futuro Simple)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "规则变位：原形动词 + é/ás/á/emos/éis/án（所有动词词尾相同）",
-        examples: "hablar: hablaré/hablarás/hablará/hablaremos/hablaréis/hablarán | comer: comeré/comerás/comerá/comeremos/comeréis/comerán"
+        rule: "原形 + é/ás/á/emos/éis/án"
     },
     condicional: {
         name: "条件式简单时 (Condicional Simple)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "规则变位：原形动词 + ía/ías/ía/íamos/íais/ían（所有动词词尾相同）",
-        examples: "hablar: hablaría/hablarías/hablaría/hablaríamos/hablaríais/hablarían | comer: comería/comerías/comería/comeríamos/comeríais/comerían"
+        rule: "原形 + ía/ías/ía/íamos/íais/ían"
     },
     subjuntivo: {
         name: "虚拟式现在时 (Presente de Subjuntivo)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "规则变位：-ar: e/es/e/emos/éis/en | -er/ir: a/as/a/amos/áis/an（与陈述式相反）",
-        examples: "hablar: hable/hables/hable/hablemos/habléis/hablen | comer: coma/comas/coma/comamos/comáis/coman"
+        rule: "-ar: e/es/e/emos/éis/en  |  -er/ir: a/as/a/amos/áis/an"
     },
     subjuntivo_imperfecto: {
         name: "虚拟式过去未完成时 (Imperfecto de Subjuntivo)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "规则变位：-ar: ara/aras/ara/áramos/arais/aran | -er/ir: iera/ieras/iera/iéramos/ierais/ieran",
-        examples: "hablar: hablara/hablaras/hablara/habláramos/hablarais/hablaran | comer: comiera/comieras/comiera/comiéramos/comierais/comieran"
+        rule: "-ar: ara/aras/ara/áramos/arais/aran  |  -er/ir: iera/ieras/iera/iéramos/ierais/ieran"
     },
     presente_perfecto: {
         name: "现在完成时 (Pretérito Perfecto)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "复合时态：haber(现在时) + 过去分词 | -ar→ado, -er/ir→ido",
-        examples: "hablar: he hablado/has hablado/ha hablado/hemos hablado/habéis hablado/han hablado"
+        rule: "haber现在时 + 过去分词(-ar→ado, -er/ir→ido)"
     },
     pluscuamperfecto: {
         name: "过去完成时 (Pretérito Pluscuamperfecto)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "复合时态：haber(过去未完成时) + 过去分词 | -ar→ado, -er/ir→ido",
-        examples: "hablar: había hablado/habías hablado/había hablado/habíamos hablado/habíais hablado/habían hablado"
+        rule: "haber过去未完成时 + 过去分词"
     },
     futuro_perfecto: {
         name: "将来完成时 (Futuro Perfecto)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "复合时态：haber(将来时) + 过去分词 | -ar→ado, -er/ir→ido",
-        examples: "hablar: habré hablado/habrás hablado/habrá hablado/habremos hablado/habréis hablado/habrán hablado"
+        rule: "haber将来时 + 过去分词"
     },
     condicional_perfecto: {
         name: "条件式完成时 (Condicional Compuesto)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "复合时态：haber(条件式) + 过去分词 | -ar→ado, -er/ir→ido",
-        examples: "hablar: habría hablado/habrías hablado/habría hablado/habríamos hablado/habríais hablado/habrían hablado"
+        rule: "haber条件式 + 过去分词"
     },
     subjuntivo_perfecto: {
         name: "虚拟式现在完成时 (Pretérito Perfecto de Subjuntivo)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "复合时态：haber(虚拟式现在时) + 过去分词 | -ar→ado, -er/ir→ido",
-        examples: "hablar: haya hablado/hayas hablado/haya hablado/hayamos hablado/hayáis hablado/hayan hablado"
+        rule: "haber虚拟式现在时 + 过去分词"
     },
     imperativo: {
         name: "命令式 (Imperativo)",
         pronouns: ["tú", "usted", "nosotros", "vosotros", "ustedes"],
-        rule: "规则变位：-ar: a/e/emos/ad/en | -er: e/a/amos/ed/an | -ir: e/a/amos/id/an（无'yo'形式）",
-        examples: "hablar: habla/hable/hablemos/hablad/hablen | comer: come/coma/comamos/comed/coman | vivir: viva/viva/vivamos/vivid/vivan",
-        note: "代词式动词：肯定命令式代词后置(levántate)，否定命令式代词前置(no te levantes)"
+        rule: "-ar: a/e/emos/ad/en  |  -er: e/a/amos/ed/an  |  -ir: e/a/amos/id/an"
     }
 };
 

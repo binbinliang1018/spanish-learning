@@ -132,24 +132,19 @@ header h1 {
     margin-bottom: 10px;
 }
 
-.tense-rule {
+.tense-rule-box {
     background: #f8f9fa;
-    border-left: 4px solid #667eea;
-    padding: 10px 15px;
-    margin: 10px 0;
-    font-size: 0.85rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-top: 20px;
+    font-size: 0.9rem;
     color: #555;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
-.tense-examples {
-    background: #e8f4f8;
-    border-left: 4px solid #17a2b8;
-    padding: 10px 15px;
-    margin: 10px 0;
-    font-size: 0.85rem;
-    color: #555;
-    line-height: 1.5;
+.tense-rule-box strong {
+    color: #667eea;
 }
 
 /* 变位表格 */

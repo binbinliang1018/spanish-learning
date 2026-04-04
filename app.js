@@ -169,10 +169,14 @@ function loadDailyVerb() {
     document.getElementById('dailyVerbMeaning').textContent = currentVerb.meaning;
     document.getElementById('dailyVerbTense').textContent = tenses[currentTense].name;
     
-    // 显示时态规则
+    // 显示时态规则（最下方）
     const tenseInfo = tenses[currentTense];
-    document.getElementById('dailyTenseRule').textContent = tenseInfo.rule || '';
-    document.getElementById('dailyTenseExamples').textContent = tenseInfo.examples || '';
+    const ruleBox = document.getElementById('dailyTenseRuleBox');
+    if (tenseInfo.rule) {
+        ruleBox.innerHTML = `<strong>变位规则：</strong>${tenseInfo.rule}`;
+    } else {
+        ruleBox.innerHTML = '';
+    }
     
     // 生成输入框
     const grid = document.getElementById('dailyConjugationGrid');
@@ -920,10 +924,14 @@ function loadReviewVerb() {
     document.getElementById('reviewVerbMeaning').textContent = currentVerb.meaning;
     document.getElementById('reviewVerbTense').textContent = tenses[currentTense].name;
     
-    // 显示时态规则
+    // 显示时态规则（最下方）
     const tenseInfo = tenses[currentTense];
-    document.getElementById('reviewTenseRule').textContent = tenseInfo.rule || '';
-    document.getElementById('reviewTenseExamples').textContent = tenseInfo.examples || '';
+    const ruleBox = document.getElementById('reviewTenseRuleBox');
+    if (tenseInfo.rule) {
+        ruleBox.innerHTML = `<strong>变位规则：</strong>${tenseInfo.rule}`;
+    } else {
+        ruleBox.innerHTML = '';
+    }
     
     // 生成输入框
     const grid = document.getElementById('reviewConjugationGrid');
