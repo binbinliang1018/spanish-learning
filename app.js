@@ -383,6 +383,66 @@ const ALL_TENSES = [
     'futuro_perfecto', 'condicional_perfecto', 'subjuntivo_perfecto', 'imperativo'
 ];
 
+const COMPOUND_TENSES = [
+    'presente_perfecto',
+    'pluscuamperfecto',
+    'futuro_perfecto',
+    'condicional_perfecto',
+    'subjuntivo_perfecto'
+];
+
+const DERIVED_FORM_TENSES = [...COMPOUND_TENSES];
+
+function normalizeVerbKey(value) {
+    return String(value || '')
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/se$/, '');
+}
+
+function isDerivedFormTense(tense) {
+    return DERIVED_FORM_TENSES.includes(tense);
+}
+
+function isVerbIrregularInCurrentTense(verb, tense) {
+    if (!verb || !tense || isDerivedFormTense(tense)) {
+        return false;
+    }
+
+    const verbKey = normalizeVerbKey(typeof verb === 'string' ? verb : verb.inf);
+    const irregularList = irregularVerbsByTense[tense] || [];
+
+    return irregularList.some(item => normalizeVerbKey(item) === verbKey);
+}
+
+function getVerbTypeLabel(verb, tense) {
+    if (!verb) {
+        return '';
+    }
+
+    const infinitive = typeof verb === 'string' ? verb : verb.inf;
+    const labels = [];
+
+    if ((typeof verb === 'object' && verb.type === 'reflexive') || String(infinitive || '').endsWith('se')) {
+        labels.push('【代词式】');
+    }
+
+    if (isVerbIrregularInCurrentTense(verb, tense)) {
+        labels.push('【本时态不规则】');
+    }
+
+    return labels.join(' ');
+}
+
+function getIrregularListLabel(tense) {
+    if (isDerivedFormTense(tense)) {
+        return '该时态涉及的常见特殊过去分词（不计入“不规则动词”筛选）';
+    }
+    return '该时态不规则动词';
+}
+
 function startDailyPractice() {
     if (!hasUnlockedAccess()) {
         showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能开始每日练习。');
@@ -453,11 +513,10 @@ function loadDailyVerb() {
     document.getElementById('dailyStatus').textContent = 
         `第 ${dailyState.currentIndex + 1}/${DAILY_VERB_COUNT} 题`;
     
-    // 更新动词显示 - 添加编号
-    const verbType = currentVerb.type === 'irregular' ? '【不规则】' : 
-                     currentVerb.type === 'reflexive' ? '【代词式】' : '';
+    // 更新动词显示 - 按当前时态显示标签
+    const verbType = getVerbTypeLabel(currentVerb, currentTense);
     document.getElementById('dailyVerbInfinitive').textContent = 
-        `[${dailyState.currentIndex + 1}] ${currentVerb.inf} ${verbType}`;
+        `[${dailyState.currentIndex + 1}] ${currentVerb.inf}${verbType ? ` ${verbType}` : ''}`;
     document.getElementById('dailyVerbMeaning').textContent = currentVerb.meaning;
     document.getElementById('dailyVerbTense').textContent = tenses[currentTense].name;
     
@@ -470,7 +529,7 @@ function loadDailyVerb() {
     // 添加该时态的不规则动词列表
     const irregularList = irregularVerbsByTense[currentTense];
     if (irregularList && irregularList.length > 0) {
-        ruleHTML += `<div class="irregular-verbs"><strong>该时态不规则动词：</strong>${irregularList.join(', ')}</div>`;
+        ruleHTML += `<div class="irregular-verbs"><strong>${getIrregularListLabel(currentTense)}：</strong>${irregularList.join(', ')}</div>`;
     }
     
     ruleBox.innerHTML = ruleHTML;
@@ -860,7 +919,7 @@ function updateTrainerModeNote() {
 
     let message = notes[trainerSettings.mode] || notes.mixed;
     if (trainerSettings.irregularOnly) {
-        message += ' 当前已启用“只练不规则动词”。';
+        message += ' 当前已启用“只练核心不规则动词（不含过去分词/gerundio类形式）”。';
     }
     if (trainerSettings.verb !== 'random') {
         message += ` 当前锁定动词：${trainerSettings.verb}。`;
@@ -931,7 +990,9 @@ function startTrainerSession() {
 
     if (verbPool.length === 0) {
         result.className = 'result show error';
-        result.innerHTML = '当前筛选条件下没有可练习动词，请取消“只练不规则动词”或更换指定动词。';
+        result.innerHTML = trainerSettings.irregularOnly
+            ? '当前筛选条件下没有符合该时态的核心不规则动词，请取消“只练核心不规则动词”或更换时态/动词。'
+            : '当前筛选条件下没有可练习动词，请更换时态或指定动词。';
         return;
     }
 
@@ -997,15 +1058,25 @@ function endTrainerSession(isTimeout = false) {
     `;
 }
 
-function getTrainerVerbPool() {
-    let pool = getUniqueVerbs();
+function getTrainerAvailableTenses(verb, preferredTense = trainerSettings.tense) {
+    const candidateTenses = preferredTense !== 'random' ? [preferredTense] : [...ALL_TENSES];
 
-    if (trainerSettings.irregularOnly) {
-        pool = pool.filter(verb => verb.type === 'irregular');
+    if (!trainerSettings.irregularOnly) {
+        return candidateTenses;
     }
+
+    return candidateTenses.filter(tense => isVerbIrregularInCurrentTense(verb, tense));
+}
+
+function getTrainerVerbPool(preferredTense = trainerSettings.tense) {
+    let pool = getUniqueVerbs();
 
     if (trainerSettings.verb !== 'random') {
         pool = pool.filter(verb => verb.inf === trainerSettings.verb);
+    }
+
+    if (trainerSettings.irregularOnly) {
+        pool = pool.filter(verb => getTrainerAvailableTenses(verb, preferredTense).length > 0);
     }
 
     return pool;
@@ -1020,20 +1091,40 @@ function pickRandomItem(list) {
 }
 
 function buildTrainerQuestion() {
+    const verbPool = getTrainerVerbPool();
     let verb = null;
 
     if (trainerSettings.mode === 'focus') {
-        verb = trainerState.focusVerb || findTrainerVerb(trainerSettings.verb) || pickRandomItem(getTrainerVerbPool());
+        const preferredVerb = trainerState.focusVerb || (trainerSettings.verb !== 'random' ? findTrainerVerb(trainerSettings.verb) : null);
+        if (preferredVerb && getTrainerAvailableTenses(preferredVerb).length > 0) {
+            verb = preferredVerb;
+        } else {
+            verb = pickRandomItem(verbPool);
+            if (verb) {
+                trainerState.focusVerb = verb;
+            }
+        }
     } else if (trainerSettings.verb !== 'random') {
-        verb = findTrainerVerb(trainerSettings.verb);
-    } else {
-        verb = pickRandomItem(getTrainerVerbPool());
+        const preferredVerb = findTrainerVerb(trainerSettings.verb);
+        if (preferredVerb && getTrainerAvailableTenses(preferredVerb).length > 0) {
+            verb = preferredVerb;
+        }
     }
 
-    const tense = trainerSettings.tense !== 'random'
-        ? trainerSettings.tense
-        : pickRandomItem(ALL_TENSES);
+    if (!verb) {
+        verb = pickRandomItem(verbPool);
+    }
 
+    if (!verb) {
+        return null;
+    }
+
+    const availableTenses = getTrainerAvailableTenses(verb);
+    if (availableTenses.length === 0) {
+        return null;
+    }
+
+    const tense = pickRandomItem(availableTenses);
     return { verb, tense };
 }
 
@@ -1041,6 +1132,13 @@ function loadTrainerQuestion() {
     if (!trainerState.isActive) return;
 
     const question = buildTrainerQuestion();
+    if (!question) {
+        const result = document.getElementById('trainerResult');
+        result.className = 'result show error';
+        result.innerHTML = '当前筛选条件下没有可生成的题目，请调整时态或关闭“只练核心不规则动词”。';
+        return;
+    }
+
     trainerState.currentQuestion = question;
     renderTrainerQuestion(question);
 
@@ -1058,13 +1156,9 @@ function loadTrainerQuestion() {
 
 function renderTrainerQuestion(question) {
     const { verb, tense } = question;
-    const verbType = verb.type === 'irregular'
-        ? '【不规则】'
-        : verb.type === 'reflexive'
-            ? '【代词式】'
-            : '';
+    const verbType = getVerbTypeLabel(verb, tense);
 
-    document.getElementById('trainerVerbInfinitive').textContent = `${verb.inf} ${verbType}`;
+    document.getElementById('trainerVerbInfinitive').textContent = `${verb.inf}${verbType ? ` ${verbType}` : ''}`;
     document.getElementById('trainerVerbMeaning').textContent = verb.meaning;
     document.getElementById('trainerVerbTense').textContent = tenses[tense].name;
 
@@ -1093,7 +1187,7 @@ function renderTrainerRuleBox(tense) {
     html += `<div class="tense-rule"><strong>当前模式：</strong>${modeLabel}</div>`;
 
     if (irregularList.length > 0) {
-        html += `<div class="irregular-verbs"><strong>该时态常见不规则动词：</strong>${irregularList.join(', ')}</div>`;
+        html += `<div class="irregular-verbs"><strong>${getIrregularListLabel(tense)}：</strong>${irregularList.join(', ')}</div>`;
     }
 
     document.getElementById('trainerTenseRuleBox').innerHTML = html;
@@ -1445,6 +1539,26 @@ function conjugateVerb(infinitive, tense, pronoun) {
     
     // 过去分词
     function getPastParticiple(verb) {
+        const irregularParticiples = {
+            abrir: 'abierto',
+            cubrir: 'cubierto',
+            decir: 'dicho',
+            describir: 'descrito',
+            escribir: 'escrito',
+            hacer: 'hecho',
+            morir: 'muerto',
+            poner: 'puesto',
+            resolver: 'resuelto',
+            romper: 'roto',
+            ver: 'visto',
+            volver: 'vuelto'
+        };
+
+        const normalizedVerb = normalizeVerbKey(verb);
+        if (irregularParticiples[normalizedVerb]) {
+            return irregularParticiples[normalizedVerb];
+        }
+
         const verbStem = verb.slice(0, -2);
         const verbEnding = verb.slice(-2);
         if (verbEnding === 'ar') return verbStem + 'ado';
@@ -1452,7 +1566,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
     }
     
     // 处理复合时态
-    if (['presente_perfecto', 'pluscuamperfecto', 'futuro_perfecto', 'condicional_perfecto', 'subjuntivo_perfecto'].includes(tense)) {
+    if (COMPOUND_TENSES.includes(tense)) {
         const pronounIndex = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ustedes'].indexOf(pronoun);
         const haberForm = haberConjugations[tense][pronounIndex];
         const participle = getPastParticiple(baseVerb);
@@ -2503,9 +2617,8 @@ function loadReviewVerb() {
         `复习错题 - 时态：${tenses[currentTense].name}（必须使用该时态）`;
     
     // 更新动词显示
-    const verbType = currentVerb.type === 'irregular' ? '【不规则】' : 
-                     currentVerb.type === 'reflexive' ? '【代词式】' : '';
-    document.getElementById('reviewVerbInfinitive').textContent = currentVerb.inf + ' ' + verbType;
+    const verbType = getVerbTypeLabel(currentVerb, currentTense);
+    document.getElementById('reviewVerbInfinitive').textContent = `${currentVerb.inf}${verbType ? ` ${verbType}` : ''}`;
     document.getElementById('reviewVerbMeaning').textContent = currentVerb.meaning;
     document.getElementById('reviewVerbTense').textContent = tenses[currentTense].name;
     
@@ -2518,7 +2631,7 @@ function loadReviewVerb() {
     // 添加该时态的不规则动词列表
     const irregularList = irregularVerbsByTense[currentTense];
     if (irregularList && irregularList.length > 0) {
-        ruleHTML += `<div class="irregular-verbs"><strong>该时态不规则动词：</strong>${irregularList.join(', ')}</div>`;
+        ruleHTML += `<div class="irregular-verbs"><strong>${getIrregularListLabel(currentTense)}：</strong>${irregularList.join(', ')}</div>`;
     }
     
     ruleBox.innerHTML = ruleHTML;

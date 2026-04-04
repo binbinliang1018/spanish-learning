@@ -260,11 +260,11 @@ const irregularVerbsByTense = {
     condicional: ["decir", "hacer", "poder", "poner", "querer", "saber", "salir", "tener", "venir", "caber", "haber"],
     subjuntivo: ["ser", "estar", "ir", "dar", "saber", "haber", "decir", "hacer", "poder", "poner", "querer", "salir", "tener", "venir", "traer", "oir", "ver"],
     subjuntivo_imperfecto: ["ser", "ir", "ver", "decir", "hacer", "poder", "poner", "querer", "saber", "salir", "tener", "venir", "traer", "oir", "dar", "estar"],
-    presente_perfecto: ["hacer", "decir", "escribir", "romper", "abrir", "ver", "poner", "morir"],
-    pluscuamperfecto: ["hacer", "decir", "escribir", "romper", "abrir", "ver", "poner", "morir"],
-    futuro_perfecto: ["hacer", "decir", "escribir", "romper", "abrir", "ver", "poner", "morir"],
-    condicional_perfecto: ["hacer", "decir", "escribir", "romper", "abrir", "ver", "poner", "morir"],
-    subjuntivo_perfecto: ["hacer", "decir", "escribir", "romper", "abrir", "ver", "poner", "morir"],
+    presente_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
+    pluscuamperfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
+    futuro_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
+    condicional_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
+    subjuntivo_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
     imperativo: ["ser", "estar", "ir", "saber", "dar", "decir", "hacer", "poner", "salir", "tener", "venir", "oir", "ver"]
 };
 
