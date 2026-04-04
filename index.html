@@ -4,61 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>西班牙语每日学习 | Español Diario</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=202604042305">
 </head>
 <body>
-    <section class="access-gate" id="accessGate">
-        <div class="access-gate-card">
-            <div class="access-gate-badge">🔐 需 Frances 批准后使用</div>
-
-            <div class="access-gate-grid">
-                <div class="access-panel">
-                    <h2>先发申请</h2>
-                    <p class="access-panel-desc">填好下面的信息，然后任选一种方式发送给 Frances。</p>
-
-                    <div class="access-form-grid">
-                        <div class="access-field">
-                            <label for="requestName">你的姓名 / 昵称</label>
-                            <input type="text" id="requestName" placeholder="例如：Ana / 小林">
-                        </div>
-                        <div class="access-field">
-                            <label for="requestContact">你的联系方式</label>
-                            <input type="text" id="requestContact" placeholder="邮箱、WhatsApp 或其他联系方式">
-                        </div>
-                    </div>
-
-                    <div class="access-field">
-                        <label for="requestReason">想使用的原因</label>
-                        <textarea id="requestReason" rows="4" placeholder="例如：我想一起练西语动词变位，每天做 5 分钟。"></textarea>
-                    </div>
-
-                    <div class="access-actions">
-                        <button class="btn btn-primary" id="requestEmailBtn">发邮件申请</button>
-                        <button class="btn btn-accent" id="requestWhatsappBtn">通过 WhatsApp 申请</button>
-                    </div>
-
-                    <p class="access-help">邮件会直接发到 <strong>binbinliang1018@hotmail.com</strong>；WhatsApp 会打开预填申请文案，你再发送给 Frances 即可。</p>
-                </div>
-
-                <div class="access-panel access-panel-secondary">
-                    <h2>拿到访问码后进入</h2>
-                    <p class="access-panel-desc">Frances 审批通过后，会把访问码单独发给你。访问码只保存在当前设备浏览器里。</p>
-
-                    <div class="access-field">
-                        <label for="accessCodeInput">访问码</label>
-                        <input type="password" id="accessCodeInput" placeholder="输入 Frances 发给你的访问码">
-                    </div>
-
-                    <div class="access-actions">
-                        <button class="btn btn-success" id="unlockAccessBtn">输入访问码进入</button>
-                    </div>
-
-                    <div class="result" id="accessGateResult"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <div class="container app-shell app-shell--locked" id="appShell">
         <header>
             <h1>🇪🇸 binbin的西班牙语每日学习</h1>
@@ -67,8 +15,8 @@
         </header>
 
         <div class="access-approved-banner" id="accessApprovedBanner">
-            <span>✅ 当前设备已通过 Frances 审批</span>
-            <button class="btn btn-secondary btn-small" id="clearAccessBtn">清除本机访问码</button>
+            <span id="accessApprovedText">✅ 当前设备已开启使用权限</span>
+            <button class="btn btn-secondary btn-small" id="clearAccessBtn">清除本机访问权限</button>
         </div>
 
         <nav class="tabs">
@@ -129,6 +77,66 @@
                     <button class="btn btn-primary" id="dailyRestartBtn">再练一次</button>
                 </div>
             </div>
+
+            <section class="access-gate" id="accessGate">
+                <div class="access-gate-card">
+                    <div class="access-gate-header">
+                        <div class="access-gate-badge">🔐 需 Frances 批准后使用</div>
+                        <p class="access-gate-note">申请入口只放在每日练习模块底部；批准后即可解锁全部模块。</p>
+                    </div>
+
+                    <div class="access-gate-grid">
+                        <div class="access-panel">
+                            <h2>申请使用</h2>
+                            <p class="access-panel-desc">填好信息后，通过邮件或 WhatsApp 发给 Frances。</p>
+
+                            <div class="access-form-grid">
+                                <div class="access-field">
+                                    <label for="requestName">姓名 / 昵称</label>
+                                    <input type="text" id="requestName" placeholder="例如：Ana / 小林">
+                                </div>
+                                <div class="access-field">
+                                    <label for="requestContact">联系方式</label>
+                                    <input type="text" id="requestContact" placeholder="邮箱、WhatsApp 或其他联系方式">
+                                </div>
+                            </div>
+
+                            <div class="access-field">
+                                <label for="requestReason">使用原因</label>
+                                <textarea id="requestReason" rows="3" placeholder="例如：我想一起练西语动词变位，每天做 5 分钟。"></textarea>
+                            </div>
+
+                            <div class="access-actions">
+                                <button class="btn btn-primary" id="requestEmailBtn">邮件申请</button>
+                                <button class="btn btn-accent" id="requestWhatsappBtn">WhatsApp 申请</button>
+                            </div>
+
+                            <p class="access-help">邮件会发到 <strong>binbinliang1018@hotmail.com</strong>；WhatsApp 会打开预填文案，你再发送给 Frances 即可。</p>
+                        </div>
+
+                        <div class="access-panel access-panel-secondary">
+                            <h2>输入访问码</h2>
+                            <p class="access-panel-desc">审批通过后，Frances 会单独发访问码；只保存在当前设备。</p>
+
+                            <div class="access-field">
+                                <label for="accessCodeInput">访问码</label>
+                                <input type="password" id="accessCodeInput" placeholder="输入 Frances 发给你的访问码">
+                            </div>
+
+                            <div class="access-actions">
+                                <button class="btn btn-success" id="unlockAccessBtn">输入访问码进入</button>
+                            </div>
+
+                            <div class="owner-access-box">
+                                <p class="owner-access-note">如果这是 Frances 自己的设备，可直接进入，不需要再走朋友审批流程。</p>
+                                <button class="btn btn-secondary btn-small" id="ownerDirectAccessBtn">我是 Frances，直接进入</button>
+                            </div>
+
+                            <div class="result" id="accessGateResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
 
         <!-- 错题重练 -->
@@ -392,9 +400,9 @@
         </section>
     </div>
 
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=Demo"></script>
-    <script src="verbs-data.js"></script>
-    <script src="speaking-data.js"></script>
-    <script src="app.js"></script>
+    <script async src="https://code.responsivevoice.org/responsivevoice.js?key=Demo"></script>
+    <script src="verbs-data.js?v=202604042225"></script>
+    <script src="speaking-data.js?v=202604042225"></script>
+    <script src="app.js?v=202604042332"></script>
 </body>
 </html>

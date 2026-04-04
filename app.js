@@ -55,6 +55,7 @@ let trainerState = {
 
 const DAILY_VERB_COUNT = 10;
 const ACCESS_CODE_STORAGE_KEY = 'spanishLearningApprovedCode';
+const ACCESS_OWNER_STORAGE_KEY = 'spanishLearningOwnerAccess';
 const ACCESS_CONFIG = {
     approvalEmail: 'binbinliang1018@hotmail.com',
     approvedCodes: [
@@ -63,7 +64,7 @@ const ACCESS_CONFIG = {
 };
 
 // ============ 初始化 ============
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
     initAccessGate();
     initDate();
     initTabs();
@@ -73,17 +74,62 @@ document.addEventListener('DOMContentLoaded', () => {
     initSpeakingPractice();
     initProgress();
     updateStreak();
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp()
+}
 
 function initAccessGate() {
     bindAccessGateEvents();
     refreshAccessGate();
 }
 
+function isAccessApproved() {
+    const storedCode = localStorage.getItem(ACCESS_CODE_STORAGE_KEY);
+    return Boolean(storedCode && ACCESS_CONFIG.approvedCodes.includes(storedCode));
+}
+
+function isOwnerAccessEnabled() {
+    return localStorage.getItem(ACCESS_OWNER_STORAGE_KEY) === 'true';
+}
+
+function getAccessMode() {
+    if (isOwnerAccessEnabled()) {
+        return 'owner';
+    }
+
+    if (isAccessApproved()) {
+        return 'approved';
+    }
+
+    return 'locked';
+}
+
+function hasUnlockedAccess() {
+    return getAccessMode() !== 'locked';
+}
+
+function focusAccessGate() {
+    const gate = document.getElementById('accessGate');
+    if (gate) {
+        gate.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function showLockedAccessPrompt(message = '请先在每日练习底部输入访问码，或由 Frances 本人直接进入；解锁后即可使用全部模块。') {
+    setActiveTab('daily');
+    showAccessGateResult(message, 'error');
+    focusAccessGate();
+}
+
 function bindAccessGateEvents() {
     const emailBtn = document.getElementById('requestEmailBtn');
     const whatsappBtn = document.getElementById('requestWhatsappBtn');
     const unlockBtn = document.getElementById('unlockAccessBtn');
+    const ownerBtn = document.getElementById('ownerDirectAccessBtn');
     const clearBtn = document.getElementById('clearAccessBtn');
     const codeInput = document.getElementById('accessCodeInput');
 
@@ -97,6 +143,10 @@ function bindAccessGateEvents() {
 
     if (unlockBtn) {
         unlockBtn.addEventListener('click', unlockApprovedAccess);
+    }
+
+    if (ownerBtn) {
+        ownerBtn.addEventListener('click', enableOwnerAccess);
     }
 
     if (clearBtn) {
@@ -159,6 +209,17 @@ function sendAccessRequest(channel) {
     }, 80);
 }
 
+function enableOwnerAccess() {
+    localStorage.setItem(ACCESS_OWNER_STORAGE_KEY, 'true');
+    refreshAccessGate();
+    showAccessGateResult('已切换为 Frances 本机使用模式，全部模块现在都可以使用。', 'success');
+
+    const appShell = document.getElementById('appShell');
+    if (appShell) {
+        appShell.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
 function unlockApprovedAccess() {
     const codeInput = document.getElementById('accessCodeInput');
     const code = codeInput.value.trim();
@@ -173,39 +234,69 @@ function unlockApprovedAccess() {
         return;
     }
 
+    localStorage.removeItem(ACCESS_OWNER_STORAGE_KEY);
     localStorage.setItem(ACCESS_CODE_STORAGE_KEY, code);
     refreshAccessGate();
-    showAccessGateResult('访问已开启，祝你练习顺利。', 'success');
+    showAccessGateResult('访问已开启，全部模块现在都可以使用。', 'success');
+
+    const appShell = document.getElementById('appShell');
+    if (appShell) {
+        appShell.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 function clearApprovedAccess() {
     localStorage.removeItem(ACCESS_CODE_STORAGE_KEY);
+    localStorage.removeItem(ACCESS_OWNER_STORAGE_KEY);
     const codeInput = document.getElementById('accessCodeInput');
     if (codeInput) {
         codeInput.value = '';
     }
     refreshAccessGate();
-    showAccessGateResult('本机访问码已清除，当前设备需要重新申请或重新输入访问码。', 'success');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showAccessGateResult('本机访问权限已清除，当前设备需要重新申请、输入访问码，或由 Frances 本人再次直接进入。', 'success');
+    focusAccessGate();
 }
 
 function refreshAccessGate() {
     const gate = document.getElementById('accessGate');
     const appShell = document.getElementById('appShell');
     const approvedBanner = document.getElementById('accessApprovedBanner');
-    const storedCode = localStorage.getItem(ACCESS_CODE_STORAGE_KEY);
-    const isApproved = Boolean(storedCode && ACCESS_CONFIG.approvedCodes.includes(storedCode));
+    const approvedText = document.getElementById('accessApprovedText');
+    const dailyMode = document.querySelector('#daily .daily-mode');
+    const nonDailyTabs = document.querySelectorAll('.tab-btn:not([data-tab="daily"])');
+    const accessMode = getAccessMode();
+    const isUnlocked = accessMode !== 'locked';
 
     if (gate) {
-        gate.style.display = isApproved ? 'none' : 'block';
+        gate.style.display = isUnlocked ? 'none' : 'block';
     }
 
     if (appShell) {
-        appShell.classList.toggle('app-shell--locked', !isApproved);
+        appShell.classList.toggle('app-shell--locked', !isUnlocked);
     }
 
+    if (dailyMode) {
+        dailyMode.inert = !isUnlocked;
+        dailyMode.setAttribute('aria-hidden', String(!isUnlocked));
+    }
+
+    nonDailyTabs.forEach(btn => {
+        btn.disabled = !isUnlocked;
+        btn.setAttribute('aria-disabled', String(!isUnlocked));
+    });
+
     if (approvedBanner) {
-        approvedBanner.style.display = isApproved ? 'flex' : 'none';
+        approvedBanner.style.display = isUnlocked ? 'flex' : 'none';
+    }
+
+    if (approvedText) {
+        approvedText.textContent = accessMode === 'owner'
+            ? '✅ 当前设备已启用 Frances 本机直通'
+            : '✅ 当前设备已通过 Frances 审批';
+    }
+
+    if (!isUnlocked) {
+        setActiveTab('daily');
     }
 }
 
@@ -223,31 +314,46 @@ function initDate() {
     dateEl.textContent = new Date().toLocaleDateString('zh-CN', options);
 }
 
-function initTabs() {
+function applyActiveTab(tabId) {
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+    tabContents.forEach(c => c.classList.toggle('active', c.id === tabId));
+
+    if (tabId === 'progress') {
+        updateProgressDisplay();
+    } else if (tabId === 'review') {
+        reviewState = JSON.parse(localStorage.getItem('reviewPractice')) || {
+            wrongVerbs: [],
+            currentIndex: 0,
+            currentVerbs: [],
+            isActive: false
+        };
+        renderWrongVerbsList();
+    }
+}
+
+function setActiveTab(tabId) {
+    if (!hasUnlockedAccess() && tabId !== 'daily') {
+        applyActiveTab('daily');
+        return false;
+    }
+
+    applyActiveTab(tabId);
+    return true;
+}
+
+function initTabs() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
 
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const tabId = btn.dataset.tab;
-            
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            
-            btn.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-            
-            if (tabId === 'progress') {
-                updateProgressDisplay();
-            } else if (tabId === 'review') {
-                // 刷新错题列表
-                reviewState = JSON.parse(localStorage.getItem('reviewPractice')) || {
-                    wrongVerbs: [],
-                    currentIndex: 0,
-                    currentVerbs: [],
-                    isActive: false
-                };
-                renderWrongVerbsList();
+            const switched = setActiveTab(tabId);
+
+            if (!switched) {
+                showLockedAccessPrompt();
             }
         });
     });
@@ -278,6 +384,11 @@ const ALL_TENSES = [
 ];
 
 function startDailyPractice() {
+    if (!hasUnlockedAccess()) {
+        showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能开始每日练习。');
+        return;
+    }
+
     const today = new Date().toDateString();
     
     // 分离不规则动词和规则动词
@@ -392,6 +503,11 @@ function loadDailyVerb() {
 }
 
 function checkDailyAnswer() {
+    if (!hasUnlockedAccess()) {
+        showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能检查答案。');
+        return;
+    }
+
     const inputs = document.querySelectorAll('#dailyConjugationGrid input');
     let correct = 0;
     let total = inputs.length;
@@ -466,6 +582,11 @@ function checkDailyAnswer() {
 }
 
 function goToNextDailyVerb() {
+    if (!hasUnlockedAccess()) {
+        showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能继续下一题。');
+        return;
+    }
+
     dailyState.currentIndex++;
     saveDailyState();
     
@@ -482,6 +603,11 @@ function goToNextDailyVerb() {
 }
 
 function showDailyAnswer() {
+    if (!hasUnlockedAccess()) {
+        showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能查看答案。');
+        return;
+    }
+
     const inputs = document.querySelectorAll('#dailyConjugationGrid input');
     
     inputs.forEach(input => {
@@ -1641,10 +1767,10 @@ function loadNewDialogue() {
         
         dialogueHTML += `
             <div class="dialogue-line-item" data-zh="${line.zh.replace(/"/g, '&quot;')}">
+                <button type="button" class="speak-line-btn" data-text="${encodeURIComponent(line.es)}" title="朗读">🔊</button>
                 <span class="${speakerClass}">${line.speaker}:</span>
                 <span class="dialogue-es">${line.es}</span>
                 <span class="translation">(${line.zh})</span>
-                <button class="speak-line-btn" onclick="speakLineFemale('${line.es.replace(/'/g, "\\'")}')" title="朗读">🔊</button>
             </div>
         `;
     });
@@ -1652,41 +1778,114 @@ function loadNewDialogue() {
     dialogueHTML += '</div>';
     
     container.innerHTML = dialogueHTML;
-    
+
+    bindSpeakLineButtons(container);
+
     // 添加右键翻译功能
     addRightClickTranslation();
 }
 
+function speakSpanishText(text, options = {}) {
+    if (!text) return false;
+
+    const rate = options.rate ?? 0.9;
+    const pitch = options.pitch ?? 1;
+    const volume = options.volume ?? 1;
+    const responsiveVoiceName = options.responsiveVoiceName || 'Spanish Latin American Female';
+
+    try {
+        if ('speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
+            const synth = window.speechSynthesis;
+            synth.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = rate;
+            utterance.pitch = pitch;
+            utterance.volume = volume;
+
+            if (typeof synth.getVoices === 'function') {
+                const voices = synth.getVoices();
+                const spanishVoice = voices.find(voice => /^es([-_].+)?$/i.test(voice.lang))
+                    || voices.find(voice => /spanish|español/i.test(voice.name));
+                if (spanishVoice) {
+                    utterance.voice = spanishVoice;
+                }
+            }
+
+            synth.speak(utterance);
+            return true;
+        }
+    } catch (error) {
+        console.warn('浏览器语音朗读失败，尝试回退到 ResponsiveVoice：', error);
+    }
+
+    try {
+        if (typeof responsiveVoice !== 'undefined' && typeof responsiveVoice.speak === 'function') {
+            responsiveVoice.cancel();
+            responsiveVoice.speak(text, responsiveVoiceName, {
+                rate,
+                pitch,
+                volume
+            });
+            return true;
+        }
+    } catch (error) {
+        console.warn('ResponsiveVoice 朗读失败：', error);
+    }
+
+    alert('当前浏览器暂时无法朗读，请换一个浏览器再试。');
+    return false;
+}
+
 // 只用女声朗读
 function speakLineFemale(text) {
-    if (!text) return;
-    
-    // 使用 ResponsiveVoice
-    if (typeof responsiveVoice !== 'undefined') {
-        responsiveVoice.cancel();
-        responsiveVoice.speak(text, 'Spanish Latin American Female', {
-            rate: 0.9,
-            pitch: 1,
-            volume: 1
-        });
-    } else if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-ES';
-        utterance.rate = 0.9;
-        utterance.pitch = 1.1;
-        window.speechSynthesis.speak(utterance);
-    }
+    speakSpanishText(text, {
+        rate: 0.9,
+        pitch: 1.05,
+        volume: 1,
+        responsiveVoiceName: 'Spanish Latin American Female'
+    });
+}
+
+function bindSpeakLineButtons(container) {
+    const root = container || document.getElementById('dialogueContainer');
+    if (!root) return;
+
+    root.querySelectorAll('.speak-line-btn').forEach(btn => {
+        btn.removeEventListener('click', handleSpeakButtonClick);
+        btn.addEventListener('click', handleSpeakButtonClick);
+    });
+}
+
+function handleSpeakButtonClick(e) {
+    const speakBtn = e.currentTarget;
+    if (!speakBtn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    speakBtn.classList.remove('is-speaking');
+    void speakBtn.offsetWidth;
+    speakBtn.classList.add('is-speaking');
+    setTimeout(() => speakBtn.classList.remove('is-speaking'), 480);
+
+    const encodedText = speakBtn.dataset.text || '';
+    const text = encodedText ? decodeURIComponent(encodedText) : '';
+    speakLineFemale(text);
+}
+
+function bindDialogueInteractions() {
+    const container = document.getElementById('dialogueContainer');
+    if (!container) return;
+
+    container.removeEventListener('contextmenu', handleRightClick);
+    container.addEventListener('contextmenu', handleRightClick);
 }
 
 // 添加右键翻译功能
 function addRightClickTranslation() {
-    const container = document.getElementById('dialogueContainer');
-    if (!container) return;
-    
-    // 移除旧的事件监听器（如果有）
-    container.removeEventListener('contextmenu', handleRightClick);
-    container.addEventListener('contextmenu', handleRightClick);
+    bindDialogueInteractions();
 }
 
 function handleRightClick(e) {
@@ -2121,25 +2320,12 @@ function speakB2Sample() {
         return;
     }
 
-    const text = currentB2Challenge.sample;
-
-    // 使用 ResponsiveVoice
-    if (typeof responsiveVoice !== 'undefined') {
-        responsiveVoice.cancel();
-        responsiveVoice.speak(text, 'Spanish Latin American Female', {
-            rate: 0.85,
-            pitch: 1,
-            volume: 1
-        });
-    } else if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-ES';
-        utterance.rate = 0.9;
-        window.speechSynthesis.speak(utterance);
-    } else {
-        alert('您的浏览器不支持语音朗读功能');
-    }
+    speakSpanishText(currentB2Challenge.sample, {
+        rate: 0.85,
+        pitch: 1,
+        volume: 1,
+        responsiveVoiceName: 'Spanish Latin American Female'
+    });
 }
 
 // ============ 进度管理 ============

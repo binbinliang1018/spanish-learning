@@ -33,7 +33,8 @@ https://binbinliang1018.github.io/spanish-learning/
 
 当前版本已经加入轻量审批入口：
 
-- 朋友先在首页填写申请信息
+- Frances 本人可在自己的设备上直接进入，不必走朋友审批流程
+- 朋友只需要在“每日练习”模块底部填写申请信息
 - 可以通过邮件或 WhatsApp 发送申请给 Frances
 - Frances 手动批准后，把访问码单独发给对方
 - 对方输入访问码后，当前设备才会显示练习内容
