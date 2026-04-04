@@ -162,10 +162,17 @@ function loadDailyVerb() {
         `第 ${dailyState.currentIndex + 1}/${DAILY_VERB_COUNT} 题`;
     
     // 更新动词显示 - 添加编号
+    const verbType = currentVerb.type === 'irregular' ? '【不规则】' : 
+                     currentVerb.type === 'reflexive' ? '【代词式】' : '';
     document.getElementById('dailyVerbInfinitive').textContent = 
-        `[${dailyState.currentIndex + 1}] ${currentVerb.inf}`;
+        `[${dailyState.currentIndex + 1}] ${currentVerb.inf} ${verbType}`;
     document.getElementById('dailyVerbMeaning').textContent = currentVerb.meaning;
     document.getElementById('dailyVerbTense').textContent = tenses[currentTense].name;
+    
+    // 显示时态规则
+    const tenseInfo = tenses[currentTense];
+    document.getElementById('dailyTenseRule').textContent = tenseInfo.rule || '';
+    document.getElementById('dailyTenseExamples').textContent = tenseInfo.examples || '';
     
     // 生成输入框
     const grid = document.getElementById('dailyConjugationGrid');
@@ -907,9 +914,16 @@ function loadReviewVerb() {
         `复习错题 - 时态：${tenses[currentTense].name}（必须使用该时态）`;
     
     // 更新动词显示
-    document.getElementById('reviewVerbInfinitive').textContent = currentVerb.inf;
+    const verbType = currentVerb.type === 'irregular' ? '【不规则】' : 
+                     currentVerb.type === 'reflexive' ? '【代词式】' : '';
+    document.getElementById('reviewVerbInfinitive').textContent = currentVerb.inf + ' ' + verbType;
     document.getElementById('reviewVerbMeaning').textContent = currentVerb.meaning;
     document.getElementById('reviewVerbTense').textContent = tenses[currentTense].name;
+    
+    // 显示时态规则
+    const tenseInfo = tenses[currentTense];
+    document.getElementById('reviewTenseRule').textContent = tenseInfo.rule || '';
+    document.getElementById('reviewTenseExamples').textContent = tenseInfo.examples || '';
     
     // 生成输入框
     const grid = document.getElementById('reviewConjugationGrid');
