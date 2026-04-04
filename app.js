@@ -668,14 +668,17 @@ function conjugateVerb(infinitive, tense, pronoun) {
 
 
 // ============ 口语练习 ============
+let currentChallenge = null;
+
 function initSpeakingPractice() {
     loadNewDialogue();
-    loadNewChallenge();
+    loadDailyChallenge();
 
     document.getElementById('scenarioSelect').addEventListener('change', loadNewDialogue);
     document.getElementById('newDialogueBtn').addEventListener('click', loadNewDialogue);
     document.getElementById('newChallengeBtn').addEventListener('click', loadNewChallenge);
     document.getElementById('speakAllBtn').addEventListener('click', speakAll);
+    document.getElementById('showSampleBtn').addEventListener('click', showSampleAnswer);
 }
 
 function loadNewDialogue() {
@@ -701,10 +704,48 @@ function loadNewDialogue() {
     });
 }
 
+// 加载每日推荐场景
+function loadDailyChallenge() {
+    currentChallenge = getDailyScenario();
+    displayChallenge(currentChallenge);
+    // 隐藏参考口语
+    document.getElementById('sampleAnswerBox').style.display = 'none';
+    document.getElementById('showSampleBtn').textContent = '查看参考口语';
+    document.getElementById('showSampleBtn').style.display = 'inline-block';
+}
+
+// 加载随机新话题
 function loadNewChallenge() {
-    const challenge = speakingChallenges[Math.floor(Math.random() * speakingChallenges.length)];
+    let newChallenge;
+    do {
+        newChallenge = speakingChallenges[Math.floor(Math.random() * speakingChallenges.length)];
+    } while (newChallenge === currentChallenge);
+    currentChallenge = newChallenge;
+    displayChallenge(currentChallenge);
+    // 隐藏参考口语
+    document.getElementById('sampleAnswerBox').style.display = 'none';
+    document.getElementById('showSampleBtn').textContent = '查看参考口语';
+    document.getElementById('showSampleBtn').style.display = 'inline-block';
+}
+
+// 显示挑战内容
+function displayChallenge(challenge) {
     document.querySelector('.challenge-topic').textContent = challenge.topic;
-    document.querySelector('.challenge-hint').textContent = `尝试使用：${challenge.hint}`;
+    document.querySelector('.challenge-hint').textContent = `关键词：${challenge.hint}`;
+    document.querySelector('.sample-text').textContent = challenge.sample;
+}
+
+// 显示/隐藏参考口语
+function showSampleAnswer() {
+    const sampleBox = document.getElementById('sampleAnswerBox');
+    const btn = document.getElementById('showSampleBtn');
+    if (sampleBox.style.display === 'none') {
+        sampleBox.style.display = 'block';
+        btn.textContent = '隐藏参考口语';
+    } else {
+        sampleBox.style.display = 'none';
+        btn.textContent = '查看参考口语';
+    }
 }
 
 function speakLine(text) {

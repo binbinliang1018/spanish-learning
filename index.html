@@ -158,10 +158,17 @@
             <div class="card">
                 <h3>💡 今日口语挑战</h3>
                 <div class="challenge-box" id="speakingChallenge">
-                    <p class="challenge-topic">用西班牙语描述你的一天（至少3分钟）</p>
-                    <p class="challenge-hint">尝试使用：hoy, primero, luego, después, finalmente, porque, aunque...</p>
+                    <p class="challenge-topic">加载中...</p>
+                    <p class="challenge-hint"></p>
                 </div>
-                <button class="btn btn-secondary" id="newChallengeBtn">换一个新话题</button>
+                <div class="sample-answer-box" id="sampleAnswerBox" style="display: none;">
+                    <h4>📝 参考口语</h4>
+                    <p class="sample-text"></p>
+                </div>
+                <div class="challenge-actions">
+                    <button class="btn btn-secondary" id="showSampleBtn">查看参考口语</button>
+                    <button class="btn btn-primary" id="newChallengeBtn">换一个新话题</button>
+                </div>
             </div>
         </section>
 
@@ -205,6 +212,7 @@
     </div>
 
     <script src="verbs-data.js"></script>
+    <script src="speaking-data.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
