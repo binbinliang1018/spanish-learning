@@ -78,6 +78,7 @@ function initDailyPractice() {
     document.getElementById('dailyCheckBtn').addEventListener('click', checkDailyAnswer);
     document.getElementById('dailyShowAnswerBtn').addEventListener('click', showDailyAnswer);
     document.getElementById('dailyRestartBtn').addEventListener('click', startDailyPractice);
+    document.getElementById('dailyNextBtn').addEventListener('click', goToNextDailyVerb);
     
     // 检查是否有进行中的每日练习
     const today = new Date().toDateString();
@@ -185,9 +186,12 @@ function loadDailyVerb() {
     result.className = 'result';
     result.innerHTML = '';
     
-    // 启用按钮
+    // 重置按钮状态
     document.getElementById('dailyCheckBtn').disabled = false;
     document.getElementById('dailyShowAnswerBtn').disabled = false;
+    document.getElementById('dailyCheckBtn').style.display = 'inline-block';
+    document.getElementById('dailyShowAnswerBtn').style.display = 'inline-block';
+    document.getElementById('dailyNextBtn').style.display = 'none';
 }
 
 function checkDailyAnswer() {
@@ -245,41 +249,38 @@ function checkDailyAnswer() {
     });
     saveDailyState();
     
+    // 隐藏检查/显示答案按钮，显示下一题按钮
+    document.getElementById('dailyCheckBtn').style.display = 'none';
+    document.getElementById('dailyShowAnswerBtn').style.display = 'none';
+    document.getElementById('dailyNextBtn').style.display = 'inline-block';
+    
     if (isCorrect) {
         // 全对
         result.className = 'result show success';
-        result.innerHTML = `<strong>🎉 全对！</strong> ${correct}/${total} 正确`;
-        
-        // 延迟后加载下一个
-        setTimeout(() => {
-            dailyState.currentIndex++;
-            saveDailyState();
-            
-            if (dailyState.currentIndex >= DAILY_VERB_COUNT) {
-                completeDailyPractice();
-            } else {
-                loadDailyVerb();
-            }
-        }, 1500);
+        result.innerHTML = `<strong>🎉 全对！</strong> ${correct}/${total} 正确<br>点击"下一题"继续`;
     } else {
-        // 有错误，记录到错题本，直接进入下一题
+        // 有错误，记录到错题本
         result.className = 'result show error';
-        result.innerHTML = `<strong>❌ 有错误</strong> ${correct}/${total} 正确<br>该题已记录到错题本，稍后可去"错题重练"模块复习。`;
+        result.innerHTML = `<strong>❌ 有错误</strong> ${correct}/${total} 正确<br>该题已记录到错题本，稍后可去"错题重练"模块复习。<br>点击"下一题"继续`;
         
         // 保存到错题本
         saveWrongVerbsToReview();
-        
-        // 延迟后直接进入下一题
-        setTimeout(() => {
-            dailyState.currentIndex++;
-            saveDailyState();
-            
-            if (dailyState.currentIndex >= DAILY_VERB_COUNT) {
-                completeDailyPractice();
-            } else {
-                loadDailyVerb();
-            }
-        }, 2000);
+    }
+}
+
+function goToNextDailyVerb() {
+    dailyState.currentIndex++;
+    saveDailyState();
+    
+    // 恢复按钮显示
+    document.getElementById('dailyCheckBtn').style.display = 'inline-block';
+    document.getElementById('dailyShowAnswerBtn').style.display = 'inline-block';
+    document.getElementById('dailyNextBtn').style.display = 'none';
+    
+    if (dailyState.currentIndex >= DAILY_VERB_COUNT) {
+        completeDailyPractice();
+    } else {
+        loadDailyVerb();
     }
 }
 
@@ -305,21 +306,14 @@ function showDailyAnswer() {
     // 保存到错题本
     saveWrongVerbsToReview();
     
+    // 隐藏检查/显示答案按钮，显示下一题按钮
+    document.getElementById('dailyCheckBtn').style.display = 'none';
+    document.getElementById('dailyShowAnswerBtn').style.display = 'none';
+    document.getElementById('dailyNextBtn').style.display = 'inline-block';
+    
     const result = document.getElementById('dailyResult');
     result.className = 'result show error';
-    result.innerHTML = '<strong>💡 已显示答案</strong><br>该题已记录到错题本，稍后可去"错题重练"模块复习。';
-    
-    // 延迟后直接进入下一题
-    setTimeout(() => {
-        dailyState.currentIndex++;
-        saveDailyState();
-        
-        if (dailyState.currentIndex >= DAILY_VERB_COUNT) {
-            completeDailyPractice();
-        } else {
-            loadDailyVerb();
-        }
-    }, 2000);
+    result.innerHTML = '<strong>💡 已显示答案</strong><br>该题已记录到错题本，稍后可去"错题重练"模块复习。<br>点击"下一题"继续';
 }
 
 function completeDailyPractice() {
