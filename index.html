@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>西班牙语每日学习 | Español Diario</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🇪🇸 西班牙语每日学习</h1>
+            <p class="subtitle">Español Diario - Nivel B2.1</p>
+            <div class="date" id="currentDate"></div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="daily">每日练习</button>
+            <button class="tab-btn" data-tab="review">错题重练</button>
+            <button class="tab-btn" data-tab="speaking">口语练习</button>
+            <button class="tab-btn" data-tab="progress">学习进度</button>
+        </nav>
+
+        <!-- 每日练习 -->
+        <section id="daily" class="tab-content active">
+            <div class="card daily-mode">
+                <h2>📅 每日10动词挑战</h2>
+                <div class="daily-progress">
+                    <div class="progress-text">
+                        进度: <span id="dailyCurrent">0</span> / <span id="dailyTotal">10</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="dailyProgressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="daily-status" id="dailyStatus">准备开始今天的挑战！</div>
+                </div>
+
+                <div class="verb-display">
+                    <div class="verb-infinitive" id="dailyVerbInfinitive">点击开始练习</div>
+                    <div class="verb-meaning" id="dailyVerbMeaning"></div>
+                    <div class="verb-tense" id="dailyVerbTense"></div>
+                </div>
+                
+                <div class="conjugation-grid" id="dailyConjugationGrid">
+                    <!-- 动态生成 -->
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="dailyCheckBtn" disabled>检查答案</button>
+                    <button class="btn btn-secondary" id="dailyShowAnswerBtn" disabled>显示答案</button>
+                    <button class="btn btn-success" id="dailyStartBtn">开始今日挑战</button>
+                </div>
+
+                <div class="result" id="dailyResult"></div>
+
+                <div class="daily-summary" id="dailySummary" style="display: none;">
+                    <h3>🎉 今日挑战完成！</h3>
+                    <div class="summary-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="dailyCorrectCount">0</span>
+                            <span class="stat-label">一次做对</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="dailyRetryCount">0</span>
+                            <span class="stat-label">需要重练</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="dailyRestartBtn">再练一次</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 错题重练 -->
+        <section id="review" class="tab-content">
+            <div class="card review-mode">
+                <h2>📝 错题重练</h2>
+                <p class="review-desc">这里会显示你之前做错的动词，帮助你针对性练习。</p>
+                
+                <div class="review-stats" id="reviewStats">
+                    <div class="stat">
+                        <span class="stat-value" id="wrongCount">0</span>
+                        <span class="stat-label">待复习错题</span>
+                    </div>
+                </div>
+
+                <div class="wrong-verbs-list" id="wrongVerbsList">
+                    <!-- 动态生成错题列表 -->
+                </div>
+
+                <div id="reviewPracticeArea" style="display: none;">
+                    <div class="review-progress">
+                        <div class="progress-text">
+                            进度: <span id="reviewCurrent">0</span> / <span id="reviewTotal">0</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="reviewProgressBar" style="width: 0%"></div>
+                        </div>
+                        <div class="review-status" id="reviewStatus">准备开始复习！</div>
+                    </div>
+
+                    <div class="verb-display">
+                        <div class="verb-infinitive" id="reviewVerbInfinitive">选择要复习的动词</div>
+                        <div class="verb-meaning" id="reviewVerbMeaning"></div>
+                        <div class="verb-tense" id="reviewVerbTense"></div>
+                    </div>
+                    
+                    <div class="conjugation-grid" id="reviewConjugationGrid">
+                        <!-- 动态生成 -->
+                    </div>
+
+                    <div class="actions">
+                        <button class="btn btn-primary" id="reviewCheckBtn" disabled>检查答案</button>
+                        <button class="btn btn-secondary" id="reviewShowAnswerBtn" disabled>显示答案</button>
+                        <button class="btn btn-warning" id="reviewBackBtn">返回列表</button>
+                    </div>
+
+                    <div class="result" id="reviewResult"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 口语练习 -->
+        <section id="speaking" class="tab-content">
+            <div class="card">
+                <h2>🗣️ 口语练习</h2>
+                <div class="scenario-selector">
+                    <label>选择场景：</label>
+                    <select id="scenarioSelect">
+                        <option value="daily">日常生活 (Daily Life)</option>
+                        <option value="restaurant">餐厅点餐 (Restaurant)</option>
+                        <option value="travel">旅行问路 (Travel)</option>
+                        <option value="work">工作场景 (Work)</option>
+                        <option value="shopping">购物 (Shopping)</option>
+                        <option value="doctor">看病就医 (Doctor)</option>
+                        <option value="bank">银行服务 (Bank)</option>
+                        <option value="school">学校生活 (School)</option>
+                        <option value="hotel">酒店住宿 (Hotel)</option>
+                        <option value="phone">电话沟通 (Phone)</option>
+                        <option value="emergency">紧急情况 (Emergency)</option>
+                    </select>
+                </div>
+
+                <div class="dialogue-container" id="dialogueContainer">
+                    <!-- 动态生成对话 -->
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="newDialogueBtn">生成新对话</button>
+                    <button class="btn btn-secondary" id="speakAllBtn">🔊 朗读全部</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💡 今日口语挑战</h3>
+                <div class="challenge-box" id="speakingChallenge">
+                    <p class="challenge-topic">用西班牙语描述你的一天（至少3分钟）</p>
+                    <p class="challenge-hint">尝试使用：hoy, primero, luego, después, finalmente, porque, aunque...</p>
+                </div>
+                <button class="btn btn-secondary" id="newChallengeBtn">换一个新话题</button>
+            </div>
+        </section>
+
+        <!-- 学习进度 -->
+        <section id="progress" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalVerbs">0</div>
+                    <div class="stat-label">练习动词数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="correctRate">0%</div>
+                    <div class="stat-label">正确率</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="streakDays">0</div>
+                    <div class="stat-label">连续学习天数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalTime">0</div>
+                    <div class="stat-label">学习时长(分钟)</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📚 已练习动词</h3>
+                <div class="verb-list" id="practicedVerbs">
+                    <p class="empty">还没有练习记录，开始你的第一节课吧！</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 弱项分析</h3>
+                <div class="weak-points" id="weakPoints">
+                    <p>练习更多动词后，这里会显示你需要加强的时态。</p>
+                </div>
+            </div>
+
+            <button class="btn btn-danger" id="resetProgressBtn">重置进度</button>
+        </section>
+    </div>
+
+    <script src="verbs-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
