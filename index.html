@@ -7,16 +7,74 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <section class="access-gate" id="accessGate">
+        <div class="access-gate-card">
+            <div class="access-gate-badge">🔐 需 Frances 批准后使用</div>
+
+            <div class="access-gate-grid">
+                <div class="access-panel">
+                    <h2>先发申请</h2>
+                    <p class="access-panel-desc">填好下面的信息，然后任选一种方式发送给 Frances。</p>
+
+                    <div class="access-form-grid">
+                        <div class="access-field">
+                            <label for="requestName">你的姓名 / 昵称</label>
+                            <input type="text" id="requestName" placeholder="例如：Ana / 小林">
+                        </div>
+                        <div class="access-field">
+                            <label for="requestContact">你的联系方式</label>
+                            <input type="text" id="requestContact" placeholder="邮箱、WhatsApp 或其他联系方式">
+                        </div>
+                    </div>
+
+                    <div class="access-field">
+                        <label for="requestReason">想使用的原因</label>
+                        <textarea id="requestReason" rows="4" placeholder="例如：我想一起练西语动词变位，每天做 5 分钟。"></textarea>
+                    </div>
+
+                    <div class="access-actions">
+                        <button class="btn btn-primary" id="requestEmailBtn">发邮件申请</button>
+                        <button class="btn btn-accent" id="requestWhatsappBtn">通过 WhatsApp 申请</button>
+                    </div>
+
+                    <p class="access-help">邮件会直接发到 <strong>binbinliang1018@hotmail.com</strong>；WhatsApp 会打开预填申请文案，你再发送给 Frances 即可。</p>
+                </div>
+
+                <div class="access-panel access-panel-secondary">
+                    <h2>拿到访问码后进入</h2>
+                    <p class="access-panel-desc">Frances 审批通过后，会把访问码单独发给你。访问码只保存在当前设备浏览器里。</p>
+
+                    <div class="access-field">
+                        <label for="accessCodeInput">访问码</label>
+                        <input type="password" id="accessCodeInput" placeholder="输入 Frances 发给你的访问码">
+                    </div>
+
+                    <div class="access-actions">
+                        <button class="btn btn-success" id="unlockAccessBtn">输入访问码进入</button>
+                    </div>
+
+                    <div class="result" id="accessGateResult"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container app-shell app-shell--locked" id="appShell">
         <header>
-            <h1>🇪🇸 西班牙语每日学习</h1>
+            <h1>🇪🇸 binbin的西班牙语每日学习</h1>
             <p class="subtitle">Español Diario - Nivel B2.1</p>
             <div class="date" id="currentDate"></div>
         </header>
 
+        <div class="access-approved-banner" id="accessApprovedBanner">
+            <span>✅ 当前设备已通过 Frances 审批</span>
+            <button class="btn btn-secondary btn-small" id="clearAccessBtn">清除本机访问码</button>
+        </div>
+
         <nav class="tabs">
             <button class="tab-btn active" data-tab="daily">每日练习</button>
             <button class="tab-btn" data-tab="review">错题重练</button>
+            <button class="tab-btn" data-tab="trainer">变位训练</button>
             <button class="tab-btn" data-tab="speaking">口语练习</button>
             <button class="tab-btn" data-tab="progress">学习进度</button>
         </nav>
@@ -151,7 +209,32 @@
 
                 <div class="actions">
                     <button class="btn btn-primary" id="newDialogueBtn">生成新对话</button>
-                    <button class="btn btn-secondary" id="speakAllBtn">🔊 朗读全部</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📝 B2 口语考试练习</h3>
+                <div class="filter-bar">
+                    <label>题型筛选：</label>
+                    <select id="b2TypeSelect">
+                        <option value="all">全部题型</option>
+                        <option value="b2_describe">🖼️ 描述图片/场景</option>
+                        <option value="b2_opinion">💭 表达观点</option>
+                        <option value="b2_compare">⚖️ 比较事物</option>
+                    </select>
+                    <button class="btn btn-primary" id="newB2ChallengeBtn">生成新题目</button>
+                </div>
+                <div class="challenge-box" id="b2ChallengeBox">
+                    <p class="challenge-topic">选择一个题型开始练习</p>
+                    <p class="challenge-hint"></p>
+                </div>
+                <div class="sample-answer-box" id="b2SampleAnswerBox" style="display: none;">
+                    <h4>📝 参考范文</h4>
+                    <p class="sample-text"></p>
+                </div>
+                <div class="challenge-actions">
+                    <button class="btn btn-secondary" id="showB2SampleBtn">查看参考范文</button>
+                    <button class="btn btn-accent" id="speakB2Btn">🔊 朗读范文</button>
                 </div>
             </div>
 
@@ -168,6 +251,104 @@
                 <div class="challenge-actions">
                     <button class="btn btn-secondary" id="showSampleBtn">查看参考口语</button>
                     <button class="btn btn-primary" id="newChallengeBtn">换一个新话题</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 动词变位训练 -->
+        <section id="trainer" class="tab-content">
+            <div class="card trainer-card">
+                <h2>🔥 动词变位训练营</h2>
+                <p class="trainer-intro">把限时挑战、指定动词练习、语境例句和极简快练放在一个页面里，专门用来训练动词变位肌肉记忆。</p>
+
+                <div class="trainer-control-panel">
+                    <div class="trainer-settings-grid">
+                        <div class="trainer-setting">
+                            <label for="trainerModeSelect">训练模式</label>
+                            <select id="trainerModeSelect">
+                                <option value="mixed">随机快练</option>
+                                <option value="focus">专项攻克</option>
+                                <option value="sprint">90秒冲刺</option>
+                            </select>
+                        </div>
+                        <div class="trainer-setting">
+                            <label for="trainerTenseSelect">时态</label>
+                            <select id="trainerTenseSelect">
+                                <option value="random">随机时态</option>
+                            </select>
+                        </div>
+                        <div class="trainer-setting">
+                            <label for="trainerVerbSelect">动词</label>
+                            <select id="trainerVerbSelect">
+                                <option value="random">随机动词</option>
+                            </select>
+                        </div>
+                        <div class="trainer-setting trainer-checkbox-setting">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="trainerIrregularOnly">
+                                <span>只练不规则动词</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="trainer-preset-row">
+                        <button class="btn btn-secondary btn-small trainer-preset-btn" data-preset="quick">3分钟快练</button>
+                        <button class="btn btn-secondary btn-small trainer-preset-btn" data-preset="irregular">不规则专项</button>
+                        <button class="btn btn-secondary btn-small trainer-preset-btn" data-preset="focus">单动词深挖</button>
+                    </div>
+
+                    <div class="trainer-mode-note" id="trainerModeNote">随机快练：适合每天 3–5 分钟保持手感。</div>
+                </div>
+
+                <div class="trainer-stats-grid">
+                    <div class="trainer-stat-card">
+                        <span class="trainer-stat-value" id="trainerQuestionsStat">0</span>
+                        <span class="trainer-stat-label">已完成题目</span>
+                    </div>
+                    <div class="trainer-stat-card">
+                        <span class="trainer-stat-value" id="trainerAccuracyStat">0%</span>
+                        <span class="trainer-stat-label">本轮正确率</span>
+                    </div>
+                    <div class="trainer-stat-card">
+                        <span class="trainer-stat-value" id="trainerStreakStat">0</span>
+                        <span class="trainer-stat-label">连续全对</span>
+                    </div>
+                    <div class="trainer-stat-card">
+                        <span class="trainer-stat-value" id="trainerTimerStat">不限时</span>
+                        <span class="trainer-stat-label">节奏</span>
+                    </div>
+                </div>
+
+                <div class="verb-display trainer-display">
+                    <div class="verb-infinitive" id="trainerVerbInfinitive">准备开始训练</div>
+                    <div class="verb-meaning" id="trainerVerbMeaning">选择模式后点击开始</div>
+                    <div class="verb-tense" id="trainerVerbTense">随机时态</div>
+                </div>
+
+                <div class="trainer-example-box" id="trainerExampleBox">
+                    <h3>💬 语境例句</h3>
+                    <p class="trainer-example-es">开始训练后，这里会给你一个对应时态的小例句。</p>
+                    <p class="trainer-example-zh">例句会帮你把“理解 + 练习”放在一起。</p>
+                </div>
+
+                <div class="conjugation-grid" id="trainerConjugationGrid"></div>
+
+                <div class="actions">
+                    <button class="btn btn-success" id="trainerStartBtn">开始训练</button>
+                    <button class="btn btn-primary" id="trainerCheckBtn" disabled>检查答案</button>
+                    <button class="btn btn-secondary" id="trainerShowAnswerBtn" disabled>显示答案</button>
+                    <button class="btn btn-primary" id="trainerNextBtn" style="display: none;">下一题 →</button>
+                    <button class="btn btn-warning" id="trainerResetBtn">重置本轮</button>
+                </div>
+
+                <div class="result" id="trainerResult"></div>
+                <div class="tense-rule-box" id="trainerTenseRuleBox"></div>
+
+                <div class="trainer-mistakes-box">
+                    <h3>🧠 本轮薄弱点</h3>
+                    <div class="trainer-mistakes-list" id="trainerMistakesList">
+                        <p class="empty">还没有错题记录，开始一轮看看你的薄弱环节。</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -211,6 +392,7 @@
         </section>
     </div>
 
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=Demo"></script>
     <script src="verbs-data.js"></script>
     <script src="speaking-data.js"></script>
     <script src="app.js"></script>
