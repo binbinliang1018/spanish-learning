@@ -2212,6 +2212,146 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'condicional': ['me arrepentiría', 'te arrepentirías', 'se arrepentiría', 'nos arrepentiríamos', 'os arrepentiríais', 'se arrepentirían'],
             'subjuntivo': ['me arrepienta', 'te arrepientas', 'se arrepienta', 'nos arrepintamos', 'os arrepintáis', 'se arrepientan'],
             'imperativo': ['arrepiéntete', 'arrepiéntase', 'arrepintámonos', 'arrepentíos', 'arrepiéntanse']
+        },
+        // haber — 助动词，完整不规则变位
+        'haber': {
+            'presente': ['he', 'has', 'ha', 'hemos', 'habéis', 'han'],
+            'preterito': ['hube', 'hubiste', 'hubo', 'hubimos', 'hubisteis', 'hubieron'],
+            'imperfecto': ['había', 'habías', 'había', 'habíamos', 'habíais', 'habían'],
+            'futuro': ['habré', 'habrás', 'habrá', 'habremos', 'habréis', 'habrán'],
+            'condicional': ['habría', 'habrías', 'habría', 'habríamos', 'habríais', 'habrían'],
+            'subjuntivo': ['haya', 'hayas', 'haya', 'hayamos', 'hayáis', 'hayan'],
+            'imperativo': ['he', 'haya', 'hayamos', 'habed', 'hayan']
+        },
+        // volver o→ue
+        'volver': {
+            'presente': ['vuelvo', 'vuelves', 'vuelve', 'volvemos', 'volvéis', 'vuelven'],
+            'preterito': ['volví', 'volviste', 'volvió', 'volvimos', 'volvisteis', 'volvieron'],
+            'imperfecto': ['volvía', 'volvías', 'volvía', 'volvíamos', 'volvíais', 'volvían'],
+            'futuro': ['volveré', 'volverás', 'volverá', 'volveremos', 'volveréis', 'volverán'],
+            'condicional': ['volvería', 'volverías', 'volvería', 'volveríamos', 'volveríais', 'volverían'],
+            'subjuntivo': ['vuelva', 'vuelvas', 'vuelva', 'volvamos', 'volváis', 'vuelvan'],
+            'imperativo': ['vuelve', 'vuelva', 'volvamos', 'volved', 'vuelvan']
+        },
+        // volverse o→ue (代词式)
+        'volverse': {
+            'presente': ['me vuelvo', 'te vuelves', 'se vuelve', 'nos volvemos', 'os volvéis', 'se vuelven'],
+            'preterito': ['me volví', 'te volviste', 'se volvió', 'nos volvimos', 'os volvisteis', 'se volvieron'],
+            'imperfecto': ['me volvía', 'te volvías', 'se volvía', 'nos volvíamos', 'os volvíais', 'se volvían'],
+            'futuro': ['me volveré', 'te volverás', 'se volverá', 'nos volveremos', 'os volveréis', 'se volverán'],
+            'condicional': ['me volvería', 'te volverías', 'se volvería', 'nos volveríamos', 'os volveríais', 'se volverían'],
+            'subjuntivo': ['me vuelva', 'te vuelvas', 'se vuelva', 'nos volvamos', 'os volváis', 'se vuelvan'],
+            'imperativo': ['vuélvete', 'vuélvase', 'volvamos', 'volveos', 'vuélvanse']
+        },
+        // encontrar o→ue
+        'encontrar': {
+            'presente': ['encuentro', 'encuentras', 'encuentra', 'encontramos', 'encontráis', 'encuentran'],
+            'preterito': ['encontré', 'encontraste', 'encontró', 'encontramos', 'encontrasteis', 'encontraron'],
+            'imperfecto': ['encontraba', 'encontrabas', 'encontraba', 'encontrábamos', 'encontrabais', 'encontraban'],
+            'futuro': ['encontraré', 'encontrarás', 'encontrará', 'encontraremos', 'encontraréis', 'encontrarán'],
+            'condicional': ['encontraría', 'encontrarías', 'encontraría', 'encontraríamos', 'encontraríais', 'encontrarían'],
+            'subjuntivo': ['encuentre', 'encuentres', 'encuentre', 'encontremos', 'encontréis', 'encuentren'],
+            'imperativo': ['encuentra', 'encuentre', 'encontremos', 'encontrad', 'encuentren']
+        },
+        // encontrarse o→ue (代词式)
+        'encontrarse': {
+            'presente': ['me encuentro', 'te encuentras', 'se encuentra', 'nos encontramos', 'os encontráis', 'se encuentran'],
+            'preterito': ['me encontré', 'te encontraste', 'se encontró', 'nos encontramos', 'os encontrasteis', 'se encontraron'],
+            'imperfecto': ['me encontraba', 'te encontrabas', 'se encontraba', 'nos encontrábamos', 'os encontrabais', 'se encontraban'],
+            'futuro': ['me encontraré', 'te encontrarás', 'se encontrará', 'nos encontraremos', 'os encontraréis', 'se encontrarán'],
+            'condicional': ['me encontraría', 'te encontrarías', 'se encontraría', 'nos encontraríamos', 'os encontraríais', 'se encontrarían'],
+            'subjuntivo': ['me encuentre', 'te encuentres', 'se encuentre', 'nos encontremos', 'os encontréis', 'se encuentren'],
+            'imperativo': ['encuéntrate', 'encuéntrese', 'encontrémonos', 'encontraos', 'encuéntren']
+        },
+        // despertar e→ie
+        'despertar': {
+            'presente': ['despierto', 'despiertas', 'despierta', 'despertamos', 'despertáis', 'despiertan'],
+            'preterito': ['desperté', 'despertaste', 'despertó', 'despertamos', 'despertasteis', 'despertaron'],
+            'imperfecto': ['despertaba', 'despertabas', 'despertaba', 'despertábamos', 'despertabais', 'despertaban'],
+            'futuro': ['despertaré', 'despertarás', 'despertará', 'despertaremos', 'despertaréis', 'despertarán'],
+            'condicional': ['despertaría', 'despertarías', 'despertaría', 'despertaríamos', 'despertaríais', 'despertarían'],
+            'subjuntivo': ['despierte', 'despiertes', 'despierte', 'despertemos', 'despertéis', 'despierten'],
+            'imperativo': ['despierta', 'despierte', 'despertemos', 'despertad', 'despierten']
+        },
+        // despertarse e→ie (代词式)
+        'despertarse': {
+            'presente': ['me despierto', 'te despiertas', 'se despierta', 'nos despertamos', 'os despertáis', 'se despiertan'],
+            'preterito': ['me desperté', 'te despertaste', 'se despertó', 'nos despertamos', 'os despertasteis', 'se despertaron'],
+            'imperfecto': ['me despertaba', 'te despertabas', 'se despertaba', 'nos despertábamos', 'os despertabais', 'se despertaban'],
+            'futuro': ['me despertaré', 'te despertarás', 'se despertará', 'nos despertaremos', 'os despertaréis', 'se despertarán'],
+            'condicional': ['me despertaría', 'te despertarías', 'se despertaría', 'nos despertaríamos', 'os despertaríais', 'se despertarían'],
+            'subjuntivo': ['me despierte', 'te despiertes', 'se despierte', 'nos despertemos', 'os despertéis', 'se despierten'],
+            'imperativo': ['despiértate', 'despiértese', 'despertémonos', 'despertaos', 'despiértense']
+        },
+        // morirse o→ue (代词式)
+        'morirse': {
+            'presente': ['me muero', 'te mueres', 'se muere', 'nos morimos', 'os morís', 'se mueren'],
+            'preterito': ['me morí', 'te moriste', 'se murió', 'nos morimos', 'os moristeis', 'se murieron'],
+            'imperfecto': ['me moría', 'te morías', 'se moría', 'nos moríamos', 'os moríais', 'se morían'],
+            'futuro': ['me moriré', 'te morirás', 'se morirá', 'nos moriremos', 'os moriréis', 'se morirán'],
+            'condicional': ['me moriría', 'te morirías', 'se moriría', 'nos moriríamos', 'os moriríais', 'se morirían'],
+            'subjuntivo': ['me muera', 'te mueras', 'se muera', 'nos muramos', 'os muráis', 'se mueran'],
+            'imperativo': ['muérete', 'muérase', 'murámonos', 'moríos', 'muéranse']
+        },
+        // caerse（代词式）— caer 基础+代词
+        'caerse': {
+            'presente': ['me caigo', 'te caes', 'se cae', 'nos caemos', 'os caéis', 'se caen'],
+            'preterito': ['me caí', 'te caíste', 'se cayó', 'nos caímos', 'os caísteis', 'se cayeron'],
+            'imperfecto': ['me caía', 'te caías', 'se caía', 'nos caíamos', 'os caíais', 'se caían'],
+            'futuro': ['me caeré', 'te caerás', 'se caerá', 'nos caeremos', 'os caeréis', 'se caerán'],
+            'condicional': ['me caería', 'te caerías', 'se caería', 'nos caeríamos', 'os caeríais', 'se caerían'],
+            'subjuntivo': ['me caiga', 'te caigas', 'se caiga', 'nos caigamos', 'os caigáis', 'se caigan'],
+            'imperativo': ['cáete', 'cáigase', 'caigámonos', 'caeos', 'cáiganse']
+        },
+        // irse（代词式 ir）
+        'irse': {
+            'presente': ['me voy', 'te vas', 'se va', 'nos vamos', 'os vais', 'se van'],
+            'preterito': ['me fui', 'te fuiste', 'se fue', 'nos fuimos', 'os fuisteis', 'se fueron'],
+            'imperfecto': ['me iba', 'te ibas', 'se iba', 'nos íbamos', 'os ibais', 'se iban'],
+            'futuro': ['me iré', 'te irás', 'se irá', 'nos iremos', 'os iréis', 'se irán'],
+            'condicional': ['me iría', 'te irías', 'se iría', 'nos iríamos', 'os iríais', 'se irían'],
+            'subjuntivo': ['me vaya', 'te vayas', 'se vaya', 'nos vayamos', 'os vayáis', 'se vayan'],
+            'imperativo': ['vete', 'váyase', 'vámonos', 'idos', 'váyanse']
+        },
+        // ponerse（代词式 poner）
+        'ponerse': {
+            'presente': ['me pongo', 'te pones', 'se pone', 'nos ponemos', 'os ponéis', 'se ponen'],
+            'preterito': ['me puse', 'te pusiste', 'se puso', 'nos pusimos', 'os pusisteis', 'se pusieron'],
+            'imperfecto': ['me ponía', 'te ponías', 'se ponía', 'nos poníamos', 'os poníais', 'se ponían'],
+            'futuro': ['me pondré', 'te pondrás', 'se pondrá', 'nos pondremos', 'os pondréis', 'se pondrán'],
+            'condicional': ['me pondría', 'te pondrías', 'se pondría', 'nos pondríamos', 'os pondríais', 'se pondrían'],
+            'subjuntivo': ['me ponga', 'te pongas', 'se ponga', 'nos pongamos', 'os pongáis', 'se pongan'],
+            'imperativo': ['ponte', 'póngase', 'pongámonos', 'poneos', 'pónganse']
+        },
+        // hacerse（代词式 hacer）
+        'hacerse': {
+            'presente': ['me hago', 'te haces', 'se hace', 'nos hacemos', 'os hacéis', 'se hacen'],
+            'preterito': ['me hice', 'te hiciste', 'se hizo', 'nos hicimos', 'os hicisteis', 'se hicieron'],
+            'imperfecto': ['me hacía', 'te hacías', 'se hacía', 'nos hacíamos', 'os hacíais', 'se hacían'],
+            'futuro': ['me haré', 'te harás', 'se hará', 'nos haremos', 'os haréis', 'se harán'],
+            'condicional': ['me haría', 'te harías', 'se haría', 'nos haríamos', 'os haríais', 'se harían'],
+            'subjuntivo': ['me haga', 'te hagas', 'se haga', 'nos hagamos', 'os hagáis', 'se hagan'],
+            'imperativo': ['hazte', 'hágase', 'hagámonos', 'haceos', 'háganse']
+        },
+        // reunirse — 重音变化（reún-）
+        'reunirse': {
+            'presente': ['me reúno', 'te reúnes', 'se reúne', 'nos reunimos', 'os reunís', 'se reúnen'],
+            'preterito': ['me reuní', 'te reuniste', 'se reunió', 'nos reunimos', 'os reunisteis', 'se reunieron'],
+            'imperfecto': ['me reunía', 'te reunías', 'se reunía', 'nos reuníamos', 'os reuníais', 'se reunían'],
+            'futuro': ['me reuniré', 'te reunirás', 'se reunirá', 'nos reuniremos', 'os reuniréis', 'se reunirán'],
+            'condicional': ['me reuniría', 'te reunirías', 'se reuniría', 'nos reuniríamos', 'os reuniríais', 'se reunirían'],
+            'subjuntivo': ['me reúna', 'te reúnas', 'se reúna', 'nos reunamos', 'os reunáis', 'se reúnan'],
+            'imperativo': ['reúnete', 'reúnase', 'reunámonos', 'reuníos', 'reúnanse']
+        },
+        // vestirse e→i (代词式)
+        'vestirse': {
+            'presente': ['me visto', 'te vistes', 'se viste', 'nos vestimos', 'os vestís', 'se visten'],
+            'preterito': ['me vestí', 'te vestiste', 'se vistió', 'nos vestimos', 'os vestisteis', 'se vistieron'],
+            'imperfecto': ['me vestía', 'te vestías', 'se vestía', 'nos vestíamos', 'os vestíais', 'se vestían'],
+            'futuro': ['me vestiré', 'te vestirás', 'se vestirá', 'nos vestiremos', 'os vestiréis', 'se vestirán'],
+            'condicional': ['me vestiría', 'te vestirías', 'se vestiría', 'nos vestiríamos', 'os vestiríais', 'se vestirían'],
+            'subjuntivo': ['me vista', 'te vistas', 'se vista', 'nos vistamos', 'os vistáis', 'se vistan'],
+            'imperativo': ['vístete', 'vístase', 'vistámonos', 'vestíos', 'vístanse']
         }
     };
 
