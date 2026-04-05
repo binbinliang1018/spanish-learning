@@ -574,17 +574,18 @@ function checkDailyAnswer() {
 
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
-        const userAnswer = input.value.trim().toLowerCase();
+        const userAnswer = input.value.trim();
         const correctAnswer = conjugateVerb(currentVerb.inf, currentTense, pronoun);
+        const comparison = compareTrainerAnswer(userAnswer, correctAnswer);
 
         input.disabled = true;
         
-        if (userAnswer === correctAnswer) {
+        if (comparison.isCorrect) {
             input.classList.add('correct');
             correct++;
         } else {
             input.classList.add('incorrect');
-            input.value = `${userAnswer} → ${correctAnswer}`;
+            input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
             hasError = true;
         }
     });
@@ -1279,16 +1280,20 @@ function buildTrainerExample({ verb, tense }) {
 }
 
 function normalizeTrainerAnswer(text) {
-    return text.trim().toLowerCase().replace(/\s+/g, ' ');
+    return String(text || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
 function stripSpanishAccents(text) {
-    return text
+    return String(text || '')
         .replace(/[áàâä]/g, 'a')
         .replace(/[éèêë]/g, 'e')
         .replace(/[íìîï]/g, 'i')
         .replace(/[óòôö]/g, 'o')
         .replace(/[úùûü]/g, 'u');
+}
+
+function normalizeTrailingReflexivePronoun(text) {
+    return normalizeTrainerAnswer(text).replace(/\s+(me|te|se|nos|os)$/i, '$1');
 }
 
 function compareTrainerAnswer(userAnswer, correctAnswer) {
@@ -1299,7 +1304,18 @@ function compareTrainerAnswer(userAnswer, correctAnswer) {
         return { isCorrect: true, accentOnly: false };
     }
 
+    const compactUser = normalizeTrailingReflexivePronoun(normalizedUser);
+    const compactCorrect = normalizeTrailingReflexivePronoun(normalizedCorrect);
+
+    if (compactUser === compactCorrect) {
+        return { isCorrect: true, accentOnly: true };
+    }
+
     if (stripSpanishAccents(normalizedUser) === stripSpanishAccents(normalizedCorrect)) {
+        return { isCorrect: true, accentOnly: true };
+    }
+
+    if (stripSpanishAccents(compactUser) === stripSpanishAccents(compactCorrect)) {
         return { isCorrect: true, accentOnly: true };
     }
 
@@ -1376,7 +1392,7 @@ function finishTrainerQuestion(correct, total, accentOnlyCount = 0, usedAnswerKe
         result.className = 'result show success';
         result.innerHTML = `
             <strong>🎉 全对！</strong> ${correct}/${total} 正确
-            ${accentOnlyCount > 0 ? `<br>其中 ${accentOnlyCount} 个答案只差重音符号，已经算对，但下次尽量写完整。` : ''}
+            ${accentOnlyCount > 0 ? `<br>其中 ${accentOnlyCount} 个答案只差重音符号或代词连写格式，已经算对，但下次尽量写标准写法。` : ''}
         `;
     } else {
         result.className = 'result show error';
@@ -1506,6 +1522,14 @@ function addWrongVerbToReview(verb, tense) {
 }
 
 function conjugateVerb(infinitive, tense, pronoun) {
+    const infinitiveParts = String(infinitive || '').trim().split(/\s+/);
+    const infinitiveTail = infinitiveParts.slice(1).join(' ');
+    infinitive = infinitiveParts[0] || '';
+
+    function appendVerbTail(form) {
+        return infinitiveTail ? `${form} ${infinitiveTail}` : form;
+    }
+
     // 处理代词式动词 (以 -se 结尾，如 enfadarse, levantarse)
     let baseVerb = infinitive;
     let isReflexive = false;
@@ -1527,6 +1551,31 @@ function conjugateVerb(infinitive, tense, pronoun) {
         'vosotros': 'os',
         'ellos/ustedes': 'se'
     };
+    const imperativoReflexivePronouns = {
+        'tú': 'te',
+        'usted': 'se',
+        'nosotros': 'nos',
+        'vosotros': 'os',
+        'ustedes': 'se'
+    };
+
+    function buildReflexiveImperative(baseForm) {
+        const pronounSuffix = imperativoReflexivePronouns[pronoun];
+        if (!pronounSuffix) {
+            return appendVerbTail(baseForm);
+        }
+
+        let combined;
+        if (pronoun === 'nosotros') {
+            combined = `${baseForm.replace(/s$/, '')}${pronounSuffix}`;
+        } else if (pronoun === 'vosotros') {
+            combined = `${baseForm.replace(/d$/, '')}${pronounSuffix}`;
+        } else {
+            combined = `${baseForm}${pronounSuffix}`;
+        }
+
+        return appendVerbTail(combined);
+    }
     
     // 复合时态的助动词 haber 变位
     const haberConjugations = {
@@ -1572,9 +1621,9 @@ function conjugateVerb(infinitive, tense, pronoun) {
         const participle = getPastParticiple(baseVerb);
         
         if (isReflexive) {
-            return `${reflexivePronouns[pronoun]} ${haberForm} ${participle}`;
+            return appendVerbTail(`${reflexivePronouns[pronoun]} ${haberForm} ${participle}`);
         }
-        return `${haberForm} ${participle}`;
+        return appendVerbTail(`${haberForm} ${participle}`);
     }
     
     // 虚拟式过去未完成时
@@ -1595,7 +1644,9 @@ function conjugateVerb(infinitive, tense, pronoun) {
         const accentedStem = subjStem.replace(/[aeiou](?=[^aeiou]*$)/, vowel => accentMap[vowel] || vowel);
         const baseForForm = pronoun === 'nosotros' ? accentedStem : subjStem;
         const conjugated = baseForForm + subjEndings[pronounIndex];
-        return isReflexive ? `${reflexivePronouns[pronoun]} ${conjugated}` : conjugated;
+        return isReflexive
+            ? appendVerbTail(`${reflexivePronouns[pronoun]} ${conjugated}`)
+            : appendVerbTail(conjugated);
     }
     
     // ============ 完整不规则动词表（含命令式）============
@@ -2362,16 +2413,16 @@ function conjugateVerb(infinitive, tense, pronoun) {
     function lookupIrregular(tense, pronounIndex) {
         // 优先查含 se 的完整原形（表里的值已经包含代词前缀）
         if (isReflexive && irregulars[infinitive] && irregulars[infinitive][tense]) {
-            return irregulars[infinitive][tense][pronounIndex];
+            return appendVerbTail(irregulars[infinitive][tense][pronounIndex]);
         }
         // 再查去掉 se 的词根，需要加代词前缀
         const base = isReflexive ? baseVerb : infinitive;
         if (irregulars[base] && irregulars[base][tense]) {
             const conjugated = irregulars[base][tense][pronounIndex];
             if (isReflexive) {
-                return `${reflexivePronouns[pronoun]} ${conjugated}`;
+                return appendVerbTail(`${reflexivePronouns[pronoun]} ${conjugated}`);
             }
-            return conjugated;
+            return appendVerbTail(conjugated);
         }
         return null;
     }
@@ -2382,8 +2433,14 @@ function conjugateVerb(infinitive, tense, pronoun) {
         const impIdx = imperativoPronouns.indexOf(pronoun);
         if (impIdx === -1) return 'N/A'; // yo 没有命令式
 
-        const found = lookupIrregular('imperativo', impIdx);
-        if (found !== null) return found;
+        if (isReflexive && irregulars[infinitive] && irregulars[infinitive].imperativo) {
+            return appendVerbTail(irregulars[infinitive].imperativo[impIdx]);
+        }
+
+        if (irregulars[baseVerb] && irregulars[baseVerb].imperativo) {
+            const irregularImperative = irregulars[baseVerb].imperativo[impIdx];
+            return isReflexive ? buildReflexiveImperative(irregularImperative) : appendVerbTail(irregularImperative);
+        }
 
         // 规则命令式：tú=3sg presente, usted/nosotros/ustedes=subjuntivo, vosotros=-d
         const imperativoEndings = {
@@ -2392,18 +2449,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'ir': ['e', 'a', 'amos', 'id', 'an']
         };
         const conjugated = stem + imperativoEndings[ending][impIdx];
-        if (isReflexive) {
-            // 命令式代词式：代词附于动词后（enférmate, enférmese, etc.）
-            const imperativoReflexivePronouns = {
-                'tú': 'te',
-                'usted': 'se',
-                'nosotros': 'nos',
-                'vosotros': 'os',
-                'ustedes': 'se'
-            };
-            return `${conjugated} ${imperativoReflexivePronouns[pronoun]}`;
-        }
-        return conjugated;
+        return isReflexive ? buildReflexiveImperative(conjugated) : appendVerbTail(conjugated);
     }
 
     // 其他时态：查不规则表
@@ -2453,10 +2499,10 @@ function conjugateVerb(infinitive, tense, pronoun) {
     
     // 如果是代词式动词，添加相应的代词
     if (isReflexive) {
-        return `${reflexivePronouns[pronoun]} ${conjugated}`;
+        return appendVerbTail(`${reflexivePronouns[pronoun]} ${conjugated}`);
     }
     
-    return conjugated;
+    return appendVerbTail(conjugated);
 }
 
 
@@ -3336,17 +3382,18 @@ function checkReviewAnswer() {
 
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
-        const userAnswer = input.value.trim().toLowerCase();
+        const userAnswer = input.value.trim();
         const correctAnswer = conjugateVerb(currentVerb.inf, currentTense, pronoun);
+        const comparison = compareTrainerAnswer(userAnswer, correctAnswer);
 
         input.disabled = true;
         
-        if (userAnswer === correctAnswer) {
+        if (comparison.isCorrect) {
             input.classList.add('correct');
             correct++;
         } else {
             input.classList.add('incorrect');
-            input.value = `${userAnswer} → ${correctAnswer}`;
+            input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
             hasError = true;
         }
     });
