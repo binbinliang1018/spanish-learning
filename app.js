@@ -2392,7 +2392,18 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'ir': ['e', 'a', 'amos', 'id', 'an']
         };
         const conjugated = stem + imperativoEndings[ending][impIdx];
-        return isReflexive ? `${conjugated} ${reflexivePronouns[pronoun]}` : conjugated;
+        if (isReflexive) {
+            // 命令式代词式：代词附于动词后（enférmate, enférmese, etc.）
+            const imperativoReflexivePronouns = {
+                'tú': 'te',
+                'usted': 'se',
+                'nosotros': 'nos',
+                'vosotros': 'os',
+                'ustedes': 'se'
+            };
+            return `${conjugated} ${imperativoReflexivePronouns[pronoun]}`;
+        }
+        return conjugated;
     }
 
     // 其他时态：查不规则表
