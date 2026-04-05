@@ -73,6 +73,7 @@ function initApp() {
     initVerbPractice();
     initSpeakingPractice();
     initProgress();
+    bindIrregularVerbGroupInteractions();
     updateStreak();
 }
 
@@ -373,6 +374,12 @@ function initDailyPractice() {
         restoreDailyPractice();
     } else if (dailyState.date === today && dailyState.currentIndex >= DAILY_VERB_COUNT) {
         showDailySummary();
+    } else {
+        renderConjugationPlaceholder(
+            'dailyConjugationGrid',
+            '点击“开始今日挑战”后，这里会显示 6 个人称输入框。',
+            '每题会随机抽取一个时态，并在下方给出对应规则提示。'
+        );
     }
 }
 
@@ -390,6 +397,39 @@ const COMPOUND_TENSES = [
     'condicional_perfecto',
     'subjuntivo_perfecto'
 ];
+
+const STANDARD_PRONOUNS = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ustedes'];
+
+const HABER_CONJUGATIONS = {
+    'presente_perfecto': ['he', 'has', 'ha', 'hemos', 'habéis', 'han'],
+    'pluscuamperfecto': ['había', 'habías', 'había', 'habíamos', 'habíais', 'habían'],
+    'futuro_perfecto': ['habré', 'habrás', 'habrá', 'habremos', 'habréis', 'habrán'],
+    'condicional_perfecto': ['habría', 'habrías', 'habría', 'habríamos', 'habríais', 'habrían'],
+    'subjuntivo_perfecto': ['haya', 'hayas', 'haya', 'hayamos', 'hayáis', 'hayan']
+};
+
+const HABER_RULE_PATTERNS = {
+    'presente_perfecto': {
+        label: '现在时',
+        endingRule: '-er→e, as, a, emos, éis, an'
+    },
+    'pluscuamperfecto': {
+        label: '过去未完成时',
+        endingRule: '-er→ía, ías, ía, íamos, íais, ían'
+    },
+    'futuro_perfecto': {
+        label: '将来时',
+        endingRule: '-er→ré, rás, rá, remos, réis, rán'
+    },
+    'condicional_perfecto': {
+        label: '条件式',
+        endingRule: '-er→ría, rías, ría, ríamos, ríais, rían'
+    },
+    'subjuntivo_perfecto': {
+        label: '虚拟式现在时',
+        endingRule: '-er→aya, ayas, aya, ayamos, ayáis, ayan'
+    }
+};
 
 const DERIVED_FORM_TENSES = [...COMPOUND_TENSES];
 
@@ -441,6 +481,154 @@ function getIrregularListLabel(tense) {
         return '该时态涉及的常见特殊过去分词（不计入“不规则动词”筛选）';
     }
     return '该时态不规则动词';
+}
+
+function getTenseRuleText(tense) {
+    const tenseInfo = tenses[tense];
+
+    if (!tenseInfo) {
+        return '无';
+    }
+
+    if (!COMPOUND_TENSES.includes(tense)) {
+        return tenseInfo.rule || '无';
+    }
+
+    const haberRule = HABER_RULE_PATTERNS[tense];
+    if (!haberRule) {
+        return tenseInfo.rule || '无';
+    }
+
+    return `haber ${haberRule.label} + participio pasado；haber ${haberRule.label}词尾：${haberRule.endingRule}`;
+}
+
+function getIrregularVerbGroups(tense) {
+    const groups = irregularVerbGroupsByTense[tense];
+    return Array.isArray(groups) ? groups : [];
+}
+
+function getIrregularVerbGroupCount(groups) {
+    const normalizedVerbs = [];
+
+    groups.forEach(group => {
+        (group.verbs || []).forEach(verb => {
+            normalizedVerbs.push(normalizeVerbKey(verb));
+        });
+    });
+
+    return new Set(normalizedVerbs).size;
+}
+
+function buildIrregularVerbGroupsHTML(tense, activeGroupId = '') {
+    const groups = getIrregularVerbGroups(tense);
+
+    if (groups.length === 0) {
+        const irregularList = irregularVerbsByTense[tense] || [];
+        if (irregularList.length === 0) {
+            return '';
+        }
+
+        return `<div class="irregular-verbs"><strong>${getIrregularListLabel(tense)}：</strong>${irregularList.join(', ')}</div>`;
+    }
+
+    const activeGroup = groups.find(group => group.id === activeGroupId) || groups[0];
+    const totalCount = getIrregularVerbGroupCount(groups);
+    const buttonsHTML = groups.map(group => {
+        const isActive = group.id === activeGroup.id;
+        const activeClass = isActive ? ' active' : '';
+        return `<button type="button" class="irregular-group-btn${activeClass}" data-tense="${tense}" data-group-id="${group.id}">${group.label}</button>`;
+    }).join('');
+
+    return `
+        <div class="irregular-verbs irregular-groups">
+            <div class="irregular-groups-summary"><strong>${getIrregularListLabel(tense)}：</strong>共 ${totalCount} 个，已按动词原形的词干或词尾归类；点击任一类别即可查看该组统一变化。</div>
+            <div class="irregular-group-buttons">${buttonsHTML}</div>
+            <div class="irregular-group-detail">
+                <div><strong>当前类别：</strong>${activeGroup.label}</div>
+                <div><strong>规则：</strong>${activeGroup.rule}</div>
+                <div><strong>该类动词：</strong>${activeGroup.verbs.join(', ')}</div>
+            </div>
+        </div>
+    `;
+}
+
+function buildTenseRuleBoxHTML(tense, options = {}) {
+    const { includeModeLabel = false, activeGroupId = '' } = options;
+    let html = `<div class="tense-rule"><strong>变位规则：</strong>${getTenseRuleText(tense)}</div>`;
+
+    if (includeModeLabel) {
+        html += `<div class="tense-rule"><strong>当前模式：</strong>${getTrainerModeLabel(trainerSettings.mode)}</div>`;
+    }
+
+    html += buildIrregularVerbGroupsHTML(tense, activeGroupId);
+    return html;
+}
+
+function renderTenseRuleBox(boxId, tense, options = {}) {
+    const ruleBox = document.getElementById(boxId);
+    if (!ruleBox) {
+        return;
+    }
+
+    const activeGroupId = options.activeGroupId || '';
+    ruleBox.dataset.tense = tense;
+    ruleBox.dataset.includeModeLabel = options.includeModeLabel ? 'true' : 'false';
+    ruleBox.dataset.activeGroupId = activeGroupId;
+
+    try {
+        ruleBox.innerHTML = buildTenseRuleBoxHTML(tense, {
+            includeModeLabel: options.includeModeLabel,
+            activeGroupId
+        });
+    } catch (error) {
+        console.error('renderTenseRuleBox failed', boxId, tense, error);
+        ruleBox.innerHTML = `<div class="tense-rule"><strong>变位规则：</strong>${getTenseRuleText(tense)}</div>`;
+    }
+}
+
+function rerenderTenseRuleBox(ruleBox, activeGroupId = '') {
+    const tense = ruleBox.dataset.tense;
+    if (!tense) {
+        return;
+    }
+
+    const includeModeLabel = ruleBox.dataset.includeModeLabel === 'true';
+    ruleBox.dataset.activeGroupId = activeGroupId;
+    ruleBox.innerHTML = buildTenseRuleBoxHTML(tense, {
+        includeModeLabel,
+        activeGroupId
+    });
+}
+
+function bindIrregularVerbGroupInteractions() {
+    document.addEventListener('click', event => {
+        const button = event.target.closest('.irregular-group-btn');
+        if (!button) {
+            return;
+        }
+
+        const ruleBox = button.closest('.tense-rule-box');
+        if (!ruleBox) {
+            return;
+        }
+
+        event.preventDefault();
+        rerenderTenseRuleBox(ruleBox, button.dataset.groupId || '');
+    });
+}
+
+function renderConjugationPlaceholder(gridId, title, detail = '') {
+    const grid = document.getElementById(gridId);
+    if (!grid) {
+        return;
+    }
+
+    grid.innerHTML = `
+        <div class="conjugation-placeholder">
+            <strong>${title}</strong>
+            ${detail ? `<span>${detail}</span>` : ''}
+        </div>
+    `;
 }
 
 function startDailyPractice() {
@@ -521,18 +709,7 @@ function loadDailyVerb() {
     document.getElementById('dailyVerbTense').textContent = tenses[currentTense].name;
     
     // 显示时态规则和不规则动词列表
-    const tenseInfo = tenses[currentTense];
-    const ruleBox = document.getElementById('dailyTenseRuleBox');
-    
-    let ruleHTML = `<div class="tense-rule"><strong>变位规则：</strong>${tenseInfo.rule || '无'}</div>`;
-    
-    // 添加该时态的不规则动词列表
-    const irregularList = irregularVerbsByTense[currentTense];
-    if (irregularList && irregularList.length > 0) {
-        ruleHTML += `<div class="irregular-verbs"><strong>${getIrregularListLabel(currentTense)}：</strong>${irregularList.join(', ')}</div>`;
-    }
-    
-    ruleBox.innerHTML = ruleHTML;
+    renderTenseRuleBox('dailyTenseRuleBox', currentTense);
     
     // 生成输入框
     const grid = document.getElementById('dailyConjugationGrid');
@@ -571,6 +748,14 @@ function checkDailyAnswer() {
     let correct = 0;
     let total = inputs.length;
     let hasError = false;
+
+    if (total === 0) {
+        loadDailyVerb();
+        const result = document.getElementById('dailyResult');
+        result.className = 'result show error';
+        result.innerHTML = '刚才这题的输入框没有正确显示，已自动重新加载，请直接作答。';
+        return;
+    }
 
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
@@ -669,6 +854,13 @@ function showDailyAnswer() {
     }
 
     const inputs = document.querySelectorAll('#dailyConjugationGrid input');
+    if (inputs.length === 0) {
+        loadDailyVerb();
+        const result = document.getElementById('dailyResult');
+        result.className = 'result show error';
+        result.innerHTML = '刚才这题的输入框没有正确显示，已自动重新加载，请先再试一次。';
+        return;
+    }
     
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
@@ -707,13 +899,21 @@ function completeDailyPractice() {
 
 function showDailySummary() {
     document.getElementById('dailyVerbInfinitive').textContent = '今日挑战完成！';
-    document.getElementById('dailyVerbMeaning').textContent = '';
+    document.getElementById('dailyVerbMeaning').textContent = '你可以点击“再练一次”马上开始新一轮。';
     document.getElementById('dailyVerbTense').textContent = '';
-    document.getElementById('dailyConjugationGrid').innerHTML = '';
+    document.getElementById('dailyCurrent').textContent = DAILY_VERB_COUNT;
+    document.getElementById('dailyTotal').textContent = DAILY_VERB_COUNT;
+    document.getElementById('dailyProgressBar').style.width = '100%';
+    renderConjugationPlaceholder(
+        'dailyConjugationGrid',
+        '今天的 10 题已经完成。',
+        '点击下方“再练一次”会重新生成一组练习，不会再看到一块空白。'
+    );
     document.getElementById('dailyResult').innerHTML = '';
     document.getElementById('dailyCheckBtn').disabled = true;
     document.getElementById('dailyShowAnswerBtn').disabled = true;
-    document.getElementById('dailyStatus').textContent = '太棒了！明天继续加油！';
+    document.getElementById('dailyStatus').textContent = '太棒了！今日挑战已完成。';
+    document.getElementById('dailyTenseRuleBox').innerHTML = '<div class="tense-rule"><strong>今日状态：</strong>本轮已完成；如需继续练习，可直接点击“再练一次”。</div>';
     
     // 统计结果
     const correctOnFirstTry = dailyState.results.filter(r => r.correct).length;
@@ -946,7 +1146,11 @@ function resetTrainerDisplay() {
     document.getElementById('trainerVerbMeaning').textContent = '选择模式后点击开始';
     document.getElementById('trainerVerbTense').textContent = trainerSettings.tense === 'random' ? '随机时态' : tenses[trainerSettings.tense].name;
 
-    grid.innerHTML = '';
+    renderConjugationPlaceholder(
+        'trainerConjugationGrid',
+        '点击“开始训练”后，这里会显示本题的人称输入框。',
+        '可先选模式、时态或动词，再开始一轮训练。'
+    );
     result.className = 'result';
     result.innerHTML = '';
     ruleBox.innerHTML = '<div class="tense-rule"><strong>训练提示：</strong>选择模式、时态与动词后开始训练；答完会自动统计本轮正确率与错题。</div>';
@@ -1181,17 +1385,7 @@ function renderTrainerQuestion(question) {
 }
 
 function renderTrainerRuleBox(tense) {
-    const tenseInfo = tenses[tense];
-    const irregularList = irregularVerbsByTense[tense] || [];
-    const modeLabel = getTrainerModeLabel(trainerSettings.mode);
-    let html = `<div class="tense-rule"><strong>变位规则：</strong>${tenseInfo.rule || '无'}</div>`;
-    html += `<div class="tense-rule"><strong>当前模式：</strong>${modeLabel}</div>`;
-
-    if (irregularList.length > 0) {
-        html += `<div class="irregular-verbs"><strong>${getIrregularListLabel(tense)}：</strong>${irregularList.join(', ')}</div>`;
-    }
-
-    document.getElementById('trainerTenseRuleBox').innerHTML = html;
+    renderTenseRuleBox('trainerTenseRuleBox', tense, { includeModeLabel: true });
 }
 
 function getTrainerModeLabel(mode) {
@@ -1577,15 +1771,6 @@ function conjugateVerb(infinitive, tense, pronoun) {
         return appendVerbTail(combined);
     }
     
-    // 复合时态的助动词 haber 变位
-    const haberConjugations = {
-        'presente_perfecto': ['he', 'has', 'ha', 'hemos', 'habéis', 'han'],
-        'pluscuamperfecto': ['había', 'habías', 'había', 'habíamos', 'habíais', 'habían'],
-        'futuro_perfecto': ['habré', 'habrás', 'habrá', 'habremos', 'habréis', 'habrán'],
-        'condicional_perfecto': ['habría', 'habrías', 'habría', 'habríamos', 'habríais', 'habrían'],
-        'subjuntivo_perfecto': ['haya', 'hayas', 'haya', 'hayamos', 'hayáis', 'hayan']
-    };
-    
     // 过去分词
     function getPastParticiple(verb) {
         const irregularParticiples = {
@@ -1616,8 +1801,8 @@ function conjugateVerb(infinitive, tense, pronoun) {
     
     // 处理复合时态
     if (COMPOUND_TENSES.includes(tense)) {
-        const pronounIndex = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ustedes'].indexOf(pronoun);
-        const haberForm = haberConjugations[tense][pronounIndex];
+        const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
+        const haberForm = HABER_CONJUGATIONS[tense][pronounIndex];
         const participle = getPastParticiple(baseVerb);
         
         if (isReflexive) {
@@ -1628,7 +1813,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
     
     // 虚拟式过去未完成时
     if (tense === 'subjuntivo_imperfecto') {
-        const pronounIndex = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ustedes'].indexOf(pronoun);
+        const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
         const subjEndings = ['ra', 'ras', 'ra', 'ramos', 'rais', 'ran'];
         const ellosPreterito = conjugateVerb(baseVerb, 'preterito', 'ellos/ustedes');
         const subjStem = typeof ellosPreterito === 'string' && ellosPreterito.endsWith('ron')
@@ -2453,7 +2638,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
     }
 
     // 其他时态：查不规则表
-    const pronounIndex = ['yo', 'tú', 'él/ella/usted', 'nosotros', 'vosotros', 'ellos/ustedes'].indexOf(pronoun);
+    const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
     const found = lookupIrregular(tense, pronounIndex);
     if (found !== null) {
         return found;
@@ -3336,18 +3521,7 @@ function loadReviewVerb() {
     document.getElementById('reviewVerbTense').textContent = tenses[currentTense].name;
     
     // 显示时态规则和不规则动词列表
-    const tenseInfo = tenses[currentTense];
-    const ruleBox = document.getElementById('reviewTenseRuleBox');
-    
-    let ruleHTML = `<div class="tense-rule"><strong>变位规则：</strong>${tenseInfo.rule || '无'}</div>`;
-    
-    // 添加该时态的不规则动词列表
-    const irregularList = irregularVerbsByTense[currentTense];
-    if (irregularList && irregularList.length > 0) {
-        ruleHTML += `<div class="irregular-verbs"><strong>${getIrregularListLabel(currentTense)}：</strong>${irregularList.join(', ')}</div>`;
-    }
-    
-    ruleBox.innerHTML = ruleHTML;
+    renderTenseRuleBox('reviewTenseRuleBox', currentTense);
     
     // 生成输入框
     const grid = document.getElementById('reviewConjugationGrid');

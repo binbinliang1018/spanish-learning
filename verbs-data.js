@@ -352,6 +352,490 @@ const irregularVerbsByTense = {
     ]
 };
 
+const futureConditionalIrregularGroups = [
+    {
+        id: "br_group",
+        label: "-ber 结尾动词：caber / haber / saber",
+        rule: "这三词按原形都属于 -er 动词；若细分词尾，可一起记成 -ber 结尾。到将来时和条件式时，再分别改用 cabr-, habr-, sabr- 这组不规则词干接词尾。",
+        verbs: ["caber", "haber", "saber"]
+    },
+    {
+        id: "dr_group",
+        label: "poner / salir / tener / venir / valer（缩干组）",
+        rule: "这组原形在将来时和条件式里都会收缩成 -dr- 词干：pondr-, saldr-, tendr-, vendr-, valdr-，再接完整词尾。",
+        verbs: ["poner", "salir", "tener", "venir", "valer"]
+    },
+    {
+        id: "dir_group",
+        label: "decir（将来/条件式缩干）",
+        rule: "decir 在这两个时态里去掉 e 和 c，改用 dir- 再接词尾。",
+        verbs: ["decir"]
+    },
+    {
+        id: "har_group",
+        label: "hacer（将来/条件式缩干）",
+        rule: "hacer 在这两个时态里去掉 ce，改用 har- 再接词尾。",
+        verbs: ["hacer"]
+    },
+    {
+        id: "podr_group",
+        label: "poder（将来/条件式缩干）",
+        rule: "poder 在这两个时态里改用 podr- 再接词尾。",
+        verbs: ["poder"]
+    },
+    {
+        id: "querr_group",
+        label: "querer（将来/条件式缩干）",
+        rule: "querer 在这两个时态里改用 querr- 再接词尾。",
+        verbs: ["querer"]
+    }
+];
+
+const compoundParticipleGroups = [
+    {
+        id: "abierto_group",
+        label: "-brir 结尾动词",
+        rule: "abrir, cubrir 这组按原形 -brir 来记；过去分词不用规则 -ido，而是 abierto, cubierto。",
+        verbs: ["abrir", "cubrir"]
+    },
+    {
+        id: "cho_group",
+        label: "decir / hacer（高频特例）",
+        rule: "这两个高频动词各自单独记；过去分词分别是 dicho, hecho。",
+        verbs: ["decir", "hacer"]
+    },
+    {
+        id: "escrito_group",
+        label: "-scribir / -cribir 类动词",
+        rule: "escribir, describir 这组按原形词干来记；过去分词分别是 escrito, descrito。",
+        verbs: ["escribir", "describir"]
+    },
+    {
+        id: "puesto_group",
+        label: "poner",
+        rule: "poner 的过去分词直接记作 puesto。",
+        verbs: ["poner"]
+    },
+    {
+        id: "vuelto_group",
+        label: "-olver 结尾动词",
+        rule: "volver, resolver 这组按原形 -olver 来记；过去分词分别是 vuelto, resuelto。",
+        verbs: ["volver", "resolver"]
+    },
+    {
+        id: "roto_group",
+        label: "romper",
+        rule: "romper 的过去分词直接记作 roto。",
+        verbs: ["romper"]
+    },
+    {
+        id: "muerto_group",
+        label: "morir",
+        rule: "morir 的过去分词直接记作 muerto。",
+        verbs: ["morir"]
+    },
+    {
+        id: "visto_group",
+        label: "ver",
+        rule: "ver 的过去分词直接记作 visto。",
+        verbs: ["ver"]
+    }
+];
+
+const irregularVerbGroupsByTense = {
+    presente: [
+        {
+            id: "core_irregular",
+            label: "整组特记：ser / estar / ir / dar / haber / saber",
+            rule: "这些动词没有单一可套用的原形词干规律，最好整组记忆：soy, estás, voy, doy, he, sé...",
+            verbs: ["ser", "estar", "ir", "dar", "haber", "saber"]
+        },
+        {
+            id: "yo_go",
+            label: "现在时 yo 为 -go/-igo 的动词",
+            rule: "原形常见是 tener, venir, hacer, decir, poner, salir 一类；只有 yo 改成 -go/-igo，其余人称大体沿原词干：tengo, vengo, hago, digo, pongo, salgo, traigo, oigo, valgo, caigo。",
+            verbs: ["tener", "venir", "hacer", "decir", "poner", "salir", "traer", "oír", "valer", "caer"]
+        },
+        {
+            id: "yo_zco",
+            label: "元音 + -cer/-cir / -ducir 类",
+            rule: "这组按原形词尾来记：元音 + cer/cir 或 -ducir；现在时 yo 变成 -zco：conozco, nazco, conduzco...",
+            verbs: ["conocer", "nacer", "conducir", "producir", "traducir", "introducir", "reducir"]
+        },
+        {
+            id: "uir_y",
+            label: "-uir 结尾动词",
+            rule: "construir, destruir, incluir, concluir, huir 这组都按原形 -uir 来记；除 nosotros/vosotros 外，词干和词尾之间插 y：construyo, construyes, construye, construyen。",
+            verbs: ["construir", "destruir", "incluir", "concluir", "huir"]
+        },
+        {
+            id: "stem_o_ue",
+            label: "原形词干含 o / u 的重读变化动词",
+            rule: "这组按原形词干里的 o / u 来记；重读位常变 ue，nosotros/vosotros 通常回到原词干：puedo, duermes, juegan。",
+            verbs: ["poder", "dormir", "morir", "mover", "doler", "soler", "jugar", "acostarse"]
+        },
+        {
+            id: "stem_e_ie",
+            label: "原形词干含 e 的 ie 变化动词",
+            rule: "这组按原形词干里的 e 来记；重读位常变 ie，nosotros/vosotros 通常回到原词干：quiero, sientes, prefieren。",
+            verbs: ["querer", "sentir", "mentir", "preferir", "sugerir", "divertirse", "arrepentirse", "encender", "defender", "perder", "entender", "pensar", "empezar", "sentarse"]
+        },
+        {
+            id: "stem_e_i",
+            label: "原形词干含 e 的 i 变化动词",
+            rule: "这组按原形词干里的 e 来记；重读位直接变 i：pido, repites, sirve, eliges。",
+            verbs: ["pedir", "repetir", "servir", "vestir", "seguir", "conseguir", "elegir", "corregir", "despedirse"]
+        },
+        {
+            id: "misc_hiato",
+            label: "以 -eír 结尾及少数单词特例",
+            rule: "reír, sonreír, freír 这组要注意弱元音重读与重音符号：río, sonríes；ver, roer, tañer 则更适合按单词单独记忆。",
+            verbs: ["reír", "sonreír", "freír", "ver", "roer", "tañer"]
+        }
+    ],
+    preterito: [
+        {
+            id: "ser_ir_same",
+            label: "ser / ir（简单过去时同形）",
+            rule: "ser 和 ir 的简单过去时完全相同：fui, fuiste, fue, fuimos, fuisteis, fueron。",
+            verbs: ["ser", "ir"]
+        },
+        {
+            id: "dar_group",
+            label: "dar",
+            rule: "dar 用 di, diste, dio, dimos, disteis, dieron，没有重音符号。",
+            verbs: ["dar"]
+        },
+        {
+            id: "ver_group",
+            label: "ver",
+            rule: "ver 用 vi, viste, vio, vimos, visteis, vieron，也没有重音符号。",
+            verbs: ["ver"]
+        },
+        {
+            id: "hacer_group",
+            label: "hacer",
+            rule: "hacer 的简单过去时多数人称用 hic-，但 él/ella/usted 是 hizo。",
+            verbs: ["hacer"]
+        },
+        {
+            id: "decir_traer_j",
+            label: "decir / traer（第 3 复数用 -eron）",
+            rule: "这两个动词按原形整组记：decir 用 dij-，traer 用 traj-；第 3 人称复数都用 -eron，不是 -ieron。",
+            verbs: ["decir", "traer"]
+        },
+        {
+            id: "estar_group",
+            label: "estar",
+            rule: "estar 的简单过去时词干改成 estuv-，再接强变化过去时词尾。",
+            verbs: ["estar"]
+        },
+        {
+            id: "tener_group",
+            label: "tener",
+            rule: "tener 的简单过去时词干改成 tuv-，再接强变化过去时词尾。",
+            verbs: ["tener"]
+        },
+        {
+            id: "venir_group",
+            label: "venir",
+            rule: "venir 的简单过去时词干改成 vin-，再接强变化过去时词尾。",
+            verbs: ["venir"]
+        },
+        {
+            id: "poder_group",
+            label: "poder",
+            rule: "poder 的简单过去时词干改成 pud-，再接强变化过去时词尾。",
+            verbs: ["poder"]
+        },
+        {
+            id: "poner_group",
+            label: "poner",
+            rule: "poner 的简单过去时词干改成 pus-，再接强变化过去时词尾。",
+            verbs: ["poner"]
+        },
+        {
+            id: "saber_group",
+            label: "saber",
+            rule: "saber 的简单过去时词干改成 sup-，再接强变化过去时词尾。",
+            verbs: ["saber"]
+        },
+        {
+            id: "querer_group",
+            label: "querer",
+            rule: "querer 的简单过去时词干改成 quis-，再接强变化过去时词尾。",
+            verbs: ["querer"]
+        },
+        {
+            id: "haber_group",
+            label: "haber",
+            rule: "haber 的简单过去时词干改成 hub-，再接强变化过去时词尾。",
+            verbs: ["haber"]
+        },
+        {
+            id: "ducir_group",
+            label: "-ducir 结尾动词",
+            rule: "这组按原形 -ducir 来记；先去掉 c 再变成 j 词干，第 3 人称复数同样用 -eron。",
+            verbs: ["conducir", "traducir", "producir", "introducir", "reducir"]
+        },
+        {
+            id: "hiato_y_group",
+            label: "词干末尾是元音的 -er/-ir 动词",
+            rule: "oír, caer, roer, reír 一类原形词干末尾已有元音，简单过去时第 3 人称常写成 oyó/oyeron, cayó/cayeron, rio/rieron 等。",
+            verbs: ["oír", "caer", "roer", "reír", "sonreír", "freír"]
+        },
+        {
+            id: "third_person_stem_change",
+            label: "词干变化 -ir 动词",
+            rule: "原形本来就是 o→ue / e→ie / e→i 一类的 -ir 动词，在简单过去时只把词干变化保留到第 3 人称：durmió/durmieron, pidió/pidieron, sintió/sintieron。",
+            verbs: ["dormir", "morir", "pedir", "repetir", "servir", "vestir", "sentir", "mentir", "preferir", "sugerir", "seguir", "conseguir", "elegir", "corregir"]
+        },
+        {
+            id: "jugar_group",
+            label: "jugar（保音拼写）",
+            rule: "为了保持 g 的发音，yo 形式写成 jugué；其余人称按普通 -ar 过去时。",
+            verbs: ["jugar"]
+        },
+        {
+            id: "uir_y_group",
+            label: "-uir 结尾动词",
+            rule: "construir, destruir, incluir, concluir, huir 这组按原形 -uir 来记；第 3 人称常见 y：construyó, construyeron。",
+            verbs: ["construir", "destruir", "incluir", "concluir", "huir"]
+        }
+    ],
+    imperfecto: [
+        {
+            id: "ser_group",
+            label: "ser：era-",
+            rule: "ser 的过去未完成时单独记：era, eras, era, éramos, erais, eran。",
+            verbs: ["ser"]
+        },
+        {
+            id: "ir_group",
+            label: "ir：iba-",
+            rule: "ir 的过去未完成时单独记：iba, ibas, iba, íbamos, ibais, iban。",
+            verbs: ["ir"]
+        },
+        {
+            id: "ver_group",
+            label: "ver：veía-",
+            rule: "ver 的过去未完成时单独记：veía, veías, veía, veíamos, veíais, veían。",
+            verbs: ["ver"]
+        }
+    ],
+    futuro: futureConditionalIrregularGroups,
+    condicional: futureConditionalIrregularGroups,
+    subjuntivo: [
+        {
+            id: "core_subj",
+            label: "整组特记：ser / estar / ir / dar / haber / saber",
+            rule: "ser, estar, ir, dar, haber, saber 的虚拟式现在时最好整组记忆：sea, esté, vaya, dé, haya, sepa。",
+            verbs: ["ser", "estar", "ir", "dar", "haber", "saber"]
+        },
+        {
+            id: "ga_group",
+            label: "现在时 yo 为 -go/-igo 的动词",
+            rule: "这组按原形来记，再借现在时 yo 形式去掉 -o，得到 tenga, venga, haga, diga, ponga, salga, traiga, oiga, caiga, valga。",
+            verbs: ["tener", "venir", "hacer", "decir", "poner", "salir", "traer", "oír", "caer", "valer"]
+        },
+        {
+            id: "zca_group",
+            label: "元音 + -cer/-cir / -ducir 类",
+            rule: "conocer, nacer, -ducir 一类按原形词尾来记；从 conozco / nazco / conduzco 出发，虚拟式基底变成 -zca。",
+            verbs: ["conocer", "nacer", "conducir", "producir", "traducir", "introducir", "reducir"]
+        },
+        {
+            id: "ya_group",
+            label: "-uir 结尾动词",
+            rule: "construir, destruir, incluir, concluir, huir 这组按原形 -uir 来记；虚拟式现在时得到 construya, destruya, incluya...",
+            verbs: ["construir", "destruir", "incluir", "concluir", "huir"]
+        },
+        {
+            id: "o_ue_group",
+            label: "原形词干含 o / u 的重读变化动词",
+            rule: "这组按原形词干里的 o / u 来记；重读位保持词干变化：pueda, duerma, muera, mueva, duela, suela, juegue；nosotros/vosotros 常回到原词干。",
+            verbs: ["poder", "dormir", "morir", "mover", "doler", "soler", "jugar"]
+        },
+        {
+            id: "e_ie_group",
+            label: "原形词干含 e 的 ie 变化动词",
+            rule: "这组按原形词干里的 e 来记；重读位 e 变 ie：quiera, sienta, mienta, prefiera, sugiera, encienda, piense；nosotros/vosotros 常回到原词干。",
+            verbs: ["querer", "sentir", "mentir", "preferir", "sugerir", "encender", "defender", "perder", "entender", "pensar", "empezar"]
+        },
+        {
+            id: "e_i_group",
+            label: "原形词干含 e 的 i 变化动词",
+            rule: "这组按原形词干里的 e 来记；重读位 e 变 i：pida, repita, sirva, vista, siga, consiga, elija, corrija。",
+            verbs: ["pedir", "repetir", "servir", "vestir", "seguir", "conseguir", "elegir", "corregir", "reír", "sonreír", "freír"]
+        },
+        {
+            id: "misc_group",
+            label: "ver / roer / tañer 等单词特例",
+            rule: "ver → vea，roer → roa，tañer → taña；这类更适合按单词记忆。",
+            verbs: ["ver", "roer", "tañer"]
+        }
+    ],
+    subjuntivo_imperfecto: [
+        {
+            id: "ser_ir_same",
+            label: "ser / ir（简单过去时同形组）",
+            rule: "ser 和 ir 先记简单过去时 fueron；虚拟式过去未完成时都从 fue- 再接 ra/ras/ra/ramos/rais/ran。",
+            verbs: ["ser", "ir"]
+        },
+        {
+            id: "dar_ver_group",
+            label: "dar / ver",
+            rule: "dar, ver 先记简单过去时 dieron / vieron；再去掉 -ron，就得到 diera / viera 这一组。",
+            verbs: ["dar", "ver"]
+        },
+        {
+            id: "hacer_group",
+            label: "hacer",
+            rule: "虚拟式过去未完成时直接从 hicieron 去掉 -ron：hiciera, hicieras...",
+            verbs: ["hacer"]
+        },
+        {
+            id: "decir_group",
+            label: "decir",
+            rule: "先记简单过去时 dijeron，去掉 -ron 后得到 dije-，再接 -ra 系列词尾。",
+            verbs: ["decir"]
+        },
+        {
+            id: "estar_group",
+            label: "estar",
+            rule: "先记简单过去时 estuvieron，去掉 -ron 后得到 estuvie-，再接 -ra 系列词尾。",
+            verbs: ["estar"]
+        },
+        {
+            id: "tener_group",
+            label: "tener",
+            rule: "先记简单过去时 tuvieron，去掉 -ron 后得到 tuvie-，再接 -ra 系列词尾。",
+            verbs: ["tener"]
+        },
+        {
+            id: "venir_group",
+            label: "venir",
+            rule: "先记简单过去时 vinieron，去掉 -ron 后得到 vinie-，再接 -ra 系列词尾。",
+            verbs: ["venir"]
+        },
+        {
+            id: "poder_group",
+            label: "poder",
+            rule: "先记简单过去时 pudieron，去掉 -ron 后得到 pudie-，再接 -ra 系列词尾。",
+            verbs: ["poder"]
+        },
+        {
+            id: "poner_group",
+            label: "poner",
+            rule: "先记简单过去时 pusieron，去掉 -ron 后得到 pusie-，再接 -ra 系列词尾。",
+            verbs: ["poner"]
+        },
+        {
+            id: "saber_group",
+            label: "saber",
+            rule: "先记简单过去时 supieron，去掉 -ron 后得到 supie-，再接 -ra 系列词尾。",
+            verbs: ["saber"]
+        },
+        {
+            id: "querer_group",
+            label: "querer",
+            rule: "先记简单过去时 quisieron，去掉 -ron 后得到 quisie-，再接 -ra 系列词尾。",
+            verbs: ["querer"]
+        },
+        {
+            id: "salir_group",
+            label: "salir",
+            rule: "先记简单过去时 salieron，去掉 -ron 后得到 salie-，再接 -ra 系列词尾。",
+            verbs: ["salir"]
+        },
+        {
+            id: "traer_ducir_group",
+            label: "traer / -ducir 结尾动词",
+            rule: "traer 与 -ducir 一类先记简单过去时 trajeron, produjeron, condujeron，再去掉 -ron 得到 traje-/produje-/conduje-。",
+            verbs: ["traer", "conducir", "producir", "traducir", "introducir", "reducir"]
+        },
+        {
+            id: "y_group",
+            label: "词干末尾是元音的 -er/-ir 与 -uir 动词",
+            rule: "oír, caer, roer 以及 construir, destruir, incluir, concluir, huir 这组先看 oyeron, cayeron, construyeron，再去掉 -ron 得到 oye-/caye-/construye-。",
+            verbs: ["oír", "caer", "roer", "construir", "destruir", "incluir", "concluir", "huir"]
+        },
+        {
+            id: "third_person_stem_change",
+            label: "词干变化 -ir 动词",
+            rule: "dormir, pedir, sentir 等原形本来就是词干变化 -ir 动词；先从 durmieron, pidieron, sintieron 出发，再去掉 -ron 得到 durmie-, pidie-, sintie-。",
+            verbs: ["dormir", "morir", "pedir", "repetir", "servir", "vestir", "sentir", "mentir", "preferir", "sugerir", "seguir", "conseguir", "elegir", "corregir"]
+        },
+        {
+            id: "hiato_group",
+            label: "以 -eír 结尾的动词",
+            rule: "reír, sonreír, freír 这组先从 rieron, sonrieron, frieron 去掉 -ron，得到 rie-/sonrie-/frie-，再接 -ra 系列词尾。",
+            verbs: ["reír", "sonreír", "freír"]
+        },
+        {
+            id: "jugar_group",
+            label: "jugar",
+            rule: "虚拟式过去未完成时直接根据 jugaron 去掉 -ron，得到 jugara 这一组。",
+            verbs: ["jugar"]
+        }
+    ],
+    presente_perfecto: compoundParticipleGroups,
+    pluscuamperfecto: compoundParticipleGroups,
+    futuro_perfecto: compoundParticipleGroups,
+    condicional_perfecto: compoundParticipleGroups,
+    subjuntivo_perfecto: compoundParticipleGroups,
+    imperativo: [
+        {
+            id: "special_tu",
+            label: "肯定 tú 特别命令",
+            rule: "这些高频动词的肯定 tú 形式要单独记：sé, ve, sabe, da, di, haz, pon, sal, ten, ven。",
+            verbs: ["ser", "ir", "saber", "dar", "decir", "hacer", "poner", "salir", "tener", "venir"]
+        },
+        {
+            id: "ga_group",
+            label: "现在时 yo 为 -go/-igo 的动词",
+            rule: "这组按原形来记；在命令式的 usted / nosotros / ustedes 中常沿用虚拟式现在时基底：haga, diga, ponga, salga, tenga, venga, oiga, valga, caiga。",
+            verbs: ["hacer", "decir", "poner", "salir", "tener", "venir", "oír", "valer", "caer"]
+        },
+        {
+            id: "zca_group",
+            label: "元音 + -cer/-cir / -ducir 类",
+            rule: "conocer, nacer, -ducir 一类按原形词尾来记；在 usted / nosotros / ustedes 中沿用 conozca / nazca / conduzca 这一组。",
+            verbs: ["conocer", "nacer", "conducir", "producir", "traducir", "introducir", "reducir"]
+        },
+        {
+            id: "ya_group",
+            label: "-uir 结尾动词",
+            rule: "construir, destruir, incluir, concluir, huir 这组按原形 -uir 来记；在命令式的 usted / nosotros / ustedes 中沿用 construya, incluya 这一组。",
+            verbs: ["construir", "destruir", "incluir", "concluir", "huir"]
+        },
+        {
+            id: "o_ue_group",
+            label: "原形词干含 o / u 的重读变化动词",
+            rule: "肯定 tú/usted/ustedes 常保留这组的词干变化：duerme, duerma, duerman；部分 -ir 动词在 nosotros 里还会出现 o→u。",
+            verbs: ["dormir", "morir", "mover", "doler", "jugar"]
+        },
+        {
+            id: "e_ie_group",
+            label: "原形词干含 e 的 ie 变化动词",
+            rule: "肯定 tú/usted/ustedes 常保留 e→ie：siente, piense, prefiera；nosotros 通常跟虚拟式现在时走。",
+            verbs: ["sentir", "mentir", "preferir", "sugerir", "encender", "defender", "perder", "entender", "pensar", "empezar"]
+        },
+        {
+            id: "e_i_group",
+            label: "原形词干含 e 的 i 变化动词",
+            rule: "肯定 tú/usted/ustedes 常保留 e→i：pide, sirva, elige；nosotros 同样参考虚拟式现在时。",
+            verbs: ["pedir", "repetir", "servir", "vestir", "seguir", "conseguir", "elegir", "corregir", "reír", "sonreír", "freír"]
+        },
+        {
+            id: "misc_group",
+            label: "其他常见特例",
+            rule: "estar, ver, roer, tañer 等更适合直接记具体命令式；vosotros 形式多数仍是原形去 -r 加 d。",
+            verbs: ["estar", "ver", "roer", "tañer"]
+        }
+    ]
+};
+
 // 对话场景数据 - 动态生成器
 const dialogueScenarios = {
     daily: {
