@@ -253,19 +253,103 @@ const tenses = {
 
 // 各时态的不规则动词列表（仅列出动词原形，不列出具体变位）
 const irregularVerbsByTense = {
-    presente: ["ser", "estar", "tener", "venir", "ir", "dar", "saber", "conocer", "hacer", "decir", "poner", "salir", "traer", "oír", "ver", "poder", "querer", "venir", "decir", "hacer", "poner", "salir", "tener", "venir", "oir", "ver", "haber"],
-    preterito: ["ser", "ir", "dar", "ver", "hacer", "decir", "estar", "tener", "venir", "poder", "poner", "saber", "querer", "traer", "conducir", "traducir", "producir", "decir", "venir"],
-    imperfecto: ["ser", "ir", "ver"],
-    futuro: ["decir", "hacer", "poder", "poner", "querer", "saber", "salir", "tener", "venir", "caber", "haber"],
-    condicional: ["decir", "hacer", "poder", "poner", "querer", "saber", "salir", "tener", "venir", "caber", "haber"],
-    subjuntivo: ["ser", "estar", "ir", "dar", "saber", "haber", "decir", "hacer", "poder", "poner", "querer", "salir", "tener", "venir", "traer", "oir", "ver"],
-    subjuntivo_imperfecto: ["ser", "ir", "ver", "decir", "hacer", "poder", "poner", "querer", "saber", "salir", "tener", "venir", "traer", "oir", "dar", "estar"],
+    // 现在时：yo特殊、词干变化（e→ie/o→ue/e→i/u→ue）、正字法变化（-zco/-go/-oy）
+    presente: [
+        // yo 特殊形式
+        "ser", "estar", "ir", "dar", "saber", "haber",
+        // -go/-igo/-zco 等 yo 特殊
+        "tener", "venir", "hacer", "decir", "poner", "salir", "traer", "oír", "ver",
+        "conocer", "nacer", "caer", "valer",
+        "conducir", "producir", "traducir", "introducir", "reducir",
+        // -uir 插 y
+        "construir", "destruir", "incluir", "concluir", "huir",
+        // o→ue
+        "poder", "dormir", "morir", "mover", "doler", "soler", "jugar",
+        "acostarse",
+        // e→ie
+        "querer", "venir", "sentir", "mentir", "preferir", "sugerir", "divertirse", "arrepentirse",
+        "encender", "defender", "perder", "entender", "pensar", "empezar", "sentarse",
+        // e→i
+        "pedir", "repetir", "servir", "vestir", "seguir", "conseguir", "elegir", "corregir",
+        "reír", "sonreír", "freír", "despedirse",
+        // 杂项
+        "roer", "tañer"
+    ],
+    preterito: [
+        // 词根完全改变（fui/hice/dije/tuve等）
+        "ser", "ir", "dar", "ver", "hacer", "decir", "estar", "tener", "venir",
+        "poder", "poner", "saber", "querer", "traer",
+        // -ducir 词根变 duj-
+        "conducir", "traducir", "producir", "introducir", "reducir",
+        // oír / caer / roer：yo/él 带重音或 y 变化
+        "oír", "caer", "roer",
+        // o→u / e→i（第三人称词干变化）
+        "dormir", "morir", "pedir", "repetir", "servir", "vestir",
+        "sentir", "mentir", "preferir", "sugerir",
+        "seguir", "conseguir", "elegir", "corregir",
+        "reír", "sonreír", "freír",
+        // jugar：jugué yo（正字法）
+        "jugar",
+        // -uir 第三人称 y
+        "construir", "destruir", "incluir", "concluir", "huir"
+    ],
+    imperfecto: [
+        // 过去未完成时只有三个真正不规则
+        "ser", "ir", "ver"
+    ],
+    futuro: [
+        // 词根收缩或替换
+        "decir", "hacer", "poder", "poner", "querer", "saber", "salir", "tener", "venir",
+        "caber", "haber", "valer"
+    ],
+    condicional: [
+        "decir", "hacer", "poder", "poner", "querer", "saber", "salir", "tener", "venir",
+        "caber", "haber", "valer"
+    ],
+    // 虚拟式现在时：yo → subj. 基于 yo presente（go→ga, zco→zca, -uir→ya, 词干变化等）
+    subjuntivo: [
+        "ser", "estar", "ir", "dar", "saber", "haber",
+        "tener", "venir", "hacer", "decir", "poner", "salir", "traer", "oír", "ver",
+        "conocer", "nacer", "caer", "valer",
+        "conducir", "producir", "traducir", "introducir", "reducir",
+        "construir", "destruir", "incluir", "concluir", "huir",
+        "poder", "querer",
+        "dormir", "morir", "mover", "doler", "soler", "jugar",
+        "sentir", "mentir", "preferir", "sugerir",
+        "pedir", "repetir", "servir", "vestir", "seguir", "conseguir", "elegir", "corregir",
+        "reír", "sonreír", "freír",
+        "encender", "defender", "perder", "entender", "pensar", "empezar",
+        "roer", "tañer"
+    ],
+    // 虚拟式过去未完成时：基于简单过去ellos词根
+    subjuntivo_imperfecto: [
+        "ser", "ir", "ver", "decir", "hacer", "poder", "poner", "querer", "saber",
+        "salir", "tener", "venir", "traer", "oír", "dar", "estar",
+        "conducir", "producir", "traducir", "introducir", "reducir",
+        "construir", "destruir", "incluir", "concluir", "huir",
+        "dormir", "morir", "pedir", "repetir", "servir", "vestir",
+        "sentir", "mentir", "preferir", "sugerir",
+        "seguir", "conseguir", "elegir", "corregir",
+        "reír", "sonreír", "freír", "caer", "roer", "jugar"
+    ],
     presente_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
     pluscuamperfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
     futuro_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
     condicional_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
     subjuntivo_perfecto: ["abrir", "cubrir", "decir", "describir", "escribir", "hacer", "morir", "poner", "resolver", "romper", "ver", "volver"],
-    imperativo: ["ser", "estar", "ir", "saber", "dar", "decir", "hacer", "poner", "salir", "tener", "venir", "oir", "ver"]
+    imperativo: [
+        "ser", "estar", "ir", "saber", "dar", "decir", "hacer", "poner", "salir",
+        "tener", "venir", "oír", "ver", "valer",
+        "conocer", "nacer", "caer",
+        "conducir", "producir", "traducir", "introducir", "reducir",
+        "construir", "destruir", "incluir", "concluir", "huir",
+        "dormir", "morir", "mover", "doler", "jugar",
+        "pedir", "repetir", "servir", "vestir", "seguir", "conseguir", "elegir", "corregir",
+        "sentir", "mentir", "preferir", "sugerir",
+        "reír", "sonreír", "freír",
+        "encender", "defender", "perder", "entender", "pensar", "empezar",
+        "roer", "tañer"
+    ]
 };
 
 // 对话场景数据 - 动态生成器
