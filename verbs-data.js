@@ -154,9 +154,9 @@ const verbsData = [
     { inf: "caerse", meaning: "摔倒", type: "reflexive" },
     { inf: "morirse", meaning: "死去", type: "reflexive" },
     { inf: "nacer", meaning: "出生", type: "irregular" },
-    { inf: "crecer", meaning: "成长", type: "er" },
-    { inf: "aparecer", meaning: "出现", type: "er" },
-    { inf: "desaparecer", meaning: "消失", type: "er" },
+    { inf: "crecer", meaning: "成长", type: "irregular" },
+    { inf: "aparecer", meaning: "出现", type: "irregular" },
+    { inf: "desaparecer", meaning: "消失", type: "irregular" },
     { inf: "conducir", meaning: "驾驶", type: "irregular" },
     { inf: "producir", meaning: "生产", type: "irregular" },
     { inf: "traducir", meaning: "翻译", type: "irregular" },
@@ -259,7 +259,7 @@ const irregularVerbsByTense = {
         "ser", "estar", "ir", "dar", "saber", "haber",
         // -go/-igo/-zco 等 yo 特殊
         "tener", "venir", "hacer", "decir", "poner", "salir", "traer", "oír", "ver",
-        "conocer", "nacer", "caer", "valer",
+        "conocer", "nacer", "crecer", "aparecer", "desaparecer", "caer", "valer",
         "conducir", "producir", "traducir", "introducir", "reducir",
         // -uir 插 y
         "construir", "destruir", "incluir", "concluir", "huir",
@@ -310,7 +310,7 @@ const irregularVerbsByTense = {
     subjuntivo: [
         "ser", "estar", "ir", "dar", "saber", "haber",
         "tener", "venir", "hacer", "decir", "poner", "salir", "traer", "oír", "ver",
-        "conocer", "nacer", "caer", "valer",
+        "conocer", "nacer", "crecer", "aparecer", "desaparecer", "caer", "valer",
         "conducir", "producir", "traducir", "introducir", "reducir",
         "construir", "destruir", "incluir", "concluir", "huir",
         "poder", "querer",
@@ -340,7 +340,7 @@ const irregularVerbsByTense = {
     imperativo: [
         "ser", "estar", "ir", "saber", "dar", "decir", "hacer", "poner", "salir",
         "tener", "venir", "oír", "ver", "valer",
-        "conocer", "nacer", "caer",
+        "conocer", "nacer", "crecer", "aparecer", "desaparecer", "caer",
         "conducir", "producir", "traducir", "introducir", "reducir",
         "construir", "destruir", "incluir", "concluir", "huir",
         "dormir", "morir", "mover", "doler", "jugar",
@@ -458,9 +458,9 @@ const irregularVerbGroupsByTense = {
         },
         {
             id: "yo_zco",
-            label: "元音 + -cer/-cir / -ducir 类",
-            rule: "这组按原形词尾来记：元音 + cer/cir 或 -ducir；现在时 yo 变成 -zco：conozco, nazco, conduzco...",
-            verbs: ["conocer", "nacer", "conducir", "producir", "traducir", "introducir", "reducir"]
+            label: "-acer/-ecer/-ocer/-ducir 的 yo -zco 类",
+            rule: "这组按原形词尾来记：nacer, crecer, aparecer, conocer, -ducir 一类在现在时 yo 变成 -zco，如 nazco, crezco, aparezco, conozco, conduzco。",
+            verbs: ["conocer", "nacer", "crecer", "aparecer", "desaparecer", "conducir", "producir", "traducir", "introducir", "reducir"]
         },
         {
             id: "uir_y",
@@ -640,9 +640,9 @@ const irregularVerbGroupsByTense = {
         },
         {
             id: "zca_group",
-            label: "元音 + -cer/-cir / -ducir 类",
-            rule: "conocer, nacer, -ducir 一类按原形词尾来记；从 conozco / nazco / conduzco 出发，虚拟式基底变成 -zca。",
-            verbs: ["conocer", "nacer", "conducir", "producir", "traducir", "introducir", "reducir"]
+            label: "-acer/-ecer/-ocer/-ducir 类",
+            rule: "nacer, crecer, aparecer, conocer, -ducir 一类按原形词尾来记；从 nazco / crezco / aparezco / conozco / conduzco 出发，虚拟式基底变成 -zca。",
+            verbs: ["conocer", "nacer", "crecer", "aparecer", "desaparecer", "conducir", "producir", "traducir", "introducir", "reducir"]
         },
         {
             id: "ya_group",
@@ -799,9 +799,9 @@ const irregularVerbGroupsByTense = {
         },
         {
             id: "zca_group",
-            label: "元音 + -cer/-cir / -ducir 类",
-            rule: "conocer, nacer, -ducir 一类按原形词尾来记；在 usted / nosotros / ustedes 中沿用 conozca / nazca / conduzca 这一组。",
-            verbs: ["conocer", "nacer", "conducir", "producir", "traducir", "introducir", "reducir"]
+            label: "-acer/-ecer/-ocer/-ducir 类",
+            rule: "nacer, crecer, aparecer, conocer, -ducir 一类按原形词尾来记；在 usted / nosotros / ustedes 中沿用 nazca / crezca / aparezca / conozca / conduzca 这一组。",
+            verbs: ["conocer", "nacer", "crecer", "aparecer", "desaparecer", "conducir", "producir", "traducir", "introducir", "reducir"]
         },
         {
             id: "ya_group",

@@ -3002,6 +3002,33 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'subjuntivo': ['nazca', 'nazcas', 'nazca', 'nazcamos', 'nazcáis', 'nazcan'],
             'imperativo': ['nace', 'nazca', 'nazcamos', 'naced', 'nazcan']
         },
+        'crecer': {
+            'presente': ['crezco', 'creces', 'crece', 'crecemos', 'crecéis', 'crecen'],
+            'preterito': ['crecí', 'creciste', 'creció', 'crecimos', 'crecisteis', 'crecieron'],
+            'imperfecto': ['crecía', 'crecías', 'crecía', 'crecíamos', 'crecíais', 'crecían'],
+            'futuro': ['creceré', 'crecerás', 'crecerá', 'creceremos', 'creceréis', 'crecerán'],
+            'condicional': ['crecería', 'crecerías', 'crecería', 'creceríamos', 'creceríais', 'crecerían'],
+            'subjuntivo': ['crezca', 'crezcas', 'crezca', 'crezcamos', 'crezcáis', 'crezcan'],
+            'imperativo': ['crece', 'crezca', 'crezcamos', 'creced', 'crezcan']
+        },
+        'aparecer': {
+            'presente': ['aparezco', 'apareces', 'aparece', 'aparecemos', 'aparecéis', 'aparecen'],
+            'preterito': ['aparecí', 'apareciste', 'apareció', 'aparecimos', 'aparecisteis', 'aparecieron'],
+            'imperfecto': ['aparecía', 'aparecías', 'aparecía', 'aparecíamos', 'aparecíais', 'aparecían'],
+            'futuro': ['apareceré', 'aparecerás', 'aparecerá', 'apareceremos', 'apareceréis', 'aparecerán'],
+            'condicional': ['aparecería', 'aparecerías', 'aparecería', 'apareceríamos', 'apareceríais', 'aparecerían'],
+            'subjuntivo': ['aparezca', 'aparezcas', 'aparezca', 'aparezcamos', 'aparezcáis', 'aparezcan'],
+            'imperativo': ['aparece', 'aparezca', 'aparezcamos', 'apareced', 'aparezcan']
+        },
+        'desaparecer': {
+            'presente': ['desaparezco', 'desapareces', 'desaparece', 'desaparecemos', 'desaparecéis', 'desaparecen'],
+            'preterito': ['desaparecí', 'desapareciste', 'desapareció', 'desaparecimos', 'desaparecisteis', 'desaparecieron'],
+            'imperfecto': ['desaparecía', 'desaparecías', 'desaparecía', 'desaparecíamos', 'desaparecíais', 'desaparecían'],
+            'futuro': ['desapareceré', 'desaparecerás', 'desaparecerá', 'desapareceremos', 'desapareceréis', 'desaparecerán'],
+            'condicional': ['desaparecería', 'desaparecerías', 'desaparecería', 'desapareceríamos', 'desapareceríais', 'desaparecerían'],
+            'subjuntivo': ['desaparezca', 'desaparezcas', 'desaparezca', 'desaparezcamos', 'desaparezcáis', 'desaparezcan'],
+            'imperativo': ['desaparece', 'desaparezca', 'desaparezcamos', 'desapareced', 'desaparezcan']
+        },
         'conducir': {
             'presente': ['conduzco', 'conduces', 'conduce', 'conducimos', 'conducís', 'conducen'],
             'preterito': ['conduje', 'condujiste', 'condujo', 'condujimos', 'condujisteis', 'condujeron'],
@@ -3144,7 +3171,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'condicional': ['N/A', 'N/A', 'tronaría', 'N/A', 'N/A', 'N/A'],
             'subjuntivo': ['N/A', 'N/A', 'truene', 'N/A', 'N/A', 'N/A']
         },
-        // 词干变化 e→ie：encender, defender, perder, entender (también crecer/aparecer en presente)
+        // 词干变化 e→ie：encender, defender, perder, entender
         'encender': {
             'presente': ['enciendo', 'enciendes', 'enciende', 'encendemos', 'encendéis', 'encienden'],
             'preterito': ['encendí', 'encendiste', 'encendió', 'encendimos', 'encendisteis', 'encendieron'],
