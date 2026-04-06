@@ -31,27 +31,162 @@ let reviewState = JSON.parse(localStorage.getItem('reviewPractice')) || {
     isActive: false
 };
 
-const TRAINER_SPRINT_SECONDS = 90;
-let trainerTimer = null;
-let trainerSettings = JSON.parse(localStorage.getItem('verbTrainerSettings')) || {
-    mode: 'mixed',
-    tense: 'random',
-    verb: 'random',
-    irregularOnly: false
-};
+const TRAINER_ROUND_QUESTION_COUNT = 6;
+const TRAINER_MULTIPLE_CHOICE_COUNT = 3;
+const TRAINER_FILL_BLANK_COUNT = 3;
+const TRAINER_SENTENCE_BANK = [
+    {
+        verbInf: 'hablar',
+        tense: 'presente',
+        pronoun: 'yo',
+        es: 'Normalmente yo __VERB__ con mi profesora en español durante la clase.',
+        zh: '平时上课时，我都会用西语和老师交流。'
+    },
+    {
+        verbInf: 'poder',
+        tense: 'presente',
+        pronoun: 'yo',
+        es: 'Hoy yo no __VERB__ salir temprano porque tengo mucho trabajo.',
+        zh: '今天我不能早点走，因为工作很多。'
+    },
+    {
+        verbInf: 'hacer',
+        tense: 'preterito',
+        pronoun: 'yo',
+        es: 'Ayer yo __VERB__ la tarea en una hora y luego descansé.',
+        zh: '昨天我一小时就做完了作业，然后就休息了。'
+    },
+    {
+        verbInf: 'llegar',
+        tense: 'preterito',
+        pronoun: 'nosotros',
+        es: 'Ayer nosotros __VERB__ tarde al aeropuerto por el tráfico.',
+        zh: '昨天因为堵车，我们很晚才到机场。'
+    },
+    {
+        verbInf: 'vivir',
+        tense: 'imperfecto',
+        pronoun: 'yo',
+        es: 'Cuando era niño, yo __VERB__ cerca del mar y caminaba a la playa cada tarde.',
+        zh: '我小时候住在海边，每天下午都走去海滩。'
+    },
+    {
+        verbInf: 'ir',
+        tense: 'imperfecto',
+        pronoun: 'nosotros',
+        es: 'De pequeños, nosotros __VERB__ al parque todos los domingos.',
+        zh: '小时候我们每个星期天都会去公园。'
+    },
+    {
+        verbInf: 'terminar',
+        tense: 'futuro',
+        pronoun: 'yo',
+        es: 'Mañana yo __VERB__ el informe antes del mediodía.',
+        zh: '明天中午前我会完成这份报告。'
+    },
+    {
+        verbInf: 'tener',
+        tense: 'futuro',
+        pronoun: 'nosotros',
+        es: 'La próxima semana nosotros __VERB__ más tiempo para practicar.',
+        zh: '下周我们会有更多时间练习。'
+    },
+    {
+        verbInf: 'viajar',
+        tense: 'condicional',
+        pronoun: 'yo',
+        es: 'Con más dinero, yo __VERB__ por toda América Latina.',
+        zh: '如果有更多钱，我会去整个拉丁美洲旅行。'
+    },
+    {
+        verbInf: 'salir',
+        tense: 'condicional',
+        pronoun: 'yo',
+        es: 'Si no lloviera, yo __VERB__ a caminar esta tarde.',
+        zh: '如果不下雨，我今天下午就会出去散步。'
+    },
+    {
+        verbInf: 'venir',
+        tense: 'subjuntivo',
+        pronoun: 'tú',
+        es: 'Es importante que tú __VERB__ a tiempo a la reunión.',
+        zh: '你按时来开会很重要。'
+    },
+    {
+        verbInf: 'estudiar',
+        tense: 'subjuntivo',
+        pronoun: 'vosotros',
+        es: 'La profesora quiere que vosotros __VERB__ más antes del examen.',
+        zh: '老师希望你们在考试前多学习一点。'
+    },
+    {
+        verbInf: 'terminar',
+        tense: 'subjuntivo_imperfecto',
+        pronoun: 'nosotros',
+        es: 'El jefe quería que nosotros __VERB__ el informe antes del viernes.',
+        zh: '老板当时希望我们能在周五前完成报告。'
+    },
+    {
+        verbInf: 'ver',
+        tense: 'presente_perfecto',
+        pronoun: 'yo',
+        es: 'Esta semana yo __VERB__ a Marta dos veces en la biblioteca.',
+        zh: '这周我已经在图书馆见到 Marta 两次了。'
+    },
+    {
+        verbInf: 'salir',
+        tense: 'pluscuamperfecto',
+        pronoun: 'nosotros',
+        es: 'Cuando empezó a llover, nosotros ya __VERB__ de casa.',
+        zh: '开始下雨的时候，我们早就出门了。'
+    },
+    {
+        verbInf: 'terminar',
+        tense: 'futuro_perfecto',
+        pronoun: 'nosotros',
+        es: 'Para las seis, nosotros ya __VERB__ el proyecto.',
+        zh: '到六点时，我们应该已经完成这个项目了。'
+    },
+    {
+        verbInf: 'hacer',
+        tense: 'condicional_perfecto',
+        pronoun: 'yo',
+        es: 'Con más tiempo, yo __VERB__ el ejercicio con más cuidado.',
+        zh: '如果时间更充裕，我本来会更仔细地做这道练习。'
+    },
+    {
+        verbInf: 'llegar',
+        tense: 'subjuntivo_perfecto',
+        pronoun: 'tú',
+        es: 'Me alegra que tú __VERB__ sin problemas.',
+        zh: '我很高兴你顺利到了。'
+    },
+    {
+        verbInf: 'abrir',
+        tense: 'imperativo',
+        pronoun: 'tú',
+        es: 'Por favor, __VERB__ la ventana antes de empezar.',
+        zh: '请在开始前把窗户打开。'
+    }
+];
 
-let trainerState = {
-    isActive: false,
-    totalQuestions: 0,
-    correctForms: 0,
-    totalForms: 0,
-    streak: 0,
-    bestStreak: 0,
-    wrongAnswers: [],
-    timeLeft: TRAINER_SPRINT_SECONDS,
-    currentQuestion: null,
-    focusVerb: null
-};
+function createEmptyTrainerState() {
+    return {
+        isActive: false,
+        totalQuestions: 0,
+        correctQuestions: 0,
+        streak: 0,
+        bestStreak: 0,
+        currentQuestion: null,
+        currentIndex: 0,
+        roundSize: TRAINER_ROUND_QUESTION_COUNT,
+        roundQuestions: [],
+        followupPending: false,
+        followupCompleted: false
+    };
+}
+
+let trainerState = createEmptyTrainerState();
 
 const DAILY_VERB_COUNT = 10;
 const ACCESS_CODE_STORAGE_KEY = 'spanishLearningApprovedCode';
@@ -557,7 +692,7 @@ function buildTenseRuleBoxHTML(tense, options = {}) {
     let html = `<div class="tense-rule"><strong>变位规则：</strong>${getTenseRuleText(tense)}</div>`;
 
     if (includeModeLabel) {
-        html += `<div class="tense-rule"><strong>当前模式：</strong>${getTrainerModeLabel(trainerSettings.mode)}</div>`;
+        html += '<div class="tense-rule"><strong>当前模式：</strong>语境题训练</div>';
     }
 
     html += buildIrregularVerbGroupsHTML(tense, activeGroupId);
@@ -967,173 +1102,39 @@ function saveDailyState() {
 
 // ============ 动词变位训练营 ============
 function initVerbPractice() {
-    populateTrainerOptions();
-    restoreTrainerSettings();
     bindTrainerEvents();
-    updateTrainerModeNote();
     updateTrainerStats();
-    renderTrainerMistakes();
     resetTrainerDisplay();
 }
 
-function getUniqueVerbs() {
-    const uniqueMap = new Map();
-
-    verbsData.forEach(verb => {
-        if (!uniqueMap.has(verb.inf)) {
-            uniqueMap.set(verb.inf, verb);
-        }
-    });
-
-    return Array.from(uniqueMap.values());
-}
-
-function populateTrainerOptions() {
-    const tenseSelect = document.getElementById('trainerTenseSelect');
-    const verbSelect = document.getElementById('trainerVerbSelect');
-
-    if (!tenseSelect || !verbSelect) return;
-
-    tenseSelect.innerHTML = `
-        <option value="random">随机时态</option>
-        ${ALL_TENSES.map(tense => `<option value="${tense}">${tenses[tense].name}</option>`).join('')}
-    `;
-
-    const verbOptions = getUniqueVerbs()
-        .sort((a, b) => a.inf.localeCompare(b.inf, 'es'))
-        .map(verb => `<option value="${verb.inf}">${verb.inf} · ${verb.meaning}</option>`)
-        .join('');
-
-    verbSelect.innerHTML = `
-        <option value="random">随机动词</option>
-        ${verbOptions}
-    `;
-}
-
-function restoreTrainerSettings() {
-    const modeSelect = document.getElementById('trainerModeSelect');
-    const tenseSelect = document.getElementById('trainerTenseSelect');
-    const verbSelect = document.getElementById('trainerVerbSelect');
-    const irregularOnly = document.getElementById('trainerIrregularOnly');
-
-    if (!modeSelect || !tenseSelect || !verbSelect || !irregularOnly) return;
-
-    modeSelect.value = trainerSettings.mode || 'mixed';
-    tenseSelect.value = trainerSettings.tense || 'random';
-    verbSelect.value = trainerSettings.verb || 'random';
-    irregularOnly.checked = Boolean(trainerSettings.irregularOnly);
-}
-
-function saveTrainerSettings() {
-    localStorage.setItem('verbTrainerSettings', JSON.stringify(trainerSettings));
-}
-
-function syncTrainerSettingsFromControls() {
-    const modeSelect = document.getElementById('trainerModeSelect');
-    const tenseSelect = document.getElementById('trainerTenseSelect');
-    const verbSelect = document.getElementById('trainerVerbSelect');
-    const irregularOnly = document.getElementById('trainerIrregularOnly');
-
-    trainerSettings = {
-        mode: modeSelect.value,
-        tense: tenseSelect.value,
-        verb: verbSelect.value,
-        irregularOnly: irregularOnly.checked
-    };
-
-    saveTrainerSettings();
-    updateTrainerModeNote();
-    updateTrainerStats();
-}
-
 function bindTrainerEvents() {
-    const modeSelect = document.getElementById('trainerModeSelect');
-    const tenseSelect = document.getElementById('trainerTenseSelect');
-    const verbSelect = document.getElementById('trainerVerbSelect');
-    const irregularOnly = document.getElementById('trainerIrregularOnly');
     const startBtn = document.getElementById('trainerStartBtn');
     const checkBtn = document.getElementById('trainerCheckBtn');
     const showAnswerBtn = document.getElementById('trainerShowAnswerBtn');
     const nextBtn = document.getElementById('trainerNextBtn');
     const resetBtn = document.getElementById('trainerResetBtn');
 
-    [modeSelect, tenseSelect, verbSelect, irregularOnly].forEach(control => {
-        control.addEventListener('change', syncTrainerSettingsFromControls);
-    });
-
-    document.querySelectorAll('.trainer-preset-btn').forEach(btn => {
-        btn.addEventListener('click', () => applyTrainerPreset(btn.dataset.preset));
-    });
-
-    startBtn.addEventListener('click', startTrainerSession);
-    checkBtn.addEventListener('click', checkTrainerAnswer);
-    showAnswerBtn.addEventListener('click', showTrainerAnswer);
-    nextBtn.addEventListener('click', loadTrainerQuestion);
-    resetBtn.addEventListener('click', resetTrainerSession);
+    if (startBtn) startBtn.addEventListener('click', startTrainerSession);
+    if (checkBtn) checkBtn.addEventListener('click', checkTrainerAnswer);
+    if (showAnswerBtn) showAnswerBtn.addEventListener('click', showTrainerAnswer);
+    if (nextBtn) nextBtn.addEventListener('click', goToNextTrainerQuestion);
+    if (resetBtn) resetBtn.addEventListener('click', resetTrainerSession);
 }
 
-function applyTrainerPreset(preset) {
-    const modeSelect = document.getElementById('trainerModeSelect');
-    const tenseSelect = document.getElementById('trainerTenseSelect');
-    const verbSelect = document.getElementById('trainerVerbSelect');
-    const irregularOnly = document.getElementById('trainerIrregularOnly');
+function bindTrainerFollowupActions() {
+    const checkBtn = document.getElementById('trainerFollowupCheckBtn');
+    const showBtn = document.getElementById('trainerFollowupShowBtn');
 
-    if (preset === 'quick') {
-        modeSelect.value = 'mixed';
-        tenseSelect.value = 'random';
-        verbSelect.value = 'random';
-        irregularOnly.checked = false;
-    } else if (preset === 'irregular') {
-        modeSelect.value = 'mixed';
-        tenseSelect.value = 'random';
-        verbSelect.value = 'random';
-        irregularOnly.checked = true;
-    } else if (preset === 'focus') {
-        modeSelect.value = 'focus';
-        tenseSelect.value = 'random';
-        irregularOnly.checked = false;
+    if (checkBtn) {
+        checkBtn.addEventListener('click', checkTrainerFollowup);
     }
 
-    syncTrainerSettingsFromControls();
-}
-
-function setTrainerControlsDisabled(disabled) {
-    ['trainerModeSelect', 'trainerTenseSelect', 'trainerVerbSelect', 'trainerIrregularOnly'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.disabled = disabled;
-    });
-
-    document.querySelectorAll('.trainer-preset-btn').forEach(btn => {
-        btn.disabled = disabled;
-    });
-}
-
-function updateTrainerModeNote() {
-    const noteEl = document.getElementById('trainerModeNote');
-    if (!noteEl) return;
-
-    const notes = {
-        mixed: '随机快练：随机动词 + 随机/指定时态，适合每天 3–5 分钟保持手感。',
-        focus: '专项攻克：锁定一个动词连续刷，专门解决你总是卡壳的那个词。',
-        sprint: '90秒冲刺：限时连续作答，用高压回忆把动词变位练成肌肉记忆。'
-    };
-
-    let message = notes[trainerSettings.mode] || notes.mixed;
-    if (trainerSettings.irregularOnly) {
-        message += ' 当前已启用“只练核心不规则动词（不含过去分词/gerundio类形式）”。';
+    if (showBtn) {
+        showBtn.addEventListener('click', showTrainerFollowupAnswers);
     }
-    if (trainerSettings.verb !== 'random') {
-        message += ` 当前锁定动词：${trainerSettings.verb}。`;
-    }
-    if (trainerSettings.tense !== 'random') {
-        message += ` 当前锁定时态：${tenses[trainerSettings.tense].name}。`;
-    }
-
-    noteEl.textContent = message;
 }
 
 function resetTrainerDisplay() {
-    const grid = document.getElementById('trainerConjugationGrid');
     const result = document.getElementById('trainerResult');
     const ruleBox = document.getElementById('trainerTenseRuleBox');
     const exampleBox = document.getElementById('trainerExampleBox');
@@ -1143,208 +1144,159 @@ function resetTrainerDisplay() {
     const startBtn = document.getElementById('trainerStartBtn');
 
     document.getElementById('trainerVerbInfinitive').textContent = '准备开始训练';
-    document.getElementById('trainerVerbMeaning').textContent = '选择模式后点击开始';
-    document.getElementById('trainerVerbTense').textContent = trainerSettings.tense === 'random' ? '随机时态' : tenses[trainerSettings.tense].name;
+    document.getElementById('trainerVerbMeaning').textContent = '动词含义待显示';
+    document.getElementById('trainerVerbTense').textContent = '开始后作答';
 
     renderConjugationPlaceholder(
         'trainerConjugationGrid',
-        '点击“开始训练”后，这里会显示本题的人称输入框。',
-        '可先选模式、时态或动词，再开始一轮训练。'
+        '点击“开始训练”后开始答题。',
+        '每轮 6 题。'
     );
+
     result.className = 'result';
     result.innerHTML = '';
-    ruleBox.innerHTML = '<div class="tense-rule"><strong>训练提示：</strong>选择模式、时态与动词后开始训练；答完会自动统计本轮正确率与错题。</div>';
+    ruleBox.innerHTML = '';
+    followupBox.innerHTML = '';
     exampleBox.innerHTML = `
         <h3>💬 语境例句</h3>
-        <p class="trainer-example-es">开始训练后，这里会给你一个对应时态的小例句。</p>
-        <p class="trainer-example-zh">例句会帮你把“理解 + 练习”放在一起。</p>
+        <p class="trainer-example-es">开始训练后显示西语例句。</p>
+        <p class="trainer-example-zh">下方显示中文翻译。</p>
     `;
 
     checkBtn.disabled = true;
     showAnswerBtn.disabled = true;
     nextBtn.style.display = 'none';
-    startBtn.textContent = '开始训练';
+    startBtn.textContent = trainerState.totalQuestions > 0 ? '再来一轮' : '开始训练';
 }
 
 function resetTrainerSession() {
-    clearInterval(trainerTimer);
-    trainerTimer = null;
-
-    trainerState = {
-        isActive: false,
-        totalQuestions: 0,
-        correctForms: 0,
-        totalForms: 0,
-        streak: 0,
-        bestStreak: 0,
-        wrongAnswers: [],
-        timeLeft: TRAINER_SPRINT_SECONDS,
-        currentQuestion: null,
-        focusVerb: null
-    };
-
-    setTrainerControlsDisabled(false);
+    trainerState = createEmptyTrainerState();
     updateTrainerStats();
-    renderTrainerMistakes();
     resetTrainerDisplay();
 }
 
 function startTrainerSession() {
-    const verbPool = getTrainerVerbPool();
-    const result = document.getElementById('trainerResult');
+    trainerState = createEmptyTrainerState();
+    trainerState.roundQuestions = buildTrainerRoundQuestions();
+    trainerState.roundSize = trainerState.roundQuestions.length;
 
-    if (verbPool.length === 0) {
+    const result = document.getElementById('trainerResult');
+    if (trainerState.roundQuestions.length === 0) {
         result.className = 'result show error';
-        result.innerHTML = trainerSettings.irregularOnly
-            ? '当前筛选条件下没有符合该时态的核心不规则动词，请取消“只练核心不规则动词”或更换时态/动词。'
-            : '当前筛选条件下没有可练习动词，请更换时态或指定动词。';
+        result.innerHTML = '暂时还没有可用的语境题，请稍后再试。';
         return;
     }
 
-    resetTrainerSession();
     trainerState.isActive = true;
-
-    if (trainerSettings.mode === 'focus') {
-        trainerState.focusVerb = trainerSettings.verb !== 'random'
-            ? findTrainerVerb(trainerSettings.verb)
-            : pickRandomItem(verbPool);
-    }
-
-    setTrainerControlsDisabled(true);
     document.getElementById('trainerStartBtn').textContent = '重新开始';
-
-    if (trainerSettings.mode === 'sprint') {
-        startTrainerTimer();
-    }
-
     loadTrainerQuestion();
-}
-
-function startTrainerTimer() {
-    clearInterval(trainerTimer);
-    trainerState.timeLeft = TRAINER_SPRINT_SECONDS;
     updateTrainerStats();
-
-    trainerTimer = setInterval(() => {
-        trainerState.timeLeft -= 1;
-
-        if (trainerState.timeLeft <= 0) {
-            trainerState.timeLeft = 0;
-            updateTrainerStats();
-            endTrainerSession(true);
-            return;
-        }
-
-        updateTrainerStats();
-    }, 1000);
 }
 
-function endTrainerSession(isTimeout = false) {
-    clearInterval(trainerTimer);
-    trainerTimer = null;
-    trainerState.isActive = false;
+function buildTrainerRoundQuestions() {
+    const selectedItems = shuffleArray([...TRAINER_SENTENCE_BANK]).slice(0, TRAINER_ROUND_QUESTION_COUNT);
+    const choiceItems = selectedItems.slice(0, TRAINER_MULTIPLE_CHOICE_COUNT).map(item => ({
+        type: 'choice',
+        item,
+        answer: getTrainerCorrectAnswer(item),
+        options: []
+    }));
+    const fillItems = selectedItems.slice(TRAINER_MULTIPLE_CHOICE_COUNT, TRAINER_MULTIPLE_CHOICE_COUNT + TRAINER_FILL_BLANK_COUNT).map(item => ({
+        type: 'fill',
+        item,
+        answer: getTrainerCorrectAnswer(item),
+        options: []
+    }));
 
-    setTrainerControlsDisabled(false);
-    disableTrainerInputs();
+    choiceItems.forEach(question => {
+        question.options = buildTrainerChoices(question.item, question.answer);
+    });
 
-    document.getElementById('trainerCheckBtn').disabled = true;
-    document.getElementById('trainerShowAnswerBtn').disabled = true;
-    document.getElementById('trainerNextBtn').style.display = 'none';
-
-    const accuracy = trainerState.totalForms > 0
-        ? Math.round((trainerState.correctForms / trainerState.totalForms) * 100)
-        : 0;
-
-    const result = document.getElementById('trainerResult');
-    result.className = 'result show success';
-    result.innerHTML = `
-        <strong>${isTimeout ? '⏰ 冲刺结束！' : '本轮训练结束！'}</strong><br>
-        共完成 ${trainerState.totalQuestions} 题，正确率 ${accuracy}% ，最高连对 ${trainerState.bestStreak} 题。
-    `;
+    return [...choiceItems, ...fillItems];
 }
 
-function getTrainerAvailableTenses(verb, preferredTense = trainerSettings.tense) {
-    const candidateTenses = preferredTense !== 'random' ? [preferredTense] : [...ALL_TENSES];
-
-    if (!trainerSettings.irregularOnly) {
-        return candidateTenses;
+function shuffleArray(list) {
+    const cloned = [...list];
+    for (let i = cloned.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
     }
-
-    return candidateTenses.filter(tense => isVerbIrregularInCurrentTense(verb, tense));
-}
-
-function getTrainerVerbPool(preferredTense = trainerSettings.tense) {
-    let pool = getUniqueVerbs();
-
-    if (trainerSettings.verb !== 'random') {
-        pool = pool.filter(verb => verb.inf === trainerSettings.verb);
-    }
-
-    if (trainerSettings.irregularOnly) {
-        pool = pool.filter(verb => getTrainerAvailableTenses(verb, preferredTense).length > 0);
-    }
-
-    return pool;
+    return cloned;
 }
 
 function findTrainerVerb(infinitive) {
-    return getUniqueVerbs().find(verb => verb.inf === infinitive) || null;
+    return verbsData.find(verb => verb.inf === infinitive) || null;
 }
 
-function pickRandomItem(list) {
-    return list[Math.floor(Math.random() * list.length)];
+function getTrainerCorrectAnswer(item) {
+    return conjugateVerb(item.verbInf, item.tense, item.pronoun);
 }
 
-function buildTrainerQuestion() {
-    const verbPool = getTrainerVerbPool();
-    let verb = null;
+function buildTrainerChoices(item, correctAnswer) {
+    const distractors = [];
+    const normalizedSeen = new Set([normalizeTrainerAnswer(correctAnswer)]);
+    const correctOption = {
+        value: correctAnswer,
+        tense: item.tense,
+        pronoun: item.pronoun,
+        isCorrect: true
+    };
 
-    if (trainerSettings.mode === 'focus') {
-        const preferredVerb = trainerState.focusVerb || (trainerSettings.verb !== 'random' ? findTrainerVerb(trainerSettings.verb) : null);
-        if (preferredVerb && getTrainerAvailableTenses(preferredVerb).length > 0) {
-            verb = preferredVerb;
-        } else {
-            verb = pickRandomItem(verbPool);
-            if (verb) {
-                trainerState.focusVerb = verb;
-            }
+    ALL_TENSES.forEach(tense => {
+        if (tense === item.tense || distractors.length >= 2) {
+            return;
         }
-    } else if (trainerSettings.verb !== 'random') {
-        const preferredVerb = findTrainerVerb(trainerSettings.verb);
-        if (preferredVerb && getTrainerAvailableTenses(preferredVerb).length > 0) {
-            verb = preferredVerb;
+
+        const candidate = conjugateVerb(item.verbInf, tense, item.pronoun);
+        const normalizedCandidate = normalizeTrainerAnswer(candidate);
+        if (!candidate || normalizedSeen.has(normalizedCandidate) || candidate === 'N/A') {
+            return;
         }
-    }
 
-    if (!verb) {
-        verb = pickRandomItem(verbPool);
-    }
+        normalizedSeen.add(normalizedCandidate);
+        distractors.push({
+            value: candidate,
+            tense,
+            pronoun: item.pronoun,
+            isCorrect: false
+        });
+    });
 
-    if (!verb) {
-        return null;
-    }
+    STANDARD_PRONOUNS.forEach(pronoun => {
+        if (distractors.length >= 2 || pronoun === item.pronoun) {
+            return;
+        }
 
-    const availableTenses = getTrainerAvailableTenses(verb);
-    if (availableTenses.length === 0) {
-        return null;
-    }
+        const candidate = conjugateVerb(item.verbInf, item.tense, pronoun);
+        const normalizedCandidate = normalizeTrainerAnswer(candidate);
+        if (!candidate || normalizedSeen.has(normalizedCandidate) || candidate === 'N/A') {
+            return;
+        }
 
-    const tense = pickRandomItem(availableTenses);
-    return { verb, tense };
+        normalizedSeen.add(normalizedCandidate);
+        distractors.push({
+            value: candidate,
+            tense: item.tense,
+            pronoun,
+            isCorrect: false
+        });
+    });
+
+    return shuffleArray([correctOption, ...distractors.slice(0, 2)]);
 }
 
 function loadTrainerQuestion() {
     if (!trainerState.isActive) return;
 
-    const question = buildTrainerQuestion();
-    if (!question) {
-        const result = document.getElementById('trainerResult');
-        result.className = 'result show error';
-        result.innerHTML = '当前筛选条件下没有可生成的题目，请调整时态或关闭“只练核心不规则动词”。';
+    if (trainerState.currentIndex >= trainerState.roundQuestions.length) {
         return;
     }
 
+    const question = trainerState.roundQuestions[trainerState.currentIndex];
     trainerState.currentQuestion = question;
+    trainerState.followupPending = false;
+    trainerState.followupCompleted = false;
+    clearTrainerFollowup();
     renderTrainerQuestion(question);
 
     const result = document.getElementById('trainerResult');
@@ -1357,120 +1309,292 @@ function loadTrainerQuestion() {
 
     const firstInput = document.querySelector('#trainerConjugationGrid input');
     if (firstInput) firstInput.focus();
+    updateTrainerStats();
 }
 
 function renderTrainerQuestion(question) {
-    const { verb, tense } = question;
-    const verbType = getVerbTypeLabel(verb, tense);
+    const verb = findTrainerVerb(question.item.verbInf);
 
-    document.getElementById('trainerVerbInfinitive').textContent = `${verb.inf}${verbType ? ` ${verbType}` : ''}`;
-    document.getElementById('trainerVerbMeaning').textContent = verb.meaning;
-    document.getElementById('trainerVerbTense').textContent = tenses[tense].name;
+    document.getElementById('trainerVerbInfinitive').textContent = question.item.verbInf;
+    document.getElementById('trainerVerbMeaning').textContent = `中文：${verb ? verb.meaning : '—'}`;
+    document.getElementById('trainerVerbTense').textContent = `第 ${trainerState.currentIndex + 1} 题 / ${trainerState.roundQuestions.length} · ${getTrainerQuestionTypeLabel(question.type)}`;
+    document.getElementById('trainerTenseRuleBox').innerHTML = '';
 
-    renderTrainerRuleBox(tense);
-    renderTrainerExample(question);
-
-    const grid = document.getElementById('trainerConjugationGrid');
-    grid.innerHTML = '';
-
-    tenses[tense].pronouns.forEach(pronoun => {
-        const item = document.createElement('div');
-        item.className = 'conjugation-item';
-        item.innerHTML = `
-            <label>${pronoun}</label>
-            <input type="text" data-pronoun="${pronoun}" placeholder="变位形式..." autocomplete="off">
-        `;
-        grid.appendChild(item);
-    });
+    renderTrainerExample(question, false);
+    renderTrainerQuestionArea(question);
 }
 
-function renderTrainerRuleBox(tense) {
-    renderTenseRuleBox('trainerTenseRuleBox', tense, { includeModeLabel: true });
+function getTrainerQuestionTypeLabel(type) {
+    return type === 'choice' ? '选择题' : '填空题';
 }
 
-function getTrainerModeLabel(mode) {
-    const labels = {
-        mixed: '随机快练',
-        focus: '专项攻克',
-        sprint: '90秒冲刺'
-    };
-
-    return labels[mode] || labels.mixed;
+function buildTrainerSentenceHTML(question, revealAnswer = false) {
+    const replacement = revealAnswer
+        ? `<strong>${question.answer}</strong>`
+        : '<span class="trainer-blank-token">______</span>';
+    return question.item.es.replace('__VERB__', replacement);
 }
 
-function renderTrainerExample(question) {
-    const example = buildTrainerExample(question);
+function renderTrainerExample(question, revealAnswer = false) {
     document.getElementById('trainerExampleBox').innerHTML = `
         <h3>💬 语境例句</h3>
-        <p class="trainer-example-es">${example.es}</p>
-        <p class="trainer-example-zh">${example.zh}</p>
+        <p class="trainer-example-es">${buildTrainerSentenceHTML(question, revealAnswer)}</p>
+        <p class="trainer-example-zh">${question.item.zh}</p>
     `;
 }
 
-function buildTrainerExample({ verb, tense }) {
-    const firstPronoun = tenses[tense].pronouns[0];
-    const yoForm = conjugateVerb(verb.inf, tense, firstPronoun);
-    const imperativeForm = conjugateVerb(verb.inf, 'imperativo', 'tú');
+function renderTrainerQuestionArea(question) {
+    const grid = document.getElementById('trainerConjugationGrid');
+    const verb = findTrainerVerb(question.item.verbInf);
+    const meaning = verb ? verb.meaning : '—';
+    const answerTip = `原形：${question.item.verbInf} · 中文：${meaning}`;
 
-    const examples = {
-        presente: {
-            es: `Hoy <strong>${yoForm}</strong> con más confianza que antes.`,
-            zh: `现在时常放在“今天/平时”的语境里：今天我更自然地“${verb.meaning}”。`
-        },
-        preterito: {
-            es: `Ayer <strong>${yoForm}</strong> una vez y ya quedó hecho.`,
-            zh: '简单过去时强调动作已经发生并结束。'
-        },
-        imperfecto: {
-            es: `Antes <strong>${yoForm}</strong> con frecuencia cuando tenía más tiempo.`,
-            zh: '过去未完成时适合表达过去经常做、正在进行或背景描述。'
-        },
-        futuro: {
-            es: `Mañana <strong>${yoForm}</strong> con más calma.`,
-            zh: '将来时适合表达计划、打算或预测。'
-        },
-        condicional: {
-            es: `En tu lugar, <strong>${yoForm}</strong> de otra manera.`,
-            zh: '条件式常见于“如果……我会……”的表达。'
-        },
-        subjuntivo: {
-            es: `Es importante que <strong>${yoForm}</strong> mejor cada día.`,
-            zh: '虚拟式现在时常见于希望、要求、建议、必要性等句型。'
-        },
-        subjuntivo_imperfecto: {
-            es: `Si fuera necesario, quería que <strong>${yoForm}</strong> con más cuidado.`,
-            zh: '虚拟式过去未完成时多用于假设、条件或从句。'
-        },
-        presente_perfecto: {
-            es: `Esta semana <strong>${yoForm}</strong> varias veces.`,
-            zh: '现在完成时连接过去动作与现在结果。'
-        },
-        pluscuamperfecto: {
-            es: `Cuando llegaste, <strong>${yoForm}</strong> antes.`,
-            zh: '过去完成时表示“在过去另一动作之前已经完成”。'
-        },
-        futuro_perfecto: {
-            es: `Para mañana, <strong>${yoForm}</strong> todo lo necesario.`,
-            zh: '将来完成时表示“到某个未来时间之前已经完成”。'
-        },
-        condicional_perfecto: {
-            es: `Con más tiempo, <strong>${yoForm}</strong> mejor.`,
-            zh: '条件完成时表示“本来会已经……”。'
-        },
-        subjuntivo_perfecto: {
-            es: `Me alegra que <strong>${yoForm}</strong> tanto esta semana.`,
-            zh: '虚拟式完成时常用于对已完成动作的情绪和评价。'
-        },
-        imperativo: {
-            es: `<strong>${imperativeForm}</strong> ahora mismo y repítelo en voz alta.`,
-            zh: '命令式适合“现在就去做”的即时指令。'
+    if (question.type === 'choice') {
+        const optionsHTML = question.options.map(option => `
+            <label class="trainer-choice-option" data-choice-value="${option.value}">
+                <input type="radio" name="trainerChoiceOption" value="${option.value}">
+                <div class="trainer-choice-copy">
+                    <span class="trainer-choice-value">${option.value}</span>
+                    <div class="trainer-choice-analysis"></div>
+                </div>
+            </label>
+        `).join('');
+
+        grid.innerHTML = `
+            <div class="trainer-question-card">
+                <div class="trainer-question-header">
+                    <span class="trainer-question-badge">第 ${trainerState.currentIndex + 1} 题 · 选择题</span>
+                </div>
+                <p class="trainer-question-prompt">选出正确形式。</p>
+                <div class="trainer-choice-list">${optionsHTML}</div>
+                <div class="trainer-answer-tip">${answerTip}</div>
+            </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = `
+        <div class="trainer-question-card">
+            <div class="trainer-question-header">
+                <span class="trainer-question-badge">第 ${trainerState.currentIndex + 1} 题 · 填空题</span>
+            </div>
+            <p class="trainer-question-prompt">填写正确形式。</p>
+            <div class="trainer-fill-wrap">
+                <input type="text" id="trainerFillInput" class="trainer-fill-input" placeholder="输入变位" autocomplete="off">
+                <div class="trainer-answer-tip">${answerTip}</div>
+            </div>
+        </div>
+    `;
+}
+
+function buildTrainerChoiceAnalysisHTML(question, option) {
+    const tenseLabel = tenses[option.tense] ? tenses[option.tense].name : option.tense;
+    const pronounLabel = option.pronoun;
+
+    if (option.isCorrect) {
+        return `
+            <strong>时态：</strong>${tenseLabel} · <strong>人称：</strong>${pronounLabel}<br>
+            可选：句子的语境和主语都匹配这个变位。
+        `;
+    }
+
+    const reasons = [];
+    if (option.tense !== question.item.tense) {
+        reasons.push(`句子语境指向 ${tenses[question.item.tense].name}，不是 ${tenseLabel}。`);
+    }
+    if (option.pronoun !== question.item.pronoun) {
+        reasons.push(`句子主语是 ${question.item.pronoun}，不是 ${pronounLabel}。`);
+    }
+
+    return `
+        <strong>时态：</strong>${tenseLabel} · <strong>人称：</strong>${pronounLabel}<br>
+        不可选：${reasons.join(' ')}
+    `;
+}
+
+function getTrainerFollowupForms(question) {
+    return STANDARD_PRONOUNS.map(pronoun => {
+        if (question.item.tense === 'imperativo') {
+            if (pronoun === 'yo') {
+                return {
+                    pronoun,
+                    answer: '—',
+                    disabled: true,
+                    note: '命令式没有 yo 形式'
+                };
+            }
+
+            const mappedPronoun = pronoun === 'él/ella/usted'
+                ? 'usted'
+                : pronoun === 'ellos/ustedes'
+                    ? 'ustedes'
+                    : pronoun;
+
+            return {
+                pronoun,
+                answer: conjugateVerb(question.item.verbInf, question.item.tense, mappedPronoun),
+                disabled: false,
+                note: ''
+            };
         }
-    };
 
-    return examples[tense] || {
-        es: `Hoy <strong>${yoForm}</strong> con más soltura.`,
-        zh: `把这个时态放进句子里，会更容易形成长期记忆。`
-    };
+        return {
+            pronoun,
+            answer: conjugateVerb(question.item.verbInf, question.item.tense, pronoun),
+            disabled: false,
+            note: ''
+        };
+    });
+}
+
+function clearTrainerFollowup() {
+    const followupBox = document.getElementById('trainerFollowupBox');
+    if (followupBox) {
+        followupBox.innerHTML = '';
+    }
+}
+
+function renderTrainerFollowup(question) {
+    const followupBox = document.getElementById('trainerFollowupBox');
+    if (!followupBox) {
+        return;
+    }
+
+    const forms = getTrainerFollowupForms(question);
+    const formHTML = forms.map(form => `
+        <div class="conjugation-item trainer-followup-item">
+            <label>${form.pronoun}</label>
+            <input
+                type="text"
+                data-followup-pronoun="${form.pronoun}"
+                data-followup-answer="${form.answer}"
+                placeholder="${form.disabled ? '—' : '写出变位'}"
+                ${form.disabled ? 'value="—" disabled' : ''}
+                autocomplete="off"
+            >
+            ${form.note ? `<div class="trainer-followup-item-note">${form.note}</div>` : ''}
+        </div>
+    `).join('');
+
+    followupBox.innerHTML = `
+        <div class="trainer-followup-card">
+            <h3>✍️ 写全 6 个变位</h3>
+            <p class="trainer-followup-desc">把 <strong>${question.item.verbInf}</strong> 在 <strong>${tenses[question.item.tense].name}</strong> 的 6 个变位写全。</p>
+            <div class="conjugation-grid trainer-followup-grid">${formHTML}</div>
+            <div class="trainer-followup-actions">
+                <button class="btn btn-primary" id="trainerFollowupCheckBtn">检查 6 个变位</button>
+                <button class="btn btn-secondary" id="trainerFollowupShowBtn">直接看答案</button>
+            </div>
+            <div class="result trainer-followup-result" id="trainerFollowupResult"></div>
+        </div>
+    `;
+
+    trainerState.followupPending = true;
+    trainerState.followupCompleted = false;
+    bindTrainerFollowupActions();
+
+    const firstInput = followupBox.querySelector('input:not([disabled])');
+    if (firstInput) {
+        firstInput.focus();
+    }
+}
+
+function unlockTrainerNextStep(message = '') {
+    trainerState.followupPending = false;
+    trainerState.followupCompleted = true;
+
+    const followupResult = document.getElementById('trainerFollowupResult');
+    if (followupResult && message) {
+        followupResult.className = 'result trainer-followup-result show success';
+        followupResult.innerHTML = message;
+    }
+
+    if (trainerState.totalQuestions >= trainerState.roundQuestions.length) {
+        trainerState.isActive = false;
+        document.getElementById('trainerStartBtn').textContent = '再来一轮';
+        document.getElementById('trainerNextBtn').style.display = 'none';
+        document.getElementById('trainerResult').innerHTML += `<br><br><strong>本轮完成：</strong>共 ${trainerState.roundQuestions.length} 题，答对 ${trainerState.correctQuestions} 题，正确率 ${getTrainerAccuracy()}%，最高连对 ${trainerState.bestStreak} 题。`;
+        return;
+    }
+
+    document.getElementById('trainerNextBtn').style.display = 'inline-block';
+}
+
+function checkTrainerFollowup() {
+    if (!trainerState.currentQuestion || !trainerState.followupPending) {
+        return;
+    }
+
+    const inputs = Array.from(document.querySelectorAll('#trainerFollowupBox input[data-followup-pronoun]')).filter(input => !input.disabled);
+    const followupResult = document.getElementById('trainerFollowupResult');
+    if (!inputs.length || !followupResult) {
+        return;
+    }
+
+    let correctCount = 0;
+    const wrongItems = [];
+
+    inputs.forEach(input => {
+        const userAnswer = input.value.trim();
+        const correctAnswer = input.dataset.followupAnswer || '';
+        const comparison = compareTrainerAnswer(userAnswer, correctAnswer);
+
+        input.classList.remove('correct', 'incorrect', 'almost');
+        if (comparison.isCorrect) {
+            input.classList.add(comparison.accentOnly ? 'almost' : 'correct');
+            correctCount++;
+        } else {
+            input.classList.add('incorrect');
+            wrongItems.push({
+                pronoun: input.dataset.followupPronoun || '',
+                answer: correctAnswer
+            });
+        }
+    });
+
+    if (correctCount === inputs.length) {
+        inputs.forEach(input => {
+            input.disabled = true;
+        });
+        unlockTrainerNextStep('6 个变位已写全，可以继续下一题。');
+        return;
+    }
+
+    const answerList = wrongItems
+        .map(item => `<strong>${item.pronoun}</strong>：${item.answer}`)
+        .join('<br>');
+
+    followupResult.className = 'result trainer-followup-result show error';
+    followupResult.innerHTML = `还差 ${inputs.length - correctCount} 个。<br>正确答案：<br>${answerList}`;
+}
+
+function showTrainerFollowupAnswers() {
+    if (!trainerState.currentQuestion || !trainerState.followupPending) {
+        return;
+    }
+
+    const inputs = Array.from(document.querySelectorAll('#trainerFollowupBox input[data-followup-pronoun]')).filter(input => !input.disabled);
+    const followupResult = document.getElementById('trainerFollowupResult');
+
+    inputs.forEach(input => {
+        input.value = input.dataset.followupAnswer || '';
+        input.disabled = true;
+        input.classList.remove('correct', 'incorrect', 'almost');
+        input.classList.add('incorrect');
+    });
+
+    unlockTrainerNextStep('标准答案已显示，可以继续下一题。');
+
+    if (followupResult) {
+        followupResult.className = 'result trainer-followup-result show error';
+        followupResult.innerHTML = '已直接填入标准答案。';
+    }
+}
+
+function revealTrainerSolvedState(question) {
+    document.getElementById('trainerVerbTense').textContent = `正确时态：${tenses[question.item.tense].name}`;
+    renderTenseRuleBox('trainerTenseRuleBox', question.item.tense);
+    renderTrainerExample(question, true);
 }
 
 function normalizeTrainerAnswer(text) {
@@ -1519,152 +1643,182 @@ function compareTrainerAnswer(userAnswer, correctAnswer) {
 function checkTrainerAnswer() {
     if (!trainerState.isActive || !trainerState.currentQuestion) return;
 
-    const inputs = document.querySelectorAll('#trainerConjugationGrid input');
-    let correct = 0;
-    let accentOnlyCount = 0;
-    const total = inputs.length;
-
-    inputs.forEach(input => {
-        const pronoun = input.dataset.pronoun;
-        const userAnswer = input.value.trim();
-        const correctAnswer = conjugateVerb(trainerState.currentQuestion.verb.inf, trainerState.currentQuestion.tense, pronoun);
-        const comparison = compareTrainerAnswer(userAnswer, correctAnswer);
-
-        input.disabled = true;
-
-        if (comparison.isCorrect) {
-            correct++;
-            if (comparison.accentOnly) {
-                accentOnlyCount++;
-                input.classList.add('almost');
-            } else {
-                input.classList.add('correct');
-            }
-        } else {
-            input.classList.add('incorrect');
-            input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
+    const question = trainerState.currentQuestion;
+    if (question.type === 'choice') {
+        const selected = document.querySelector('input[name="trainerChoiceOption"]:checked');
+        if (!selected) {
+            const result = document.getElementById('trainerResult');
+            result.className = 'result show error';
+            result.innerHTML = '请先选一个答案，再点击“检查答案”。';
+            return;
         }
-    });
 
-    finishTrainerQuestion(correct, total, accentOnlyCount, false);
+        const isCorrect = normalizeTrainerAnswer(selected.value) === normalizeTrainerAnswer(question.answer);
+        revealTrainerChoiceFeedback(question, selected.value);
+        finishTrainerQuestion({
+            isCorrect,
+            accentOnly: false,
+            usedAnswerKey: false,
+            userAnswer: selected.value
+        });
+        return;
+    }
+
+    const input = document.getElementById('trainerFillInput');
+    const userAnswer = input ? input.value.trim() : '';
+    if (!userAnswer) {
+        const result = document.getElementById('trainerResult');
+        result.className = 'result show error';
+        result.innerHTML = '请先填写答案，再点击“检查答案”。';
+        return;
+    }
+
+    const comparison = compareTrainerAnswer(userAnswer, question.answer);
+    revealTrainerFillFeedback(question.answer, userAnswer, comparison, false);
+    finishTrainerQuestion({
+        isCorrect: comparison.isCorrect,
+        accentOnly: comparison.accentOnly,
+        usedAnswerKey: false,
+        userAnswer
+    });
 }
 
 function showTrainerAnswer() {
     if (!trainerState.isActive || !trainerState.currentQuestion) return;
 
-    const inputs = document.querySelectorAll('#trainerConjugationGrid input');
-    const total = inputs.length;
+    const question = trainerState.currentQuestion;
+    if (question.type === 'choice') {
+        revealTrainerChoiceFeedback(question);
+    } else {
+        revealTrainerFillFeedback(question.answer, '', null, true);
+    }
 
-    inputs.forEach(input => {
-        const pronoun = input.dataset.pronoun;
-        input.value = conjugateVerb(trainerState.currentQuestion.verb.inf, trainerState.currentQuestion.tense, pronoun);
-        input.disabled = true;
-        input.classList.add('incorrect');
+    finishTrainerQuestion({
+        isCorrect: false,
+        accentOnly: false,
+        usedAnswerKey: true,
+        userAnswer: ''
     });
-
-    finishTrainerQuestion(0, total, 0, true);
 }
 
-function finishTrainerQuestion(correct, total, accentOnlyCount = 0, usedAnswerKey = false) {
-    const { verb, tense } = trainerState.currentQuestion;
-    const allCorrect = correct === total;
+function revealTrainerChoiceFeedback(question, selectedValue = '') {
+    document.querySelectorAll('#trainerConjugationGrid .trainer-choice-option').forEach(option => {
+        const input = option.querySelector('input');
+        const analysis = option.querySelector('.trainer-choice-analysis');
+        if (!input) return;
 
+        input.disabled = true;
+        option.classList.remove('correct', 'incorrect');
+
+        const optionMeta = question.options.find(item => normalizeTrainerAnswer(item.value) === normalizeTrainerAnswer(input.value));
+        if (optionMeta && analysis) {
+            analysis.innerHTML = buildTrainerChoiceAnalysisHTML(question, optionMeta);
+            analysis.classList.add('show');
+        }
+
+        if (normalizeTrainerAnswer(input.value) === normalizeTrainerAnswer(question.answer)) {
+            option.classList.add('correct');
+        } else if (selectedValue && normalizeTrainerAnswer(input.value) === normalizeTrainerAnswer(selectedValue)) {
+            option.classList.add('incorrect');
+        }
+    });
+}
+
+function revealTrainerFillFeedback(correctAnswer, userAnswer = '', comparison = null, revealOnly = false) {
+    const input = document.getElementById('trainerFillInput');
+    if (!input) return;
+
+    input.disabled = true;
+    input.classList.remove('correct', 'incorrect', 'almost');
+
+    if (revealOnly) {
+        input.value = correctAnswer;
+        input.classList.add('incorrect');
+        return;
+    }
+
+    if (comparison && comparison.isCorrect) {
+        input.classList.add(comparison.accentOnly ? 'almost' : 'correct');
+        return;
+    }
+
+    input.classList.add('incorrect');
+    input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
+}
+
+function finishTrainerQuestion({ isCorrect, accentOnly = false, usedAnswerKey = false, userAnswer = '' }) {
+    const question = trainerState.currentQuestion;
+    if (!question) return;
+
+    const countedAsCorrect = isCorrect && !usedAnswerKey;
     trainerState.totalQuestions++;
-    trainerState.correctForms += correct;
-    trainerState.totalForms += total;
-    trainerState.streak = allCorrect ? trainerState.streak + 1 : 0;
+    trainerState.correctQuestions += countedAsCorrect ? 1 : 0;
+    trainerState.streak = countedAsCorrect ? trainerState.streak + 1 : 0;
     trainerState.bestStreak = Math.max(trainerState.bestStreak, trainerState.streak);
 
-    recordPracticeProgress(verb.inf, tense, correct, total);
-    updateTrainerStats();
+    recordPracticeProgress(question.item.verbInf, question.item.tense, countedAsCorrect ? 1 : 0, 1);
+    if (!countedAsCorrect) {
+        addWrongVerbToReview(question.item.verbInf, question.item.tense);
+    }
 
-    const result = document.getElementById('trainerResult');
+    revealTrainerSolvedState(question);
+    renderTrainerFollowup(question);
+    updateTrainerStats();
+    disableTrainerInputs();
+
     document.getElementById('trainerCheckBtn').disabled = true;
     document.getElementById('trainerShowAnswerBtn').disabled = true;
+    document.getElementById('trainerNextBtn').style.display = 'none';
 
-    if (allCorrect) {
+    const result = document.getElementById('trainerResult');
+    const tenseName = tenses[question.item.tense].name;
+
+    if (countedAsCorrect) {
         result.className = 'result show success';
         result.innerHTML = `
-            <strong>🎉 全对！</strong> ${correct}/${total} 正确
-            ${accentOnlyCount > 0 ? `<br>其中 ${accentOnlyCount} 个答案只差重音符号或代词连写格式，已经算对，但下次尽量写标准写法。` : ''}
+            <strong>🎉 回答正确！</strong><br>
+            正确答案：<strong>${question.answer}</strong>（${tenseName}）<br>
+            继续把这个时态的 6 个人称写全。
+            ${accentOnly ? '<br>这次只差重音符号或代词连写格式，已经算对，但下次尽量写标准写法。' : ''}
         `;
     } else {
         result.className = 'result show error';
         result.innerHTML = usedAnswerKey
-            ? '<strong>💡 已显示答案</strong><br>这题已记入本轮薄弱点，也同步加入错题重练。'
-            : `<strong>❌ 继续加强</strong> ${correct}/${total} 正确<br>这题已记入本轮薄弱点，也同步加入错题重练。`;
-
-        recordTrainerMistake(verb, tense, correct, total, usedAnswerKey);
-        addWrongVerbToReview(verb.inf, tense);
+            ? `<strong>💡 已显示答案</strong><br>正确答案是 <strong>${question.answer}</strong>（${tenseName}），已加入错题重练。<br>继续把这个时态的 6 个人称写全。`
+            : `<strong>❌ 这题答错了</strong><br>你的答案：${userAnswer || '（空）'}<br>正确答案：<strong>${question.answer}</strong>（${tenseName}），已加入错题重练。<br>继续把这个时态的 6 个人称写全。`;
     }
-
-    if (trainerSettings.mode === 'sprint' && trainerState.timeLeft <= 0) {
-        endTrainerSession(true);
-        return;
-    }
-
-    document.getElementById('trainerNextBtn').style.display = 'inline-block';
 }
 
-function recordTrainerMistake(verb, tense, correct, total, usedAnswerKey) {
-    trainerState.wrongAnswers.unshift({
-        verb: verb.inf,
-        tense,
-        score: `${correct}/${total}`,
-        usedAnswerKey
-    });
-
-    trainerState.wrongAnswers = trainerState.wrongAnswers.slice(0, 8);
-    renderTrainerMistakes();
+function goToNextTrainerQuestion() {
+    if (!trainerState.isActive) return;
+    trainerState.currentIndex++;
+    loadTrainerQuestion();
 }
 
-function renderTrainerMistakes() {
-    const container = document.getElementById('trainerMistakesList');
-    if (!container) return;
-
-    if (trainerState.wrongAnswers.length === 0) {
-        container.innerHTML = '<p class="empty">还没有错题记录，开始一轮看看你的薄弱环节。</p>';
-        return;
-    }
-
-    container.innerHTML = trainerState.wrongAnswers.map(item => `
-        <span class="trainer-mistake-item">
-            <strong>${item.verb}</strong>
-            <span>${tenses[item.tense].name}</span>
-            <span>${item.usedAnswerKey ? '已看答案' : item.score}</span>
-        </span>
-    `).join('');
+function getTrainerAccuracy() {
+    return trainerState.totalQuestions > 0
+        ? Math.round((trainerState.correctQuestions / trainerState.totalQuestions) * 100)
+        : 0;
 }
 
 function updateTrainerStats() {
     const questionEl = document.getElementById('trainerQuestionsStat');
     const accuracyEl = document.getElementById('trainerAccuracyStat');
     const streakEl = document.getElementById('trainerStreakStat');
-    const timerEl = document.getElementById('trainerTimerStat');
+    const progressEl = document.getElementById('trainerTimerStat');
 
-    if (!questionEl || !accuracyEl || !streakEl || !timerEl) return;
-
-    const accuracy = trainerState.totalForms > 0
-        ? Math.round((trainerState.correctForms / trainerState.totalForms) * 100)
-        : 0;
+    if (!questionEl || !accuracyEl || !streakEl || !progressEl) return;
 
     questionEl.textContent = trainerState.totalQuestions;
-    accuracyEl.textContent = `${accuracy}%`;
+    accuracyEl.textContent = `${getTrainerAccuracy()}%`;
     streakEl.textContent = trainerState.streak;
 
-    if (trainerSettings.mode === 'sprint') {
-        timerEl.textContent = trainerState.isActive ? formatTrainerTime(trainerState.timeLeft) : '90秒';
-    } else if (trainerSettings.mode === 'focus') {
-        timerEl.textContent = '专项';
+    const roundSize = trainerState.roundSize || TRAINER_ROUND_QUESTION_COUNT;
+    if (trainerState.isActive && trainerState.currentQuestion) {
+        progressEl.textContent = `${Math.min(trainerState.currentIndex + 1, roundSize)} / ${roundSize}`;
     } else {
-        timerEl.textContent = '不限时';
+        progressEl.textContent = `${trainerState.totalQuestions} / ${roundSize}`;
     }
-}
-
-function formatTrainerTime(seconds) {
-    const mins = String(Math.floor(seconds / 60)).padStart(1, '0');
-    const secs = String(seconds % 60).padStart(2, '0');
-    return `${mins}:${secs}`;
 }
 
 function disableTrainerInputs() {

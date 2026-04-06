@@ -540,34 +540,208 @@ header h1 {
     line-height: 1.7;
 }
 
-.trainer-mistakes-box {
-    margin-top: 20px;
-    background: #fffaf4;
-    border: 1px solid #ffe0b2;
-    border-radius: 12px;
-    padding: 18px;
+.trainer-question-area {
+    margin-bottom: 20px;
 }
 
-.trainer-mistakes-list {
+.trainer-question-card {
+    background: #fafbff;
+    border: 1px solid #e3e8ff;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.trainer-question-header {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
-.trainer-mistake-item {
+.trainer-question-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
+    justify-content: center;
+    padding: 6px 12px;
     border-radius: 999px;
-    background: white;
-    border: 1px solid #ffd6a0;
-    color: #7a4b00;
+    background: #e9edff;
+    color: #5568d8;
+    font-weight: 600;
     font-size: 0.9rem;
 }
 
-.trainer-mistake-item strong {
-    color: #c25b00;
+.trainer-question-prompt {
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.trainer-choice-list {
+    display: grid;
+    gap: 12px;
+}
+
+.trainer-choice-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 2px solid #d9def6;
+    border-radius: 12px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.trainer-choice-option:hover {
+    border-color: #b8c4ff;
+    transform: translateY(-1px);
+}
+
+.trainer-choice-option input {
+    width: 18px;
+    height: 18px;
+    accent-color: #667eea;
+    margin: 2px 0 0;
+}
+
+.trainer-choice-copy {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.trainer-choice-value {
+    font-weight: 600;
+}
+
+.trainer-choice-analysis {
+    display: none;
+    padding-top: 8px;
+    border-top: 1px dashed #d9def6;
+    color: #5c6788;
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+.trainer-choice-analysis.show {
+    display: block;
+}
+
+.trainer-choice-option.correct {
+    border-color: #4caf50;
+    background: #eefaf0;
+}
+
+.trainer-choice-option.incorrect {
+    border-color: #f44336;
+    background: #fff1f0;
+}
+
+.trainer-fill-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.trainer-fill-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #d9def6;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.trainer-fill-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.trainer-fill-input.correct {
+    border-color: #4caf50;
+    background: #eefaf0;
+}
+
+.trainer-fill-input.incorrect {
+    border-color: #f44336;
+    background: #fff1f0;
+}
+
+.trainer-fill-input.almost {
+    border-color: #ff9800;
+    background: #fff8e1;
+}
+
+.trainer-answer-tip {
+    color: #666;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.trainer-followup-box {
+    margin-top: 20px;
+}
+
+.trainer-followup-card {
+    background: #fafbff;
+    border: 1px solid #e3e8ff;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.trainer-followup-card h3 {
+    color: #5568d8;
+    margin-bottom: 8px;
+}
+
+.trainer-followup-desc {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.trainer-followup-grid {
+    margin: 16px 0;
+}
+
+.trainer-followup-item {
+    position: relative;
+}
+
+.trainer-followup-item input:disabled {
+    background: #f3f4f6;
+    color: #666;
+}
+
+.trainer-followup-item-note {
+    color: #888;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.trainer-followup-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.trainer-followup-result {
+    margin-top: 14px;
+}
+
+.trainer-blank-token {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 92px;
+    padding: 2px 10px;
+    border-bottom: 2px solid #667eea;
+    color: #667eea;
+    font-weight: 700;
 }
 
 @media (max-width: 700px) {

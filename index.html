@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>西班牙语每日学习 | Español Diario</title>
-    <link rel="stylesheet" href="styles.css?v=202604042305">
+    <link rel="stylesheet" href="styles.css?v=202604060115">
 </head>
 <body>
     <div class="container app-shell app-shell--locked" id="appShell">
@@ -267,45 +267,10 @@
         <section id="trainer" class="tab-content">
             <div class="card trainer-card">
                 <h2>🔥 动词变位训练营</h2>
-                <p class="trainer-intro">把限时挑战、指定动词练习、语境例句和极简快练放在一个页面里，专门用来训练动词变位肌肉记忆。</p>
+                <p class="trainer-intro">6 题语境练习：3 题选择，3 题填空。</p>
 
                 <div class="trainer-control-panel">
-                    <div class="trainer-settings-grid">
-                        <div class="trainer-setting">
-                            <label for="trainerModeSelect">训练模式</label>
-                            <select id="trainerModeSelect">
-                                <option value="mixed">随机快练</option>
-                                <option value="focus">专项攻克</option>
-                                <option value="sprint">90秒冲刺</option>
-                            </select>
-                        </div>
-                        <div class="trainer-setting">
-                            <label for="trainerTenseSelect">时态</label>
-                            <select id="trainerTenseSelect">
-                                <option value="random">随机时态</option>
-                            </select>
-                        </div>
-                        <div class="trainer-setting">
-                            <label for="trainerVerbSelect">动词</label>
-                            <select id="trainerVerbSelect">
-                                <option value="random">随机动词</option>
-                            </select>
-                        </div>
-                        <div class="trainer-setting trainer-checkbox-setting">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="trainerIrregularOnly">
-                                <span>只练核心不规则动词</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="trainer-preset-row">
-                        <button class="btn btn-secondary btn-small trainer-preset-btn" data-preset="quick">3分钟快练</button>
-                        <button class="btn btn-secondary btn-small trainer-preset-btn" data-preset="irregular">不规则专项</button>
-                        <button class="btn btn-secondary btn-small trainer-preset-btn" data-preset="focus">单动词深挖</button>
-                    </div>
-
-                    <div class="trainer-mode-note" id="trainerModeNote">随机快练：适合每天 3–5 分钟保持手感。</div>
+                    <div class="trainer-mode-note">每轮 6 题：3 题选择 + 3 题填空。</div>
                 </div>
 
                 <div class="trainer-stats-grid">
@@ -319,27 +284,27 @@
                     </div>
                     <div class="trainer-stat-card">
                         <span class="trainer-stat-value" id="trainerStreakStat">0</span>
-                        <span class="trainer-stat-label">连续全对</span>
+                        <span class="trainer-stat-label">连续答对</span>
                     </div>
                     <div class="trainer-stat-card">
-                        <span class="trainer-stat-value" id="trainerTimerStat">不限时</span>
-                        <span class="trainer-stat-label">节奏</span>
+                        <span class="trainer-stat-value" id="trainerTimerStat">0 / 6</span>
+                        <span class="trainer-stat-label">本轮进度</span>
                     </div>
                 </div>
 
                 <div class="verb-display trainer-display">
                     <div class="verb-infinitive" id="trainerVerbInfinitive">准备开始训练</div>
-                    <div class="verb-meaning" id="trainerVerbMeaning">选择模式后点击开始</div>
-                    <div class="verb-tense" id="trainerVerbTense">随机时态</div>
+                    <div class="verb-meaning" id="trainerVerbMeaning">动词含义待显示</div>
+                    <div class="verb-tense" id="trainerVerbTense">开始后作答</div>
                 </div>
 
                 <div class="trainer-example-box" id="trainerExampleBox">
                     <h3>💬 语境例句</h3>
-                    <p class="trainer-example-es">开始训练后，这里会给你一个对应时态的小例句。</p>
-                    <p class="trainer-example-zh">例句会帮你把“理解 + 练习”放在一起。</p>
+                    <p class="trainer-example-es">开始训练后显示西语例句。</p>
+                    <p class="trainer-example-zh">下方显示中文翻译。</p>
                 </div>
 
-                <div class="conjugation-grid" id="trainerConjugationGrid"></div>
+                <div class="trainer-question-area" id="trainerConjugationGrid"></div>
 
                 <div class="actions">
                     <button class="btn btn-success" id="trainerStartBtn">开始训练</button>
@@ -351,13 +316,7 @@
 
                 <div class="result" id="trainerResult"></div>
                 <div class="tense-rule-box" id="trainerTenseRuleBox"></div>
-
-                <div class="trainer-mistakes-box">
-                    <h3>🧠 本轮薄弱点</h3>
-                    <div class="trainer-mistakes-list" id="trainerMistakesList">
-                        <p class="empty">还没有错题记录，开始一轮看看你的薄弱环节。</p>
-                    </div>
-                </div>
+                <div class="trainer-followup-box" id="trainerFollowupBox"></div>
             </div>
         </section>
 
@@ -403,6 +362,6 @@
     <script async src="https://code.responsivevoice.org/responsivevoice.js?key=Demo"></script>
     <script src="verbs-data.js?v=202604052330"></script>
     <script src="speaking-data.js?v=202604051700"></script>
-    <script src="app.js?v=202604052330"></script>
+    <script src="app.js?v=202604060142"></script>
 </body>
 </html>
