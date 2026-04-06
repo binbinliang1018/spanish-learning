@@ -1178,8 +1178,7 @@ header h1 {
 
 @media (max-width: 700px) {
     .verb-detail-main,
-    .history-row-main,
-    .weak-point-main {
+    .history-row-main {
         flex-direction: column;
         align-items: flex-start;
     }
@@ -1191,49 +1190,59 @@ header h1 {
     padding: 20px;
 }
 
-/* 弱项分析 */
-.weak-points {
-    background: #fff7ed;
+/* 口语练习统计 */
+.speaking-progress {
+    background: #eff6ff;
     padding: 15px;
     border-radius: 12px;
-    border: 1px solid #fed7aa;
+    border: 1px solid #bfdbfe;
     display: flex;
     flex-direction: column;
+    gap: 12px;
+}
+
+.speaking-progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
 }
 
-.weak-point-item {
+.speaking-progress-item {
     background: #ffffff;
-    border: 1px solid #fde3c3;
+    border: 1px solid #dbeafe;
     border-radius: 10px;
     padding: 12px 14px;
 }
 
-.weak-point-item.legacy {
-    border-style: dashed;
+.speaking-progress-item strong {
+    display: block;
+    color: #3155a4;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
 }
 
-.weak-point-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 4px;
+.speaking-progress-item span {
+    display: block;
+    color: #1d4ed8;
+    font-size: 1.35rem;
+    font-weight: 700;
 }
 
-.weak-point-main strong {
-    color: #7c2d12;
+.speaking-progress-item small {
+    display: block;
+    color: #64748b;
+    margin-top: 6px;
+    line-height: 1.4;
 }
 
-.weak-point-main span {
-    color: #ea580c;
-    font-weight: 600;
-}
-
-.weak-point-meta {
-    color: #9a3412;
+.speaking-progress-meta {
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: #475569;
     font-size: 0.92rem;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 /* 每日练习 */
@@ -1322,6 +1331,85 @@ header h1 {
 .summary-stats .stat-label {
     color: #666;
     font-size: 0.9rem;
+}
+
+/* 自查动词模块 */
+.self-check-mode {
+    position: relative;
+}
+
+.self-check-desc {
+    color: #666;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.self-check-controls {
+    background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
+    border: 1px solid #dbe2ff;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 22px;
+}
+
+.self-check-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.9fr);
+    gap: 14px;
+}
+
+.self-check-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.self-check-field label {
+    font-size: 0.9rem;
+    color: #4b5563;
+    font-weight: 600;
+}
+
+.self-check-field input,
+.self-check-field select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cfd8f6;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: #fff;
+    color: #1f2937;
+}
+
+.self-check-field input:focus,
+.self-check-field select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.14);
+}
+
+.self-check-actions-row {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+}
+
+.self-check-hint {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #667085;
+    text-align: center;
+    line-height: 1.6;
+}
+
+@media (max-width: 720px) {
+    .self-check-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .self-check-controls {
+        padding: 16px;
+    }
 }
 
 /* 错题重练模块 */

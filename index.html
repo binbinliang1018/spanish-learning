@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>西班牙语每日学习 | Español Diario</title>
-    <link rel="stylesheet" href="styles.css?v=202604061455">
+    <link rel="stylesheet" href="styles.css?v=202604061735">
 </head>
 <body>
     <div class="container app-shell app-shell--locked" id="appShell">
@@ -21,10 +21,10 @@
 
         <nav class="tabs">
             <button class="tab-btn active" data-tab="daily">每日练习</button>
+            <button class="tab-btn" data-tab="lookup">自查动词</button>
             <button class="tab-btn" data-tab="review">错题重练</button>
             <button class="tab-btn" data-tab="trainer">变位训练</button>
             <button class="tab-btn" data-tab="speaking">口语练习</button>
-            <button class="tab-btn" data-tab="progress">学习进度</button>
         </nav>
 
         <!-- 每日练习 -->
@@ -137,6 +137,50 @@
                     </div>
                 </div>
             </section>
+        </section>
+
+        <!-- 自查动词 -->
+        <section id="lookup" class="tab-content">
+            <div class="card self-check-mode">
+                <h2>🔎 自查动词</h2>
+                <p class="self-check-desc">输入动词原形，自选任一时态后直接练习。</p>
+
+                <div class="self-check-controls">
+                    <div class="self-check-grid">
+                        <div class="self-check-field">
+                            <label for="lookupVerbInput">动词原形</label>
+                            <input type="text" id="lookupVerbInput" list="lookupVerbSuggestions" placeholder="例如：hablar / acostarse / darse cuenta">
+                            <datalist id="lookupVerbSuggestions"></datalist>
+                        </div>
+                        <div class="self-check-field">
+                            <label for="lookupTenseSelect">选择时态</label>
+                            <select id="lookupTenseSelect"></select>
+                        </div>
+                    </div>
+                    <div class="self-check-actions-row">
+                        <button class="btn btn-success" id="lookupStartBtn">开始自查</button>
+                    </div>
+                    <p class="self-check-hint">支持直接换词、换时态后重新开始；规则面板会同步显示该时态的不规则分类与规则。</p>
+                </div>
+
+                <div class="verb-display">
+                    <div class="verb-infinitive" id="lookupVerbInfinitive">准备开始了</div>
+                    <div class="verb-meaning" id="lookupVerbMeaning">先输入一个动词，再选择时态。</div>
+                    <div class="verb-tense" id="lookupVerbTense"></div>
+                </div>
+
+                <div class="conjugation-grid" id="lookupConjugationGrid">
+                    <!-- 动态生成 -->
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="lookupCheckBtn" disabled>检查答案</button>
+                    <button class="btn btn-secondary" id="lookupShowAnswerBtn" disabled>显示答案</button>
+                </div>
+
+                <div class="result" id="lookupResult"></div>
+                <div class="tense-rule-box" id="lookupTenseRuleBox"></div>
+            </div>
         </section>
 
         <!-- 错题重练 -->
@@ -320,52 +364,11 @@
             </div>
         </section>
 
-        <!-- 学习进度 -->
-        <section id="progress" class="tab-content">
-            <div class="stats-grid progress-stats-grid">
-                <div class="stat-card stat-card-compact">
-                    <div class="stat-number" id="totalVerbs">0</div>
-                    <div class="stat-label">累计练习条目</div>
-                </div>
-                <div class="stat-card stat-card-compact">
-                    <div class="stat-number" id="uniqueVerbCount">0</div>
-                    <div class="stat-label">已练习动词</div>
-                </div>
-                <div class="stat-card stat-card-compact">
-                    <div class="stat-number" id="correctRate">0%</div>
-                    <div class="stat-label">累计正确率</div>
-                </div>
-                <div class="stat-card stat-card-compact">
-                    <div class="stat-number" id="streakDays">0</div>
-                    <div class="stat-label">连续学习天数</div>
-                </div>
-                <div class="stat-card stat-card-compact">
-                    <div class="stat-number" id="totalTime">0</div>
-                    <div class="stat-label">估算学习时长(分钟)</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>🎯 易错清单</h3>
-                <div class="weak-points" id="weakPoints">
-                    <p>这里会按“单词 + 时态 + 人称”列出最容易出错的内容。</p>
-                </div>
-            </div>
-
-            <div class="card progress-history-card">
-                <h3>📅 最近 7 天记录</h3>
-                <div class="progress-history" id="progressHistory">
-                    <p class="empty">还没有按天练习记录。</p>
-                </div>
-            </div>
-
-            <button class="btn btn-danger" id="resetProgressBtn">重置进度</button>
-        </section>
     </div>
 
     <script async src="https://code.responsivevoice.org/responsivevoice.js?key=Demo"></script>
     <script src="verbs-data.js?v=202604052330"></script>
     <script src="speaking-data.js?v=202604051700"></script>
-    <script src="app.js?v=202604061505"></script>
+    <script src="app.js?v=202604061930"></script>
 </body>
 </html>

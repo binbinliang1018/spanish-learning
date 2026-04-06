@@ -5,6 +5,19 @@ let currentVerb = null;
 let currentTense = null;
 let currentAnswers = {};
 
+function createEmptySpeakingStats() {
+    return {
+        dialogueLoads: 0,
+        challengeLoads: 0,
+        b2Loads: 0,
+        sampleViews: 0,
+        audioPlays: 0,
+        exerciseChecks: 0,
+        exerciseRevealCount: 0,
+        lastPracticedDate: null
+    };
+}
+
 function createEmptyProgressState() {
     return {
         totalVerbs: 0,
@@ -15,12 +28,31 @@ function createEmptyProgressState() {
         practicedVerbs: {},
         tenseStats: {},
         historyByDate: {},
+        speakingStats: createEmptySpeakingStats(),
         weakPointDetails: {}
     };
 }
 
+function normalizeSpeakingStats(entry = {}) {
+    const stats = {
+        ...createEmptySpeakingStats(),
+        ...(entry || {})
+    };
+
+    return {
+        dialogueLoads: Number(stats.dialogueLoads) || 0,
+        challengeLoads: Number(stats.challengeLoads) || 0,
+        b2Loads: Number(stats.b2Loads) || 0,
+        sampleViews: Number(stats.sampleViews) || 0,
+        audioPlays: Number(stats.audioPlays) || 0,
+        exerciseChecks: Number(stats.exerciseChecks) || 0,
+        exerciseRevealCount: Number(stats.exerciseRevealCount) || 0,
+        lastPracticedDate: stats.lastPracticedDate || null
+    };
+}
+
 function normalizeHistoryEntry(entry = {}) {
-    const normalizedModules = { daily: 0, trainer: 0, review: 0, ...(entry.modules || {}) };
+    const normalizedModules = { daily: 0, selfcheck: 0, trainer: 0, review: 0, speaking: 0, ...(entry.modules || {}) };
     const normalizedVerbs = {};
     const normalizedTenses = {};
 
@@ -46,7 +78,8 @@ function normalizeHistoryEntry(entry = {}) {
         reveals: Number(entry.reveals) || 0,
         modules: normalizedModules,
         verbs: normalizedVerbs,
-        tenses: normalizedTenses
+        tenses: normalizedTenses,
+        speaking: normalizeSpeakingStats(entry.speaking)
     };
 }
 
@@ -82,6 +115,8 @@ function normalizeProgressState(savedState) {
     if (!progressState.weakPointDetails || typeof progressState.weakPointDetails !== 'object') {
         progressState.weakPointDetails = {};
     }
+
+    progressState.speakingStats = normalizeSpeakingStats(progressState.speakingStats);
 
     Object.entries(progressState.practicedVerbs).forEach(([verb, stats]) => {
         const count = Number(stats?.count) || 0;
@@ -133,6 +168,17 @@ let dailyState = JSON.parse(localStorage.getItem('dailyPractice')) || {
 if (!Array.isArray(dailyState.questions)) {
     dailyState.questions = [];
 }
+
+function createEmptyLookupState() {
+    return {
+        isActive: false,
+        verbInf: '',
+        tense: 'presente',
+        isKnownVerb: false
+    };
+}
+
+let lookupState = createEmptyLookupState();
 
 // 错题重练状态
 let reviewState = JSON.parse(localStorage.getItem('reviewPractice')) || {
@@ -317,10 +363,10 @@ function initApp() {
     initDate();
     initTabs();
     initDailyPractice();
+    initSelfCheckPractice();
     initReviewPractice();
     initVerbPractice();
     initSpeakingPractice();
-    initProgress();
     bindIrregularVerbGroupInteractions();
 }
 
@@ -569,9 +615,7 @@ function applyActiveTab(tabId) {
     tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
     tabContents.forEach(c => c.classList.toggle('active', c.id === tabId));
 
-    if (tabId === 'progress') {
-        updateProgressDisplay();
-    } else if (tabId === 'review') {
+    if (tabId === 'review') {
         reviewState = JSON.parse(localStorage.getItem('reviewPractice')) || {
             wrongVerbs: [],
             currentIndex: 0,
@@ -1008,6 +1052,321 @@ function renderConjugationPlaceholder(gridId, title, detail = '') {
             ${detail ? `<span>${detail}</span>` : ''}
         </div>
     `;
+}
+
+function initSelfCheckPractice() {
+    const verbInput = document.getElementById('lookupVerbInput');
+    const tenseSelect = document.getElementById('lookupTenseSelect');
+    const startBtn = document.getElementById('lookupStartBtn');
+    const checkBtn = document.getElementById('lookupCheckBtn');
+    const showAnswerBtn = document.getElementById('lookupShowAnswerBtn');
+    const datalist = document.getElementById('lookupVerbSuggestions');
+    const ruleBox = document.getElementById('lookupTenseRuleBox');
+
+    if (!verbInput || !tenseSelect || !startBtn || !checkBtn || !showAnswerBtn || !datalist || !ruleBox) {
+        return;
+    }
+
+    const seenSuggestions = new Set();
+    const suggestionOptions = verbsData.filter(verb => {
+        const key = normalizeVerbKey(verb.inf);
+        if (seenSuggestions.has(key)) {
+            return false;
+        }
+        seenSuggestions.add(key);
+        return true;
+    });
+
+    datalist.innerHTML = suggestionOptions
+        .map(verb => `<option value="${verb.inf}">${verb.meaning}</option>`)
+        .join('');
+
+    tenseSelect.innerHTML = ALL_TENSES
+        .map(tense => `<option value="${tense}">${tenses[tense]?.name || tense}</option>`)
+        .join('');
+    tenseSelect.value = tenses[lookupState.tense] ? lookupState.tense : 'presente';
+    verbInput.value = lookupState.verbInf || '';
+
+    startBtn.addEventListener('click', startLookupPractice);
+    checkBtn.addEventListener('click', checkLookupAnswer);
+    showAnswerBtn.addEventListener('click', showLookupAnswer);
+    verbInput.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            startLookupPractice();
+        }
+    });
+    tenseSelect.addEventListener('change', () => {
+        renderTenseRuleBox('lookupTenseRuleBox', tenses[tenseSelect.value] ? tenseSelect.value : 'presente');
+    });
+
+    renderConjugationPlaceholder(
+        'lookupConjugationGrid',
+        '输入动词并点击“开始自查”后，这里会显示对应人称输入框。',
+        '支持所有已收录时态。'
+    );
+    renderTenseRuleBox('lookupTenseRuleBox', tenseSelect.value || 'presente');
+}
+
+function sanitizeLookupVerbInput(value) {
+    return String(value || '').trim().replace(/\s+/g, ' ');
+}
+
+function findVerbByLookupInput(value) {
+    const normalizedInput = normalizeVerbKey(value);
+    if (!normalizedInput) {
+        return null;
+    }
+
+    return verbsData.find(verb => normalizeVerbKey(verb.inf) === normalizedInput) || null;
+}
+
+function isLikelySpanishInfinitive(value) {
+    const firstToken = sanitizeLookupVerbInput(value).split(' ')[0] || '';
+    return /(ar|er|ir|arse|erse|irse)$/.test(normalizeVerbKey(firstToken));
+}
+
+function buildLookupVerbRecord(value) {
+    const cleanedInput = sanitizeLookupVerbInput(value);
+    const matchedVerb = findVerbByLookupInput(cleanedInput);
+    if (matchedVerb) {
+        return {
+            ...matchedVerb,
+            isKnownVerb: true
+        };
+    }
+
+    return {
+        inf: cleanedInput.toLowerCase(),
+        meaning: '词库未收录；当前按规则变位练习。',
+        type: 'custom',
+        isKnownVerb: false
+    };
+}
+
+function getLookupPracticeContext() {
+    if (!lookupState.isActive || !lookupState.verbInf || !tenses[lookupState.tense]) {
+        return null;
+    }
+
+    const selectedVerb = buildLookupVerbRecord(lookupState.verbInf);
+    return {
+        verb: {
+            inf: selectedVerb.inf,
+            meaning: selectedVerb.meaning,
+            type: selectedVerb.type
+        },
+        tense: lookupState.tense
+    };
+}
+
+function renderLookupConjugationInputs(tense) {
+    const grid = document.getElementById('lookupConjugationGrid');
+    if (!grid || !tenses[tense]) {
+        return;
+    }
+
+    grid.innerHTML = '';
+    tenses[tense].pronouns.forEach(pronoun => {
+        const item = document.createElement('div');
+        item.className = 'conjugation-item';
+        item.innerHTML = `
+            <label>${pronoun}</label>
+            <input type="text" data-pronoun="${pronoun}" placeholder="变位形式..." autocomplete="off">
+        `;
+        grid.appendChild(item);
+    });
+}
+
+function resetLookupResult() {
+    const result = document.getElementById('lookupResult');
+    if (!result) {
+        return;
+    }
+
+    result.className = 'result';
+    result.innerHTML = '';
+}
+
+function startLookupPractice() {
+    if (!hasUnlockedAccess()) {
+        showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能使用自查动词。');
+        return;
+    }
+
+    const verbInput = document.getElementById('lookupVerbInput');
+    const tenseSelect = document.getElementById('lookupTenseSelect');
+    const result = document.getElementById('lookupResult');
+    const rawInput = sanitizeLookupVerbInput(verbInput?.value);
+    const selectedTense = tenses[tenseSelect?.value] ? tenseSelect.value : 'presente';
+
+    if (!rawInput) {
+        result.className = 'result show error';
+        result.innerHTML = '请先输入要自查的动词原形。';
+        verbInput?.focus();
+        return;
+    }
+
+    if (!isLikelySpanishInfinitive(rawInput)) {
+        result.className = 'result show error';
+        result.innerHTML = '请输入动词原形，例如 hablar、comer、vivir、acostarse、darse cuenta。';
+        verbInput?.focus();
+        return;
+    }
+
+    const selectedVerb = buildLookupVerbRecord(rawInput);
+    currentVerb = {
+        inf: selectedVerb.inf,
+        meaning: selectedVerb.meaning,
+        type: selectedVerb.type
+    };
+    currentTense = selectedTense;
+    lookupState = {
+        isActive: true,
+        verbInf: selectedVerb.inf,
+        tense: selectedTense,
+        isKnownVerb: Boolean(selectedVerb.isKnownVerb)
+    };
+
+    if (verbInput) {
+        verbInput.value = selectedVerb.inf;
+    }
+    if (tenseSelect) {
+        tenseSelect.value = selectedTense;
+    }
+
+    const verbType = getVerbTypeLabel(currentVerb, currentTense);
+    document.getElementById('lookupVerbInfinitive').textContent = `${selectedVerb.inf}${verbType ? ` ${verbType}` : ''}`;
+    document.getElementById('lookupVerbMeaning').textContent = selectedVerb.meaning;
+    document.getElementById('lookupVerbTense').textContent = tenses[selectedTense].name;
+
+    renderLookupConjugationInputs(selectedTense);
+    renderTenseRuleBox('lookupTenseRuleBox', selectedTense);
+    resetLookupResult();
+    document.getElementById('lookupCheckBtn').disabled = false;
+    document.getElementById('lookupShowAnswerBtn').disabled = false;
+}
+
+function checkLookupAnswer() {
+    if (!hasUnlockedAccess()) {
+        showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能检查自查答案。');
+        return;
+    }
+
+    const lookupContext = getLookupPracticeContext();
+    if (!lookupContext) {
+        const result = document.getElementById('lookupResult');
+        result.className = 'result show error';
+        result.innerHTML = '请先输入动词并点击“开始自查”。';
+        return;
+    }
+
+    const inputs = document.querySelectorAll('#lookupConjugationGrid input');
+    let correct = 0;
+    const total = inputs.length;
+    const weakPointItems = [];
+
+    if (total === 0) {
+        startLookupPractice();
+        const result = document.getElementById('lookupResult');
+        result.className = 'result show error';
+        result.innerHTML = '刚才的输入框没有正确显示，已自动重载，请直接作答。';
+        return;
+    }
+
+    inputs.forEach(input => {
+        const pronoun = input.dataset.pronoun;
+        const userAnswer = input.value.trim();
+        const correctAnswer = conjugateVerb(lookupContext.verb.inf, lookupContext.tense, pronoun);
+        const comparison = compareTrainerAnswer(userAnswer, correctAnswer);
+
+        input.disabled = true;
+        input.classList.remove('correct', 'incorrect', 'almost');
+        if (comparison.isCorrect) {
+            input.classList.add(comparison.accentOnly ? 'almost' : 'correct');
+            correct++;
+        } else {
+            input.classList.add('incorrect');
+            input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
+            weakPointItems.push({
+                verb: lookupContext.verb.inf,
+                tense: lookupContext.tense,
+                pronoun
+            });
+        }
+    });
+
+    recordPracticeProgress(lookupContext.verb.inf, lookupContext.tense, correct, total, {
+        module: 'selfcheck'
+    });
+    if (weakPointItems.length > 0) {
+        recordWeakPointDetails(weakPointItems, { module: 'selfcheck' });
+    }
+
+    const result = document.getElementById('lookupResult');
+    if (correct === total) {
+        result.className = 'result show success';
+        result.innerHTML = `<strong>🎉 全对！</strong> ${correct}/${total} 正确<br>如需继续，直接换词或换时态后再点“开始自查”。`;
+    } else {
+        addWrongVerbToReview(lookupContext.verb.inf, lookupContext.tense);
+        result.className = 'result show error';
+        result.innerHTML = `<strong>❌ 有错误</strong> ${correct}/${total} 正确<br>该题已记录到错题重练；你可以继续换词或换时态自查。`;
+    }
+
+    document.getElementById('lookupCheckBtn').disabled = true;
+    document.getElementById('lookupShowAnswerBtn').disabled = true;
+}
+
+function showLookupAnswer() {
+    if (!hasUnlockedAccess()) {
+        showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能查看自查答案。');
+        return;
+    }
+
+    const lookupContext = getLookupPracticeContext();
+    if (!lookupContext) {
+        const result = document.getElementById('lookupResult');
+        result.className = 'result show error';
+        result.innerHTML = '请先输入动词并点击“开始自查”。';
+        return;
+    }
+
+    const inputs = document.querySelectorAll('#lookupConjugationGrid input');
+    if (inputs.length === 0) {
+        startLookupPractice();
+        const result = document.getElementById('lookupResult');
+        result.className = 'result show error';
+        result.innerHTML = '刚才的输入框没有正确显示，已自动重载，请先再试一次。';
+        return;
+    }
+
+    const weakPointItems = [];
+    inputs.forEach(input => {
+        const pronoun = input.dataset.pronoun;
+        input.value = conjugateVerb(lookupContext.verb.inf, lookupContext.tense, pronoun);
+        input.disabled = true;
+        input.classList.remove('correct', 'incorrect', 'almost');
+        input.classList.add('incorrect');
+        weakPointItems.push({
+            verb: lookupContext.verb.inf,
+            tense: lookupContext.tense,
+            pronoun
+        });
+    });
+
+    recordPracticeProgress(lookupContext.verb.inf, lookupContext.tense, 0, inputs.length || tenses[lookupContext.tense].pronouns.length, {
+        module: 'selfcheck',
+        revealed: true
+    });
+    recordWeakPointDetails(weakPointItems, { module: 'selfcheck' });
+    addWrongVerbToReview(lookupContext.verb.inf, lookupContext.tense);
+
+    const result = document.getElementById('lookupResult');
+    result.className = 'result show error';
+    result.innerHTML = '<strong>💡 已显示答案</strong><br>该题已记录到错题重练；你可以继续换词或换时态自查。';
+
+    document.getElementById('lookupCheckBtn').disabled = true;
+    document.getElementById('lookupShowAnswerBtn').disabled = true;
 }
 
 function startDailyPractice() {
@@ -3156,39 +3515,46 @@ function initSpeakingPractice() {
     const newB2ChallengeBtn = document.getElementById('newB2ChallengeBtn');
     const showB2SampleBtn = document.getElementById('showB2SampleBtn');
     const speakB2Btn = document.getElementById('speakB2Btn');
-    
-    if (scenarioSelect) scenarioSelect.addEventListener('change', loadNewDialogue);
-    if (newDialogueBtn) newDialogueBtn.addEventListener('click', loadNewDialogue);
+
+    if (scenarioSelect) scenarioSelect.addEventListener('change', () => loadNewDialogue({ record: true }));
+    if (newDialogueBtn) newDialogueBtn.addEventListener('click', () => loadNewDialogue({ record: true }));
     if (newChallengeBtn) newChallengeBtn.addEventListener('click', loadNewChallenge);
     if (showSampleBtn) showSampleBtn.addEventListener('click', showSampleAnswer);
-    
+
     // B2 题型事件
-    if (b2TypeSelect) b2TypeSelect.addEventListener('change', loadB2Challenge);
-    if (newB2ChallengeBtn) newB2ChallengeBtn.addEventListener('click', loadB2Challenge);
+    if (b2TypeSelect) b2TypeSelect.addEventListener('change', () => loadB2Challenge({ record: true }));
+    if (newB2ChallengeBtn) newB2ChallengeBtn.addEventListener('click', () => loadB2Challenge({ record: true }));
     if (showB2SampleBtn) showB2SampleBtn.addEventListener('click', showB2SampleAnswer);
     if (speakB2Btn) speakB2Btn.addEventListener('click', speakB2Sample);
-    
+
     // 然后加载初始内容（使用 try-catch 防止出错影响事件绑定）
     try {
-        loadNewDialogue();
+        loadNewDialogue({ record: false });
     } catch (e) {
         console.error('loadNewDialogue 出错:', e);
     }
-    
+
     try {
         loadDailyChallenge();
     } catch (e) {
         console.error('loadDailyChallenge 出错:', e);
     }
-    
+
     try {
-        loadB2Challenge();
+        loadB2Challenge({ record: false });
     } catch (e) {
         console.error('loadB2Challenge 出错:', e);
     }
 }
 
-function loadNewDialogue() {
+function shouldRecordSpeakingAction(options = {}) {
+    if (options && typeof options === 'object' && Object.prototype.hasOwnProperty.call(options, 'record')) {
+        return options.record !== false;
+    }
+    return options !== false;
+}
+
+function loadNewDialogue(options = {}) {
     const scenario = document.getElementById('scenarioSelect').value;
     const scenarioData = dialogueScenarios[scenario];
     
@@ -3244,6 +3610,10 @@ function loadNewDialogue() {
 
     // 添加右键翻译功能
     addRightClickTranslation();
+
+    if (shouldRecordSpeakingAction(options)) {
+        recordSpeakingProgress('dialogueLoads');
+    }
 }
 
 function speakSpanishText(text, options = {}) {
@@ -3301,7 +3671,7 @@ function speakSpanishText(text, options = {}) {
 
 // 只用女声朗读
 function speakLineFemale(text) {
-    speakSpanishText(text, {
+    return speakSpanishText(text, {
         rate: 0.9,
         pitch: 1.05,
         volume: 1,
@@ -3333,7 +3703,9 @@ function handleSpeakButtonClick(e) {
 
     const encodedText = speakBtn.dataset.text || '';
     const text = encodedText ? decodeURIComponent(encodedText) : '';
-    speakLineFemale(text);
+    if (speakLineFemale(text)) {
+        recordSpeakingProgress('audioPlays');
+    }
 }
 
 function bindDialogueInteractions() {
@@ -3438,6 +3810,7 @@ function loadNewChallenge() {
     document.getElementById('sampleAnswerBox').style.display = 'none';
     document.getElementById('showSampleBtn').textContent = '查看参考口语';
     document.getElementById('showSampleBtn').style.display = 'inline-block';
+    recordSpeakingProgress('challengeLoads');
 }
 
 // 显示挑战内容
@@ -3495,6 +3868,8 @@ function renderExercises(exercises) {
 
 // 检查练习答案
 function checkExercise(index, correctAnswer) {
+    recordSpeakingProgress('exerciseChecks');
+
     const input = document.getElementById(`exercise-${index}`);
     const feedback = document.getElementById(`feedback-${index}`);
     const userAnswer = input.value.trim().toLowerCase();
@@ -3518,6 +3893,8 @@ function checkExercise(index, correctAnswer) {
 
 // 显示练习答案
 function showExerciseAnswer(index, answer) {
+    recordSpeakingProgress('exerciseRevealCount');
+
     const input = document.getElementById(`exercise-${index}`);
     const feedback = document.getElementById(`feedback-${index}`);
     input.value = answer;
@@ -3532,6 +3909,7 @@ function showSampleAnswer() {
     if (sampleBox.style.display === 'none') {
         sampleBox.style.display = 'block';
         btn.textContent = '隐藏参考口语';
+        recordSpeakingProgress('sampleViews');
     } else {
         sampleBox.style.display = 'none';
         btn.textContent = '查看参考口语';
@@ -3705,7 +4083,7 @@ function speakAll() {
 }
 
 // ============ B2 口语考试功能 ============
-function loadB2Challenge() {
+function loadB2Challenge(options = {}) {
     // 检查 speakingChallenges 是否已加载
     if (typeof speakingChallenges === 'undefined' || !speakingChallenges || speakingChallenges.length === 0) {
         console.log('speakingChallenges 尚未加载');
@@ -3754,6 +4132,10 @@ function loadB2Challenge() {
     const showBtn = document.getElementById('showB2SampleBtn');
     if (sampleBox) sampleBox.style.display = 'none';
     if (showBtn) showBtn.textContent = '查看参考范文';
+
+    if (shouldRecordSpeakingAction(options)) {
+        recordSpeakingProgress('b2Loads');
+    }
 }
 
 function showB2SampleAnswer() {
@@ -3769,6 +4151,7 @@ function showB2SampleAnswer() {
         if (sampleText) sampleText.textContent = currentB2Challenge.sample;
         sampleBox.style.display = 'block';
         btn.textContent = '隐藏参考范文';
+        recordSpeakingProgress('sampleViews');
     } else {
         sampleBox.style.display = 'none';
         btn.textContent = '查看参考范文';
@@ -3781,12 +4164,50 @@ function speakB2Sample() {
         return;
     }
 
-    speakSpanishText(currentB2Challenge.sample, {
+    if (speakSpanishText(currentB2Challenge.sample, {
         rate: 0.85,
         pitch: 1,
         volume: 1,
         responsiveVoiceName: 'Spanish Latin American Female'
-    });
+    })) {
+        recordSpeakingProgress('audioPlays');
+    }
+}
+
+function getSpeakingActionCount(stats = {}) {
+    return ['dialogueLoads', 'challengeLoads', 'b2Loads', 'sampleViews', 'audioPlays', 'exerciseChecks', 'exerciseRevealCount']
+        .reduce((sum, key) => sum + (Number(stats[key]) || 0), 0);
+}
+
+function recordSpeakingProgress(kind, amount = 1) {
+    const safeAmount = Math.max(0, Number(amount) || 0);
+    if (!safeAmount) {
+        return;
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(createEmptySpeakingStats(), kind)) {
+        return;
+    }
+
+    const todayKey = getLocalDateKey();
+    updateStreak();
+
+    progress.speakingStats = normalizeSpeakingStats(progress.speakingStats);
+    progress.speakingStats[kind] = (progress.speakingStats[kind] || 0) + safeAmount;
+    progress.speakingStats.lastPracticedDate = todayKey;
+
+    if (!progress.historyByDate[todayKey]) {
+        progress.historyByDate[todayKey] = normalizeHistoryEntry();
+    }
+
+    const dayEntry = progress.historyByDate[todayKey];
+    dayEntry.speaking = normalizeSpeakingStats(dayEntry.speaking);
+    dayEntry.speaking[kind] = (dayEntry.speaking[kind] || 0) + safeAmount;
+    dayEntry.speaking.lastPracticedDate = todayKey;
+    dayEntry.sessions += safeAmount;
+    dayEntry.modules.speaking = (dayEntry.modules.speaking || 0) + safeAmount;
+
+    saveProgress();
 }
 
 // ============ 进度管理 ============
@@ -3920,13 +4341,39 @@ function formatModuleSummary(modules = {}) {
     const moduleLabels = {
         daily: '每日练习',
         trainer: '训练营',
-        review: '错题重练'
+        review: '错题重练',
+        speaking: '口语练习'
     };
 
     return Object.entries(moduleLabels)
         .filter(([key]) => (modules[key] || 0) > 0)
         .map(([key, label]) => `${label} ${modules[key]} 次`)
         .join(' / ');
+}
+
+function buildProgressHistorySummary(entry = {}) {
+    const summaryParts = [];
+    const uniqueVerbCount = Object.keys(entry.verbs || {}).length;
+    const speakingCount = getSpeakingActionCount(entry.speaking || {});
+
+    if (entry.attempts > 0) {
+        summaryParts.push(`${entry.attempts} 格`);
+        summaryParts.push(`${getProgressAccuracy(entry.correct, entry.attempts)}%`);
+    }
+
+    if (uniqueVerbCount > 0) {
+        summaryParts.push(`${uniqueVerbCount} 个动词`);
+    }
+
+    if (speakingCount > 0) {
+        summaryParts.push(`口语 ${speakingCount} 次`);
+    }
+
+    if (entry.reveals > 0) {
+        summaryParts.push(`看答案 ${entry.reveals} 次`);
+    }
+
+    return summaryParts.join(' · ') || '当天有学习记录';
 }
 
 function renderProgressOverview() {
@@ -3951,6 +4398,7 @@ function renderProgressOverview() {
         summary.modules.daily += entry.modules?.daily || 0;
         summary.modules.trainer += entry.modules?.trainer || 0;
         summary.modules.review += entry.modules?.review || 0;
+        summary.modules.speaking += entry.modules?.speaking || 0;
         return summary;
     }, {
         attempts: 0,
@@ -3958,7 +4406,7 @@ function renderProgressOverview() {
         reveals: 0,
         sessions: 0,
         uniqueVerbs: 0,
-        modules: { daily: 0, trainer: 0, review: 0 }
+        modules: { daily: 0, trainer: 0, review: 0, speaking: 0 }
     });
 
     overview.innerHTML = `
@@ -3992,24 +4440,58 @@ function renderProgressHistory() {
 
     const historyEntries = getSortedHistoryEntries(7);
     if (historyEntries.length === 0) {
-        const hasLegacyStats = Object.keys(progress.practicedVerbs).length > 0;
+        const hasLegacyStats = Object.keys(progress.practicedVerbs).length > 0 || getSpeakingActionCount(progress.speakingStats || {}) > 0;
         historyContainer.innerHTML = `<p class="empty">${hasLegacyStats ? '按天记录会从这次升级后开始累计；旧的累计练习数据仍保留在本页。' : '还没有按天练习记录，开始做一题后这里就会显示最近 7 天的学习情况。'}</p>`;
         return;
     }
 
-    historyContainer.innerHTML = historyEntries.map(([dateKey, entry]) => {
-        const uniqueVerbCount = Object.keys(entry.verbs || {}).length;
-        const revealText = entry.reveals > 0 ? ` · 看答案 ${entry.reveals} 次` : '';
-        return `
-            <div class="history-row">
-                <div class="history-row-main">
-                    <strong>${formatProgressDateLabel(dateKey)}</strong>
-                    <span>${entry.attempts} 格 · ${getProgressAccuracy(entry.correct, entry.attempts)}% · ${uniqueVerbCount} 个动词${revealText}</span>
-                </div>
-                <div class="history-row-meta">${formatModuleSummary(entry.modules) || '暂无模块分布'}</div>
+    historyContainer.innerHTML = historyEntries.map(([dateKey, entry]) => `
+        <div class="history-row">
+            <div class="history-row-main">
+                <strong>${formatProgressDateLabel(dateKey)}</strong>
+                <span>${buildProgressHistorySummary(entry)}</span>
             </div>
-        `;
-    }).join('');
+            <div class="history-row-meta">${formatModuleSummary(entry.modules) || '暂无模块分布'}</div>
+        </div>
+    `).join('');
+}
+
+function renderSpeakingProgress() {
+    const container = document.getElementById('speakingProgress');
+    if (!container) {
+        return;
+    }
+
+    const stats = normalizeSpeakingStats(progress.speakingStats);
+    const totalActions = getSpeakingActionCount(stats);
+    if (totalActions === 0) {
+        container.innerHTML = '<p class="empty">开始做口语练习后，这里会显示对话、话题、B2 题目、朗读等统计数据。</p>';
+        return;
+    }
+
+    const statItems = [
+        { label: '对话场景', value: stats.dialogueLoads, hint: '切换或生成对话' },
+        { label: '今日话题', value: stats.challengeLoads, hint: '更换口语话题' },
+        { label: 'B2 题目', value: stats.b2Loads, hint: '生成 B2 口语题' },
+        { label: '参考内容', value: stats.sampleViews, hint: '查看参考口语/范文' },
+        { label: '朗读播放', value: stats.audioPlays, hint: '播放西语音频' },
+        { label: '互动练习', value: stats.exerciseChecks, hint: '检查练习答案' }
+    ];
+
+    container.innerHTML = `
+        <div class="speaking-progress-grid">
+            ${statItems.map(item => `
+                <div class="speaking-progress-item">
+                    <strong>${item.label}</strong>
+                    <span>${item.value}</span>
+                    <small>${item.hint}</small>
+                </div>
+            `).join('')}
+        </div>
+        <div class="speaking-progress-meta">
+            累计口语操作 ${totalActions} 次 · 显示互动练习答案 ${stats.exerciseRevealCount} 次 · 最近一次：${stats.lastPracticedDate ? formatProgressDateLabel(stats.lastPracticedDate) : '还没有记录'}
+        </div>
+    `;
 }
 
 function renderPracticedVerbDetails() {
@@ -4094,8 +4576,8 @@ function updateProgressDisplay() {
         ? Math.max(1, Math.round(progress.totalAttempts * 0.5))
         : 0;
 
+    renderSpeakingProgress();
     renderProgressHistory();
-    renderWeakPoints();
 }
 
 // ============ 错题重练模块 ============
