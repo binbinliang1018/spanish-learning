@@ -4,24 +4,135 @@
 let currentVerb = null;
 let currentTense = null;
 let currentAnswers = {};
-let progress = JSON.parse(localStorage.getItem('spanishProgress')) || {
-    totalVerbs: 0,
-    correctCount: 0,
-    totalAttempts: 0,
-    streakDays: 0,
-    lastStudyDate: null,
-    practicedVerbs: {},
-    tenseStats: {}
-};
+
+function createEmptyProgressState() {
+    return {
+        totalVerbs: 0,
+        correctCount: 0,
+        totalAttempts: 0,
+        streakDays: 0,
+        lastStudyDate: null,
+        practicedVerbs: {},
+        tenseStats: {},
+        historyByDate: {},
+        weakPointDetails: {}
+    };
+}
+
+function normalizeHistoryEntry(entry = {}) {
+    const normalizedModules = { daily: 0, trainer: 0, review: 0, ...(entry.modules || {}) };
+    const normalizedVerbs = {};
+    const normalizedTenses = {};
+
+    Object.entries(entry.verbs || {}).forEach(([verb, stats]) => {
+        normalizedVerbs[verb] = {
+            count: Number(stats?.count) || 0,
+            attempts: Number(stats?.attempts) || 0,
+            correct: Number(stats?.correct) || 0
+        };
+    });
+
+    Object.entries(entry.tenses || {}).forEach(([tense, stats]) => {
+        normalizedTenses[tense] = {
+            attempts: Number(stats?.attempts) || 0,
+            correct: Number(stats?.correct) || 0
+        };
+    });
+
+    return {
+        attempts: Number(entry.attempts) || 0,
+        correct: Number(entry.correct) || 0,
+        sessions: Number(entry.sessions) || 0,
+        reveals: Number(entry.reveals) || 0,
+        modules: normalizedModules,
+        verbs: normalizedVerbs,
+        tenses: normalizedTenses
+    };
+}
+
+function normalizeWeakPointEntry(entry = {}) {
+    return {
+        verb: String(entry.verb || '').trim(),
+        tense: String(entry.tense || '').trim(),
+        pronoun: String(entry.pronoun || '').trim(),
+        count: Number(entry.count) || 0,
+        lastWrongDate: entry.lastWrongDate || null,
+        module: entry.module || ''
+    };
+}
+
+function normalizeProgressState(savedState) {
+    const progressState = {
+        ...createEmptyProgressState(),
+        ...(savedState || {})
+    };
+
+    if (!progressState.practicedVerbs || typeof progressState.practicedVerbs !== 'object') {
+        progressState.practicedVerbs = {};
+    }
+
+    if (!progressState.tenseStats || typeof progressState.tenseStats !== 'object') {
+        progressState.tenseStats = {};
+    }
+
+    if (!progressState.historyByDate || typeof progressState.historyByDate !== 'object') {
+        progressState.historyByDate = {};
+    }
+
+    if (!progressState.weakPointDetails || typeof progressState.weakPointDetails !== 'object') {
+        progressState.weakPointDetails = {};
+    }
+
+    Object.entries(progressState.practicedVerbs).forEach(([verb, stats]) => {
+        const count = Number(stats?.count) || 0;
+        const correct = Number(stats?.correct) || 0;
+        const forms = Number(stats?.forms) || Math.max(count * 6, correct);
+        progressState.practicedVerbs[verb] = {
+            count,
+            correct,
+            forms,
+            lastPracticedDate: stats?.lastPracticedDate || null
+        };
+    });
+
+    Object.entries(progressState.tenseStats).forEach(([tense, stats]) => {
+        progressState.tenseStats[tense] = {
+            attempts: Number(stats?.attempts) || 0,
+            correct: Number(stats?.correct) || 0
+        };
+    });
+
+    Object.entries(progressState.historyByDate).forEach(([dateKey, entry]) => {
+        progressState.historyByDate[dateKey] = normalizeHistoryEntry(entry);
+    });
+
+    Object.entries(progressState.weakPointDetails).forEach(([key, entry]) => {
+        const normalizedEntry = normalizeWeakPointEntry(entry);
+        if (!normalizedEntry.verb || !normalizedEntry.tense) {
+            delete progressState.weakPointDetails[key];
+            return;
+        }
+        progressState.weakPointDetails[key] = normalizedEntry;
+    });
+
+    return progressState;
+}
+
+let progress = normalizeProgressState(JSON.parse(localStorage.getItem('spanishProgress')));
 
 // 每日练习状态
 let dailyState = JSON.parse(localStorage.getItem('dailyPractice')) || {
     currentIndex: 0,
     verbs: [],
+    questions: [],
     results: [], // 每个动词的练习结果
     isActive: false,
     date: null
 };
+
+if (!Array.isArray(dailyState.questions)) {
+    dailyState.questions = [];
+}
 
 // 错题重练状态
 let reviewState = JSON.parse(localStorage.getItem('reviewPractice')) || {
@@ -34,6 +145,8 @@ let reviewState = JSON.parse(localStorage.getItem('reviewPractice')) || {
 const TRAINER_ROUND_QUESTION_COUNT = 6;
 const TRAINER_MULTIPLE_CHOICE_COUNT = 3;
 const TRAINER_FILL_BLANK_COUNT = 3;
+const DAILY_COMPOUND_TENSE_COUNT = 2;
+const DAILY_MIN_IRREGULAR_QUESTION_COUNT = 3;
 const TRAINER_SENTENCE_BANK = [
     {
         verbInf: 'hablar',
@@ -209,7 +322,6 @@ function initApp() {
     initSpeakingPractice();
     initProgress();
     bindIrregularVerbGroupInteractions();
-    updateStreak();
 }
 
 if (document.readyState === 'loading') {
@@ -513,7 +625,7 @@ function initDailyPractice() {
         renderConjugationPlaceholder(
             'dailyConjugationGrid',
             '点击“开始今日挑战”后，这里会显示 6 个人称输入框。',
-            '每题会随机抽取一个时态，并在下方给出对应规则提示。'
+            '本轮固定 2 个复合时态，且至少 3 题是本时态不规则变位。'
         );
     }
 }
@@ -577,6 +689,54 @@ function normalizeVerbKey(value) {
         .replace(/se$/, '');
 }
 
+function getLocalDateKey(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+function parseStoredDate(value) {
+    if (!value) {
+        return null;
+    }
+
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        const [year, month, day] = value.split('-').map(Number);
+        return new Date(year, month - 1, day);
+    }
+
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function getDaysBetween(dateA, dateB) {
+    const start = new Date(dateA.getFullYear(), dateA.getMonth(), dateA.getDate());
+    const end = new Date(dateB.getFullYear(), dateB.getMonth(), dateB.getDate());
+    return Math.round((end - start) / (1000 * 60 * 60 * 24));
+}
+
+function formatProgressDateLabel(dateKey) {
+    const parsedDate = parseStoredDate(dateKey);
+    if (!parsedDate) {
+        return '较早';
+    }
+
+    const todayKey = getLocalDateKey();
+    if (dateKey === todayKey) {
+        return '今天';
+    }
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (dateKey === getLocalDateKey(yesterday)) {
+        return '昨天';
+    }
+
+    const weekdayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    return `${parsedDate.getMonth() + 1}/${parsedDate.getDate()} ${weekdayNames[parsedDate.getDay()]}`;
+}
+
 function isDerivedFormTense(tense) {
     return DERIVED_FORM_TENSES.includes(tense);
 }
@@ -618,6 +778,74 @@ function getIrregularListLabel(tense) {
     return '该时态不规则动词';
 }
 
+function getDailySimpleTenses() {
+    return ALL_TENSES.filter(tense => !COMPOUND_TENSES.includes(tense));
+}
+
+function getAvailableIrregularDailyTenses(verb) {
+    return getDailySimpleTenses().filter(tense => isVerbIrregularInCurrentTense(verb, tense));
+}
+
+function buildDailyQuestionPlan(selectedVerbs) {
+    const questions = selectedVerbs.map(verb => ({
+        verb: verb.inf,
+        tense: ''
+    }));
+
+    const allIndices = questions.map((_, index) => index);
+    const irregularCandidates = questions
+        .map((question, index) => ({
+            index,
+            verb: selectedVerbs[index],
+            tenses: getAvailableIrregularDailyTenses(selectedVerbs[index])
+        }))
+        .filter(item => item.tenses.length > 0);
+
+    const guaranteedIrregular = shuffleArray([...irregularCandidates]).slice(0, Math.min(DAILY_MIN_IRREGULAR_QUESTION_COUNT, irregularCandidates.length));
+    guaranteedIrregular.forEach(item => {
+        item.tenses = shuffleArray([...item.tenses]);
+        questions[item.index].tense = item.tenses[0];
+    });
+
+    const remainingIndices = allIndices.filter(index => !guaranteedIrregular.some(item => item.index === index));
+    const compoundIndices = shuffleArray(remainingIndices).slice(0, Math.min(DAILY_COMPOUND_TENSE_COUNT, remainingIndices.length));
+    const compoundTenses = shuffleArray([...COMPOUND_TENSES]);
+
+    compoundIndices.forEach((index, offset) => {
+        questions[index].tense = compoundTenses[offset % compoundTenses.length];
+    });
+
+    const simpleTenses = getDailySimpleTenses();
+    questions.forEach(question => {
+        if (question.tense) {
+            return;
+        }
+
+        question.tense = shuffleArray([...simpleTenses])[0] || 'presente';
+    });
+
+    return questions;
+}
+
+function ensureDailyQuestionPlan() {
+    if (Array.isArray(dailyState.questions) && dailyState.questions.length === dailyState.verbs.length && dailyState.questions.length > 0) {
+        return;
+    }
+
+    const selectedVerbs = (dailyState.verbs || [])
+        .map(verbInf => verbsData.find(verb => verb.inf === verbInf))
+        .filter(Boolean);
+
+    if (!selectedVerbs.length) {
+        dailyState.questions = [];
+        return;
+    }
+
+    dailyState.questions = buildDailyQuestionPlan(selectedVerbs);
+    dailyState.verbs = dailyState.questions.map(question => question.verb);
+    saveDailyState();
+}
+
 function getTenseRuleText(tense) {
     const tenseInfo = tenses[tense];
 
@@ -654,7 +882,13 @@ function getIrregularVerbGroupCount(groups) {
     return new Set(normalizedVerbs).size;
 }
 
-function buildIrregularVerbGroupsHTML(tense, activeGroupId = '') {
+function getIrregularGroupHeading(group) {
+    const rawLabel = String(group?.label || '').trim();
+    const compactLabel = rawLabel.split('：')[0].split(':')[0].trim();
+    return compactLabel || rawLabel;
+}
+
+function buildIrregularVerbGroupsHTML(tense, activeGroupId = '', boxId = '') {
     const groups = getIrregularVerbGroups(tense);
 
     if (groups.length === 0) {
@@ -671,7 +905,8 @@ function buildIrregularVerbGroupsHTML(tense, activeGroupId = '') {
     const buttonsHTML = groups.map(group => {
         const isActive = group.id === activeGroup.id;
         const activeClass = isActive ? ' active' : '';
-        return `<button type="button" class="irregular-group-btn${activeClass}" data-tense="${tense}" data-group-id="${group.id}">${group.label}</button>`;
+        const boxIdAttr = boxId ? ` data-box-id="${boxId}"` : '';
+        return `<button type="button" class="irregular-group-btn${activeClass}" data-tense="${tense}" data-group-id="${group.id}"${boxIdAttr}>${group.label}</button>`;
     }).join('');
 
     return `
@@ -679,23 +914,23 @@ function buildIrregularVerbGroupsHTML(tense, activeGroupId = '') {
             <div class="irregular-groups-summary"><strong>${getIrregularListLabel(tense)}：</strong>共 ${totalCount} 个，已按动词原形的词干或词尾归类；点击任一类别即可查看该组统一变化。</div>
             <div class="irregular-group-buttons">${buttonsHTML}</div>
             <div class="irregular-group-detail">
-                <div><strong>当前类别：</strong>${activeGroup.label}</div>
-                <div><strong>规则：</strong>${activeGroup.rule}</div>
+                <div><strong>当前类别：</strong>${getIrregularGroupHeading(activeGroup)}</div>
                 <div><strong>该类动词：</strong>${activeGroup.verbs.join(', ')}</div>
+                <div><strong>规则：</strong>${activeGroup.rule}</div>
             </div>
         </div>
     `;
 }
 
 function buildTenseRuleBoxHTML(tense, options = {}) {
-    const { includeModeLabel = false, activeGroupId = '' } = options;
+    const { includeModeLabel = false, activeGroupId = '', boxId = '' } = options;
     let html = `<div class="tense-rule"><strong>变位规则：</strong>${getTenseRuleText(tense)}</div>`;
 
     if (includeModeLabel) {
         html += '<div class="tense-rule"><strong>当前模式：</strong>语境题训练</div>';
     }
 
-    html += buildIrregularVerbGroupsHTML(tense, activeGroupId);
+    html += buildIrregularVerbGroupsHTML(tense, activeGroupId, boxId);
     return html;
 }
 
@@ -709,11 +944,13 @@ function renderTenseRuleBox(boxId, tense, options = {}) {
     ruleBox.dataset.tense = tense;
     ruleBox.dataset.includeModeLabel = options.includeModeLabel ? 'true' : 'false';
     ruleBox.dataset.activeGroupId = activeGroupId;
+    ruleBox.dataset.boxId = boxId;
 
     try {
         ruleBox.innerHTML = buildTenseRuleBoxHTML(tense, {
             includeModeLabel: options.includeModeLabel,
-            activeGroupId
+            activeGroupId,
+            boxId
         });
     } catch (error) {
         console.error('renderTenseRuleBox failed', boxId, tense, error);
@@ -728,26 +965,33 @@ function rerenderTenseRuleBox(ruleBox, activeGroupId = '') {
     }
 
     const includeModeLabel = ruleBox.dataset.includeModeLabel === 'true';
+    const boxId = ruleBox.dataset.boxId || ruleBox.id || '';
     ruleBox.dataset.activeGroupId = activeGroupId;
     ruleBox.innerHTML = buildTenseRuleBoxHTML(tense, {
         includeModeLabel,
-        activeGroupId
+        activeGroupId,
+        boxId
     });
 }
 
 function bindIrregularVerbGroupInteractions() {
     document.addEventListener('click', event => {
-        const button = event.target.closest('.irregular-group-btn');
+        const eventTarget = event.target instanceof Element
+            ? event.target
+            : event.target?.parentElement;
+        const button = eventTarget?.closest('.irregular-group-btn');
         if (!button) {
             return;
         }
 
-        const ruleBox = button.closest('.tense-rule-box');
+        const targetBoxId = button.dataset.boxId || '';
+        const ruleBox = (targetBoxId && document.getElementById(targetBoxId)) || button.closest('.tense-rule-box');
         if (!ruleBox) {
             return;
         }
 
         event.preventDefault();
+        event.stopPropagation();
         rerenderTenseRuleBox(ruleBox, button.dataset.groupId || '');
     });
 }
@@ -773,42 +1017,39 @@ function startDailyPractice() {
     }
 
     const today = new Date().toDateString();
-    
-    // 分离不规则动词和规则动词
-    const irregularVerbs = verbsData.filter(v => v.type === 'irregular');
-    const regularVerbs = verbsData.filter(v => v.type !== 'irregular');
-    
-    // 随机选择4个不规则动词（至少4个）
-    const shuffledIrregular = [...irregularVerbs].sort(() => 0.5 - Math.random());
-    const selectedIrregular = shuffledIrregular.slice(0, 4);
-    
-    // 随机选择6个规则动词
-    const shuffledRegular = [...regularVerbs].sort(() => 0.5 - Math.random());
-    const selectedRegular = shuffledRegular.slice(0, 6);
-    
-    // 合并并打乱顺序
-    const selectedVerbs = [...selectedIrregular, ...selectedRegular].sort(() => 0.5 - Math.random());
-    
+    const irregularQuestionCandidates = verbsData.filter(verb => getAvailableIrregularDailyTenses(verb).length > 0);
+    const regularQuestionCandidates = verbsData.filter(verb => !irregularQuestionCandidates.some(item => item.inf === verb.inf));
+
+    const selectedIrregular = shuffleArray([...irregularQuestionCandidates]).slice(0, 4);
+    const selectedRegular = shuffleArray([...regularQuestionCandidates]).slice(0, 6);
+    const fallbackPool = shuffleArray(
+        verbsData.filter(verb => ![...selectedIrregular, ...selectedRegular].some(item => item.inf === verb.inf))
+    );
+    const selectedVerbs = shuffleArray([...selectedIrregular, ...selectedRegular, ...fallbackPool]).slice(0, DAILY_VERB_COUNT);
+    const plannedQuestions = buildDailyQuestionPlan(selectedVerbs);
+
     dailyState = {
         currentIndex: 0,
-        verbs: selectedVerbs.map(v => v.inf),
+        verbs: plannedQuestions.map(question => question.verb),
+        questions: plannedQuestions,
         results: [],
         isActive: true,
         date: today
     };
-    
+
     saveDailyState();
-    
+
     // 重置UI
     document.getElementById('dailySummary').style.display = 'none';
     document.getElementById('dailyStartBtn').style.display = 'none';
     document.getElementById('dailyCheckBtn').disabled = false;
     document.getElementById('dailyShowAnswerBtn').disabled = false;
-    
+
     loadDailyVerb();
 }
 
 function restoreDailyPractice() {
+    ensureDailyQuestionPlan();
     document.getElementById('dailyStartBtn').style.display = 'none';
     document.getElementById('dailyCheckBtn').disabled = false;
     document.getElementById('dailyShowAnswerBtn').disabled = false;
@@ -816,15 +1057,12 @@ function restoreDailyPractice() {
 }
 
 function loadDailyVerb() {
-    // 使用所有时态
-    const selectedTenses = ALL_TENSES;
-    
-    // 获取当前动词
-    const verbInf = dailyState.verbs[dailyState.currentIndex];
+    ensureDailyQuestionPlan();
+
+    const plannedQuestion = dailyState.questions[dailyState.currentIndex];
+    const verbInf = plannedQuestion ? plannedQuestion.verb : dailyState.verbs[dailyState.currentIndex];
     currentVerb = verbsData.find(v => v.inf === verbInf);
-    
-    // 随机选择时态
-    currentTense = selectedTenses[Math.floor(Math.random() * selectedTenses.length)];
+    currentTense = plannedQuestion ? plannedQuestion.tense : 'presente';
     
     // 更新进度显示
     document.getElementById('dailyCurrent').textContent = dailyState.currentIndex + 1;
@@ -883,6 +1121,7 @@ function checkDailyAnswer() {
     let correct = 0;
     let total = inputs.length;
     let hasError = false;
+    const weakPointItems = [];
 
     if (total === 0) {
         loadDailyVerb();
@@ -907,27 +1146,21 @@ function checkDailyAnswer() {
             input.classList.add('incorrect');
             input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
             hasError = true;
+            weakPointItems.push({
+                verb: currentVerb.inf,
+                tense: currentTense,
+                pronoun
+            });
         }
     });
 
     // 更新进度统计
-    progress.totalAttempts += total;
-    progress.correctCount += correct;
-    progress.totalVerbs++;
-    
-    if (!progress.practicedVerbs[currentVerb.inf]) {
-        progress.practicedVerbs[currentVerb.inf] = { count: 0, correct: 0 };
+    recordPracticeProgress(currentVerb.inf, currentTense, correct, total, {
+        module: 'daily'
+    });
+    if (weakPointItems.length > 0) {
+        recordWeakPointDetails(weakPointItems, { module: 'daily' });
     }
-    progress.practicedVerbs[currentVerb.inf].count++;
-    progress.practicedVerbs[currentVerb.inf].correct += correct;
-
-    if (!progress.tenseStats[currentTense]) {
-        progress.tenseStats[currentTense] = { attempts: 0, correct: 0 };
-    }
-    progress.tenseStats[currentTense].attempts += total;
-    progress.tenseStats[currentTense].correct += correct;
-
-    saveProgress();
 
     // 显示结果
     const result = document.getElementById('dailyResult');
@@ -996,12 +1229,18 @@ function showDailyAnswer() {
         result.innerHTML = '刚才这题的输入框没有正确显示，已自动重新加载，请先再试一次。';
         return;
     }
-    
+
+    const weakPointItems = [];
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
         input.value = conjugateVerb(currentVerb.inf, currentTense, pronoun);
         input.disabled = true;
         input.classList.add('incorrect');
+        weakPointItems.push({
+            verb: currentVerb.inf,
+            tense: currentTense,
+            pronoun
+        });
     });
     
     // 记录结果
@@ -1012,6 +1251,11 @@ function showDailyAnswer() {
         tense: currentTense
     });
     saveDailyState();
+    recordPracticeProgress(currentVerb.inf, currentTense, 0, inputs.length || tenses[currentTense].pronouns.length, {
+        module: 'daily',
+        revealed: true
+    });
+    recordWeakPointDetails(weakPointItems, { module: 'daily' });
     
     // 保存到错题本
     saveWrongVerbsToReview();
@@ -1137,6 +1381,7 @@ function bindTrainerFollowupActions() {
 function resetTrainerDisplay() {
     const result = document.getElementById('trainerResult');
     const ruleBox = document.getElementById('trainerTenseRuleBox');
+    const followupBox = document.getElementById('trainerFollowupBox');
     const exampleBox = document.getElementById('trainerExampleBox');
     const checkBtn = document.getElementById('trainerCheckBtn');
     const showAnswerBtn = document.getElementById('trainerShowAnswerBtn');
@@ -1546,6 +1791,8 @@ function checkTrainerFollowup() {
         } else {
             input.classList.add('incorrect');
             wrongItems.push({
+                verb: trainerState.currentQuestion.item.verbInf,
+                tense: trainerState.currentQuestion.item.tense,
                 pronoun: input.dataset.followupPronoun || '',
                 answer: correctAnswer
             });
@@ -1559,6 +1806,8 @@ function checkTrainerFollowup() {
         unlockTrainerNextStep('6 个变位已写全，可以继续下一题。');
         return;
     }
+
+    recordWeakPointDetails(wrongItems, { module: 'trainer' });
 
     const answerList = wrongItems
         .map(item => `<strong>${item.pronoun}</strong>：${item.answer}`)
@@ -1575,14 +1824,21 @@ function showTrainerFollowupAnswers() {
 
     const inputs = Array.from(document.querySelectorAll('#trainerFollowupBox input[data-followup-pronoun]')).filter(input => !input.disabled);
     const followupResult = document.getElementById('trainerFollowupResult');
+    const weakPointItems = [];
 
     inputs.forEach(input => {
         input.value = input.dataset.followupAnswer || '';
         input.disabled = true;
         input.classList.remove('correct', 'incorrect', 'almost');
         input.classList.add('incorrect');
+        weakPointItems.push({
+            verb: trainerState.currentQuestion.item.verbInf,
+            tense: trainerState.currentQuestion.item.tense,
+            pronoun: input.dataset.followupPronoun || ''
+        });
     });
 
+    recordWeakPointDetails(weakPointItems, { module: 'trainer' });
     unlockTrainerNextStep('标准答案已显示，可以继续下一题。');
 
     if (followupResult) {
@@ -1756,8 +2012,16 @@ function finishTrainerQuestion({ isCorrect, accentOnly = false, usedAnswerKey = 
     trainerState.streak = countedAsCorrect ? trainerState.streak + 1 : 0;
     trainerState.bestStreak = Math.max(trainerState.bestStreak, trainerState.streak);
 
-    recordPracticeProgress(question.item.verbInf, question.item.tense, countedAsCorrect ? 1 : 0, 1);
+    recordPracticeProgress(question.item.verbInf, question.item.tense, countedAsCorrect ? 1 : 0, 1, {
+        module: 'trainer',
+        revealed: usedAnswerKey
+    });
     if (!countedAsCorrect) {
+        recordWeakPointDetails([{
+            verb: question.item.verbInf,
+            tense: question.item.tense,
+            pronoun: question.item.pronoun
+        }], { module: 'trainer' });
         addWrongVerbToReview(question.item.verbInf, question.item.tense);
     }
 
@@ -1827,25 +2091,56 @@ function disableTrainerInputs() {
     });
 }
 
-function recordPracticeProgress(verbInf, tense, correct, total) {
-    progress.totalAttempts += total;
-    progress.correctCount += correct;
+function recordPracticeProgress(verbInf, tense, correct, total, options = {}) {
+    const safeTotal = Number(total) || 0;
+    const safeCorrect = Number(correct) || 0;
+    const moduleName = options.module || 'daily';
+    const todayKey = getLocalDateKey();
+
+    updateStreak();
+    progress.totalAttempts += safeTotal;
+    progress.correctCount += safeCorrect;
     progress.totalVerbs++;
 
     if (!progress.practicedVerbs[verbInf]) {
-        progress.practicedVerbs[verbInf] = { count: 0, correct: 0, forms: 0 };
+        progress.practicedVerbs[verbInf] = { count: 0, correct: 0, forms: 0, lastPracticedDate: null };
     }
 
     progress.practicedVerbs[verbInf].count++;
-    progress.practicedVerbs[verbInf].correct += correct;
-    progress.practicedVerbs[verbInf].forms = (progress.practicedVerbs[verbInf].forms || 0) + total;
+    progress.practicedVerbs[verbInf].correct += safeCorrect;
+    progress.practicedVerbs[verbInf].forms = (progress.practicedVerbs[verbInf].forms || 0) + safeTotal;
+    progress.practicedVerbs[verbInf].lastPracticedDate = todayKey;
 
     if (!progress.tenseStats[tense]) {
         progress.tenseStats[tense] = { attempts: 0, correct: 0 };
     }
 
-    progress.tenseStats[tense].attempts += total;
-    progress.tenseStats[tense].correct += correct;
+    progress.tenseStats[tense].attempts += safeTotal;
+    progress.tenseStats[tense].correct += safeCorrect;
+
+    if (!progress.historyByDate[todayKey]) {
+        progress.historyByDate[todayKey] = normalizeHistoryEntry();
+    }
+
+    const dayEntry = progress.historyByDate[todayKey];
+    dayEntry.attempts += safeTotal;
+    dayEntry.correct += safeCorrect;
+    dayEntry.sessions += 1;
+    dayEntry.reveals += options.revealed ? 1 : 0;
+    dayEntry.modules[moduleName] = (dayEntry.modules[moduleName] || 0) + 1;
+
+    if (!dayEntry.verbs[verbInf]) {
+        dayEntry.verbs[verbInf] = { count: 0, attempts: 0, correct: 0 };
+    }
+    dayEntry.verbs[verbInf].count += 1;
+    dayEntry.verbs[verbInf].attempts += safeTotal;
+    dayEntry.verbs[verbInf].correct += safeCorrect;
+
+    if (!dayEntry.tenses[tense]) {
+        dayEntry.tenses[tense] = { attempts: 0, correct: 0 };
+    }
+    dayEntry.tenses[tense].attempts += safeTotal;
+    dayEntry.tenses[tense].correct += safeCorrect;
 
     saveProgress();
 }
@@ -3498,19 +3793,13 @@ function speakB2Sample() {
 function initProgress() {
     document.getElementById('resetProgressBtn').addEventListener('click', () => {
         if (confirm('确定要重置所有学习进度吗？此操作不可撤销。')) {
-            progress = {
-                totalVerbs: 0,
-                correctCount: 0,
-                totalAttempts: 0,
-                streakDays: 0,
-                lastStudyDate: null,
-                practicedVerbs: {},
-                tenseStats: {}
-            };
+            progress = createEmptyProgressState();
             saveProgress();
             updateProgressDisplay();
         }
     });
+
+    updateProgressDisplay();
 }
 
 function saveProgress() {
@@ -3518,78 +3807,295 @@ function saveProgress() {
 }
 
 function updateStreak() {
-    const today = new Date().toDateString();
-    const lastDate = progress.lastStudyDate;
+    const todayKey = getLocalDateKey();
+    const lastDate = parseStoredDate(progress.lastStudyDate);
 
-    if (lastDate) {
-        const last = new Date(lastDate);
-        const todayDate = new Date(today);
-        const diffDays = Math.floor((todayDate - last) / (1000 * 60 * 60 * 24));
-
-        if (diffDays === 0) {
-            // 今天已经学习过
-        } else if (diffDays === 1) {
-            // 连续学习
-            progress.streakDays++;
-        } else {
-            // 中断
-            progress.streakDays = 1;
-        }
-    } else {
+    if (!lastDate) {
         progress.streakDays = 1;
+        progress.lastStudyDate = todayKey;
+        return;
     }
 
-    progress.lastStudyDate = today;
+    const lastKey = getLocalDateKey(lastDate);
+    if (lastKey === todayKey) {
+        return;
+    }
+
+    const diffDays = getDaysBetween(lastDate, parseStoredDate(todayKey));
+    progress.streakDays = diffDays === 1 ? progress.streakDays + 1 : 1;
+    progress.lastStudyDate = todayKey;
+}
+
+function getProgressAccuracy(correct, attempts) {
+    return attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
+}
+
+function getWeakPointKey(verbInf, tense, pronoun = '') {
+    return `${verbInf}__${tense}__${pronoun}`;
+}
+
+function recordWeakPointDetails(items = [], options = {}) {
+    const todayKey = getLocalDateKey();
+    const moduleName = options.module || '';
+
+    items.forEach(item => {
+        const verb = String(item?.verb || '').trim();
+        const tense = String(item?.tense || '').trim();
+        const pronoun = String(item?.pronoun || '').trim();
+        const count = Number(item?.count) || 1;
+        if (!verb || !tense || !pronoun) {
+            return;
+        }
+
+        const key = getWeakPointKey(verb, tense, pronoun);
+        if (!progress.weakPointDetails[key]) {
+            progress.weakPointDetails[key] = normalizeWeakPointEntry({ verb, tense, pronoun, count: 0 });
+        }
+
+        progress.weakPointDetails[key].count += count;
+        progress.weakPointDetails[key].lastWrongDate = todayKey;
+        if (moduleName) {
+            progress.weakPointDetails[key].module = moduleName;
+        }
+    });
+
     saveProgress();
 }
 
-function updateProgressDisplay() {
-    document.getElementById('totalVerbs').textContent = progress.totalVerbs;
-    
-    const rate = progress.totalAttempts > 0 
-        ? Math.round((progress.correctCount / progress.totalAttempts) * 100) 
-        : 0;
-    document.getElementById('correctRate').textContent = rate + '%';
-    
-    document.getElementById('streakDays').textContent = progress.streakDays;
-    document.getElementById('totalTime').textContent = Math.round(progress.totalVerbs * 2); // 估算时间
+function getPronounHint(pronoun) {
+    const pronounHints = {
+        'yo': '第一人称单数',
+        'tú': '第二人称单数',
+        'él/ella/usted': '第三人称单数',
+        'nosotros': '第一人称复数',
+        'vosotros': '第二人称复数',
+        'ellos/ustedes': '第三人称复数',
+        'usted': '第三人称单数',
+        'ustedes': '第三人称复数'
+    };
 
-    // 已练习动词列表
+    return pronounHints[pronoun] || '该人称';
+}
+
+function getWeakPointEntries(limit = 12) {
+    const detailEntries = Object.values(progress.weakPointDetails || {})
+        .filter(entry => entry.verb && entry.tense && entry.pronoun && (entry.count || 0) > 0)
+        .sort((entryA, entryB) => {
+            if ((entryB.count || 0) !== (entryA.count || 0)) {
+                return (entryB.count || 0) - (entryA.count || 0);
+            }
+            return (entryB.lastWrongDate || '').localeCompare(entryA.lastWrongDate || '');
+        });
+
+    if (detailEntries.length > 0) {
+        return detailEntries.slice(0, limit);
+    }
+
+    return (reviewState.wrongVerbs || [])
+        .filter(item => item.verb && item.tense)
+        .sort((itemA, itemB) => {
+            if ((itemB.attempts || 0) !== (itemA.attempts || 0)) {
+                return (itemB.attempts || 0) - (itemA.attempts || 0);
+            }
+            return String(itemB.lastWrongDate || '').localeCompare(String(itemA.lastWrongDate || ''));
+        })
+        .slice(0, limit)
+        .map(item => ({
+            verb: item.verb,
+            tense: item.tense,
+            pronoun: '',
+            count: Number(item.attempts) || 0,
+            lastWrongDate: item.lastWrongDate || null,
+            isLegacy: true
+        }));
+}
+
+function getSortedHistoryEntries(limit = 7) {
+    return Object.entries(progress.historyByDate || {})
+        .sort(([dateA], [dateB]) => dateA < dateB ? 1 : -1)
+        .slice(0, limit);
+}
+
+function formatModuleSummary(modules = {}) {
+    const moduleLabels = {
+        daily: '每日练习',
+        trainer: '训练营',
+        review: '错题重练'
+    };
+
+    return Object.entries(moduleLabels)
+        .filter(([key]) => (modules[key] || 0) > 0)
+        .map(([key, label]) => `${label} ${modules[key]} 次`)
+        .join(' / ');
+}
+
+function renderProgressOverview() {
+    const overview = document.getElementById('progressBreakdown');
+    if (!overview) {
+        return;
+    }
+
+    const historyEntries = getSortedHistoryEntries(7);
+    if (historyEntries.length === 0) {
+        const hasLegacyStats = Object.keys(progress.practicedVerbs).length > 0;
+        overview.innerHTML = `<p class="empty">${hasLegacyStats ? '最近 7 天明细会从这次升级后开始累计；旧的累计统计仍保留。' : '还没有最近 7 天记录，开始练习后这里会显示模块分布与最近表现。'}</p>`;
+        return;
+    }
+
+    const totals = historyEntries.reduce((summary, [, entry]) => {
+        summary.attempts += entry.attempts;
+        summary.correct += entry.correct;
+        summary.reveals += entry.reveals;
+        summary.sessions += entry.sessions;
+        summary.uniqueVerbs += Object.keys(entry.verbs || {}).length;
+        summary.modules.daily += entry.modules?.daily || 0;
+        summary.modules.trainer += entry.modules?.trainer || 0;
+        summary.modules.review += entry.modules?.review || 0;
+        return summary;
+    }, {
+        attempts: 0,
+        correct: 0,
+        reveals: 0,
+        sessions: 0,
+        uniqueVerbs: 0,
+        modules: { daily: 0, trainer: 0, review: 0 }
+    });
+
+    overview.innerHTML = `
+        <div class="progress-overview-grid">
+            <div class="progress-overview-card">
+                <strong>最近 7 天作答</strong>
+                <span>${totals.attempts} 格</span>
+            </div>
+            <div class="progress-overview-card">
+                <strong>最近 7 天正确率</strong>
+                <span>${getProgressAccuracy(totals.correct, totals.attempts)}%</span>
+            </div>
+            <div class="progress-overview-card">
+                <strong>最近 7 天直接看答案</strong>
+                <span>${totals.reveals} 次</span>
+            </div>
+            <div class="progress-overview-card">
+                <strong>最近 7 天练习条目</strong>
+                <span>${totals.sessions} 条</span>
+            </div>
+        </div>
+        <div class="progress-module-breakdown">${formatModuleSummary(totals.modules) || '最近 7 天还没有模块分布数据。'}</div>
+    `;
+}
+
+function renderProgressHistory() {
+    const historyContainer = document.getElementById('progressHistory');
+    if (!historyContainer) {
+        return;
+    }
+
+    const historyEntries = getSortedHistoryEntries(7);
+    if (historyEntries.length === 0) {
+        const hasLegacyStats = Object.keys(progress.practicedVerbs).length > 0;
+        historyContainer.innerHTML = `<p class="empty">${hasLegacyStats ? '按天记录会从这次升级后开始累计；旧的累计练习数据仍保留在本页。' : '还没有按天练习记录，开始做一题后这里就会显示最近 7 天的学习情况。'}</p>`;
+        return;
+    }
+
+    historyContainer.innerHTML = historyEntries.map(([dateKey, entry]) => {
+        const uniqueVerbCount = Object.keys(entry.verbs || {}).length;
+        const revealText = entry.reveals > 0 ? ` · 看答案 ${entry.reveals} 次` : '';
+        return `
+            <div class="history-row">
+                <div class="history-row-main">
+                    <strong>${formatProgressDateLabel(dateKey)}</strong>
+                    <span>${entry.attempts} 格 · ${getProgressAccuracy(entry.correct, entry.attempts)}% · ${uniqueVerbCount} 个动词${revealText}</span>
+                </div>
+                <div class="history-row-meta">${formatModuleSummary(entry.modules) || '暂无模块分布'}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderPracticedVerbDetails() {
     const verbList = document.getElementById('practicedVerbs');
-    const verbs = Object.entries(progress.practicedVerbs);
-    
+    if (!verbList) {
+        return;
+    }
+
+    const verbs = Object.entries(progress.practicedVerbs)
+        .sort(([, statsA], [, statsB]) => {
+            const dateA = statsA.lastPracticedDate || '';
+            const dateB = statsB.lastPracticedDate || '';
+            if (dateA !== dateB) {
+                return dateA < dateB ? 1 : -1;
+            }
+            return (statsB.count || 0) - (statsA.count || 0);
+        });
+
     if (verbs.length === 0) {
         verbList.innerHTML = '<p class="empty">还没有练习记录，开始你的第一节课吧！</p>';
-    } else {
-        verbList.innerHTML = verbs.map(([verb, stats]) => {
-            const totalForms = stats.forms || (stats.count * 6);
-            const accuracy = totalForms > 0 ? Math.round((stats.correct / totalForms) * 100) : 0;
-            const className = accuracy >= 80 ? 'mastered' : 'practicing';
-            return `<span class="verb-tag ${className}">${verb} (${accuracy}%)</span>`;
-        }).join('');
+        return;
     }
 
-    // 弱项分析
-    const weakPoints = document.getElementById('weakPoints');
-    const tenseStats = Object.entries(progress.tenseStats);
-    
-    if (tenseStats.length === 0) {
-        weakPoints.innerHTML = '<p>练习更多动词后，这里会显示你需要加强的时态。</p>';
-    } else {
-        weakPoints.innerHTML = tenseStats.map(([tense, stats]) => {
-            const accuracy = Math.round((stats.correct / stats.attempts) * 100);
-            const className = accuracy < 60 ? 'low' : '';
-            return `
-                <div class="tense-weakness">
-                    <span>${tenses[tense].name}</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill ${className}" style="width: ${accuracy}%"></div>
-                    </div>
-                    <span>${accuracy}%</span>
+    verbList.innerHTML = verbs.map(([verb, stats]) => {
+        const totalForms = stats.forms || (stats.count * 6);
+        const accuracy = getProgressAccuracy(stats.correct, totalForms);
+        const className = accuracy >= 80 ? 'mastered' : 'practicing';
+        return `
+            <div class="verb-detail-item ${className}">
+                <div class="verb-detail-main">
+                    <strong>${verb}</strong>
+                    <span>${accuracy}% 正确率</span>
                 </div>
-            `;
-        }).join('');
+                <div class="verb-detail-meta">
+                    <span>练习 ${stats.count} 次</span>
+                    <span>作答 ${totalForms} 格</span>
+                    <span>最近：${stats.lastPracticedDate ? formatProgressDateLabel(stats.lastPracticedDate) : '较早'}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderWeakPoints() {
+    const weakPoints = document.getElementById('weakPoints');
+    if (!weakPoints) {
+        return;
     }
+
+    const weakPointEntries = getWeakPointEntries(12);
+    if (weakPointEntries.length === 0) {
+        weakPoints.innerHTML = '<p>这里会按“单词 + 时态 + 人称”列出最容易出错的内容。</p>';
+        return;
+    }
+
+    weakPoints.innerHTML = weakPointEntries.map(entry => {
+        const tenseName = tenses[entry.tense]?.name || entry.tense;
+        const pronounText = entry.pronoun
+            ? `${entry.pronoun}（${getPronounHint(entry.pronoun)}）`
+            : '旧记录暂未细分到人称';
+        const metaText = `${tenseName} · ${pronounText}`;
+        const suffix = entry.count > 1 ? `错 ${entry.count} 次` : '错 1 次';
+        return `
+            <div class="weak-point-item${entry.isLegacy ? ' legacy' : ''}">
+                <div class="weak-point-main">
+                    <strong>${entry.verb}</strong>
+                    <span>${suffix}</span>
+                </div>
+                <div class="weak-point-meta">${metaText}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateProgressDisplay() {
+    const uniqueVerbCount = Object.keys(progress.practicedVerbs).length;
+    document.getElementById('totalVerbs').textContent = progress.totalVerbs;
+    document.getElementById('uniqueVerbCount').textContent = uniqueVerbCount;
+    document.getElementById('correctRate').textContent = getProgressAccuracy(progress.correctCount, progress.totalAttempts) + '%';
+    document.getElementById('streakDays').textContent = progress.streakDays;
+    document.getElementById('totalTime').textContent = progress.totalAttempts > 0
+        ? Math.max(1, Math.round(progress.totalAttempts * 0.5))
+        : 0;
+
+    renderProgressHistory();
+    renderWeakPoints();
 }
 
 // ============ 错题重练模块 ============
@@ -3707,6 +4213,7 @@ function checkReviewAnswer() {
     let correct = 0;
     let total = inputs.length;
     let hasError = false;
+    const weakPointItems = [];
 
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
@@ -3723,13 +4230,21 @@ function checkReviewAnswer() {
             input.classList.add('incorrect');
             input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
             hasError = true;
+            weakPointItems.push({
+                verb: currentVerb.inf,
+                tense: currentTense,
+                pronoun
+            });
         }
     });
 
     // 更新进度统计
-    progress.totalAttempts += total;
-    progress.correctCount += correct;
-    saveProgress();
+    recordPracticeProgress(currentVerb.inf, currentTense, correct, total, {
+        module: 'review'
+    });
+    if (weakPointItems.length > 0) {
+        recordWeakPointDetails(weakPointItems, { module: 'review' });
+    }
 
     // 显示结果
     const result = document.getElementById('reviewResult');
@@ -3776,12 +4291,18 @@ function checkReviewAnswer() {
 // 显示复习答案
 function showReviewAnswer() {
     const inputs = document.querySelectorAll('#reviewConjugationGrid input');
-    
+    const weakPointItems = [];
+
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
         input.value = conjugateVerb(currentVerb.inf, currentTense, pronoun);
         input.disabled = true;
         input.classList.add('incorrect');
+        weakPointItems.push({
+            verb: currentVerb.inf,
+            tense: currentTense,
+            pronoun
+        });
     });
     
     // 增加错误次数
@@ -3794,6 +4315,12 @@ function showReviewAnswer() {
         reviewState.wrongVerbs[originalIndex].lastWrongDate = new Date().toDateString();
         saveReviewState();
     }
+
+    recordPracticeProgress(currentVerb.inf, currentTense, 0, inputs.length || tenses[currentTense].pronouns.length, {
+        module: 'review',
+        revealed: true
+    });
+    recordWeakPointDetails(weakPointItems, { module: 'review' });
     
     const result = document.getElementById('reviewResult');
     result.className = 'result show error';

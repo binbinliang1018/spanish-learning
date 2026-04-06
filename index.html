@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>西班牙语每日学习 | Español Diario</title>
-    <link rel="stylesheet" href="styles.css?v=202604060115">
+    <link rel="stylesheet" href="styles.css?v=202604061455">
 </head>
 <body>
     <div class="container app-shell app-shell--locked" id="appShell">
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="verb-display">
-                    <div class="verb-infinitive" id="dailyVerbInfinitive">点击开始练习</div>
+                    <div class="verb-infinitive" id="dailyVerbInfinitive">准备开始了</div>
                     <div class="verb-meaning" id="dailyVerbMeaning"></div>
                     <div class="verb-tense" id="dailyVerbTense"></div>
                 </div>
@@ -322,36 +322,40 @@
 
         <!-- 学习进度 -->
         <section id="progress" class="tab-content">
-            <div class="stats-grid">
-                <div class="stat-card">
+            <div class="stats-grid progress-stats-grid">
+                <div class="stat-card stat-card-compact">
                     <div class="stat-number" id="totalVerbs">0</div>
-                    <div class="stat-label">练习动词数</div>
+                    <div class="stat-label">累计练习条目</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card stat-card-compact">
+                    <div class="stat-number" id="uniqueVerbCount">0</div>
+                    <div class="stat-label">已练习动词</div>
+                </div>
+                <div class="stat-card stat-card-compact">
                     <div class="stat-number" id="correctRate">0%</div>
-                    <div class="stat-label">正确率</div>
+                    <div class="stat-label">累计正确率</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card stat-card-compact">
                     <div class="stat-number" id="streakDays">0</div>
                     <div class="stat-label">连续学习天数</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card stat-card-compact">
                     <div class="stat-number" id="totalTime">0</div>
-                    <div class="stat-label">学习时长(分钟)</div>
+                    <div class="stat-label">估算学习时长(分钟)</div>
                 </div>
             </div>
 
             <div class="card">
-                <h3>📚 已练习动词</h3>
-                <div class="verb-list" id="practicedVerbs">
-                    <p class="empty">还没有练习记录，开始你的第一节课吧！</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>🎯 弱项分析</h3>
+                <h3>🎯 易错清单</h3>
                 <div class="weak-points" id="weakPoints">
-                    <p>练习更多动词后，这里会显示你需要加强的时态。</p>
+                    <p>这里会按“单词 + 时态 + 人称”列出最容易出错的内容。</p>
+                </div>
+            </div>
+
+            <div class="card progress-history-card">
+                <h3>📅 最近 7 天记录</h3>
+                <div class="progress-history" id="progressHistory">
+                    <p class="empty">还没有按天练习记录。</p>
                 </div>
             </div>
 
@@ -362,6 +366,6 @@
     <script async src="https://code.responsivevoice.org/responsivevoice.js?key=Demo"></script>
     <script src="verbs-data.js?v=202604052330"></script>
     <script src="speaking-data.js?v=202604051700"></script>
-    <script src="app.js?v=202604060142"></script>
+    <script src="app.js?v=202604061505"></script>
 </body>
 </html>
