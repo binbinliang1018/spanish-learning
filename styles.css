@@ -1534,8 +1534,15 @@ header h1 {
 
 .exercise-container h4 {
     color: #667eea;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 1.1rem;
+}
+
+.exercise-note {
+    margin-bottom: 14px;
+    color: #5f6368;
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 .exercise-item {

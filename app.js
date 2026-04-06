@@ -3799,11 +3799,17 @@ function loadNewChallenge() {
         console.log('speakingChallenges 尚未加载');
         return;
     }
+
+    const dailyChallenges = speakingChallenges.filter(item => !item.type || !String(item.type).startsWith('b2_'));
+    if (dailyChallenges.length === 0) {
+        console.log('没有可用的日常口语挑战');
+        return;
+    }
     
     let newChallenge;
     do {
-        newChallenge = speakingChallenges[Math.floor(Math.random() * speakingChallenges.length)];
-    } while (newChallenge === currentChallenge);
+        newChallenge = dailyChallenges[Math.floor(Math.random() * dailyChallenges.length)];
+    } while (newChallenge === currentChallenge && dailyChallenges.length > 1);
     currentChallenge = newChallenge;
     displayChallenge(currentChallenge);
     // 隐藏参考口语
@@ -3835,6 +3841,30 @@ function displayChallenge(challenge) {
     }
 }
 
+function normalizeSpeakingExerciseText(text) {
+    return stripSpanishAccents(String(text || '').toLowerCase())
+        .replace(/[¿?¡!.,;:()"']/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function evaluateSpeakingExercise(userAnswer, correctAnswer) {
+    const directCompare = compareTrainerAnswer(userAnswer, correctAnswer);
+    const normalizedUser = normalizeSpeakingExerciseText(userAnswer);
+    const normalizedCorrect = normalizeSpeakingExerciseText(correctAnswer);
+    const containsCoreExpression = normalizedCorrect && (
+        normalizedUser === normalizedCorrect
+        || normalizedUser.startsWith(normalizedCorrect + ' ')
+        || normalizedUser.endsWith(' ' + normalizedCorrect)
+        || normalizedUser.includes(` ${normalizedCorrect} `)
+    );
+
+    return {
+        isCorrect: directCompare.isCorrect || containsCoreExpression,
+        accentOnly: directCompare.isCorrect && directCompare.accentOnly
+    };
+}
+
 // 渲染互动练习
 function renderExercises(exercises) {
     let container = document.getElementById('exerciseContainer');
@@ -3847,7 +3877,7 @@ function renderExercises(exercises) {
         challengeBox.appendChild(container);
     }
     
-    container.innerHTML = '<h4>✏️ 互动练习：看中文，写西语</h4>';
+    container.innerHTML = '<h4>✏️ B2.1 进阶口语输出</h4><p class="exercise-note">这些句子优先选自不同场景的口语对话。根据中文提示，用西语完整句作答；尽量不要只写单个词或短语。能补充原因、感受、结果或建议更好，但不强制。</p>';
     
     exercises.forEach((ex, index) => {
         const exerciseEl = document.createElement('div');
@@ -3856,7 +3886,7 @@ function renderExercises(exercises) {
             <div class="exercise-zh">${index + 1}. ${ex.zh}</div>
             <div class="exercise-hint">提示词：${ex.hint}</div>
             <div class="exercise-input-group">
-                <input type="text" class="exercise-input" id="exercise-${index}" placeholder="输入西语..." autocomplete="off">
+                <input type="text" class="exercise-input" id="exercise-${index}" placeholder="写一句完整西语..." autocomplete="off">
                 <button class="btn btn-small" onclick="checkExercise(${index}, '${ex.es.replace(/'/g, "\\'")}')">检查</button>
                 <button class="btn btn-small btn-secondary" onclick="showExerciseAnswer(${index}, '${ex.es.replace(/'/g, "\\'")}')">显示答案</button>
             </div>
@@ -3872,23 +3902,28 @@ function checkExercise(index, correctAnswer) {
 
     const input = document.getElementById(`exercise-${index}`);
     const feedback = document.getElementById(`feedback-${index}`);
-    const userAnswer = input.value.trim().toLowerCase();
-    const correct = correctAnswer.toLowerCase();
+    const userAnswer = input.value.trim();
     
     if (userAnswer === '') {
-        feedback.innerHTML = '<span class="feedback-hint">请输入答案</span>';
+        feedback.innerHTML = '<span class="feedback-hint">请先写出一句完整回答。</span>';
         return;
     }
+
+    const evaluation = evaluateSpeakingExercise(userAnswer, correctAnswer);
     
-    if (userAnswer === correct) {
-        feedback.innerHTML = '<span class="feedback-correct">✅ 正确！</span>';
+    if (evaluation.isCorrect) {
+        const message = evaluation.accentOnly
+            ? '✅ 表达对了，注意重音和细节拼写。'
+            : '✅ 对了，这句已经通过。想更像 B2.1 的话，可以再补一句原因、感受或建议，但不是必须。';
+        feedback.innerHTML = `<span class="feedback-correct">${message}</span>`;
         input.classList.add('correct');
         input.classList.remove('incorrect');
-    } else {
-        feedback.innerHTML = '<span class="feedback-wrong">❌ 不正确，再试试</span>';
-        input.classList.add('incorrect');
-        input.classList.remove('correct');
+        return;
     }
+
+    feedback.innerHTML = '<span class="feedback-wrong">❌ 关键表达还没到位，再试试，尽量写成完整句，并把提示词用进去。</span>';
+    input.classList.add('incorrect');
+    input.classList.remove('correct');
 }
 
 // 显示练习答案
@@ -3898,8 +3933,9 @@ function showExerciseAnswer(index, answer) {
     const input = document.getElementById(`exercise-${index}`);
     const feedback = document.getElementById(`feedback-${index}`);
     input.value = answer;
-    feedback.innerHTML = '<span class="feedback-answer">💡 答案：' + answer + '</span>';
+    feedback.innerHTML = `<span class="feedback-answer">💡 参考句：${answer}。可以直接用这一句，也可以在后面再补一句原因、感受或建议。</span>`;
     input.classList.remove('incorrect');
+    input.classList.remove('correct');
 }
 
 // 显示/隐藏参考口语
