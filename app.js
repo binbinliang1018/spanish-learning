@@ -2583,15 +2583,22 @@ function conjugateVerb(infinitive, tense, pronoun) {
     function getPastParticiple(verb) {
         const irregularParticiples = {
             abrir: 'abierto',
+            caer: 'caído',
             cubrir: 'cubierto',
             decir: 'dicho',
             describir: 'descrito',
             escribir: 'escrito',
+            freír: 'freído',
             hacer: 'hecho',
             morir: 'muerto',
+            oír: 'oído',
             poner: 'puesto',
+            reír: 'reído',
             resolver: 'resuelto',
+            roer: 'roído',
             romper: 'roto',
+            sonreír: 'sonreído',
+            traer: 'traído',
             ver: 'visto',
             volver: 'vuelto'
         };
@@ -2623,7 +2630,33 @@ function conjugateVerb(infinitive, tense, pronoun) {
     if (tense === 'subjuntivo_imperfecto') {
         const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
         const subjEndings = ['ra', 'ras', 'ra', 'ramos', 'rais', 'ran'];
-        const ellosPreterito = conjugateVerb(baseVerb, 'preterito', 'ellos/ustedes');
+        // 气象缺陷动词列表（只有第三人称单数）
+        const impersonalVerbs = ['llover', 'nevar', 'tronar'];
+        const isImpersonal = impersonalVerbs.includes(baseVerb);
+        if (isImpersonal && pronoun !== 'él/ella/usted') {
+            return 'N/A';
+        }
+        // 用非反身形式调用 conjugateVerb 来获取 ellos preterito（避免带代词前缀）
+        let ellosPreterito = conjugateVerb(baseVerb, 'preterito', 'ellos/ustedes');
+        if (!ellosPreterito || ellosPreterito === 'N/A') {
+            // 缺陷动词没有 ellos 形式，从第三人称单数 preterito 推导 subjuntivo_imperfecto 词干
+            // -ar: nevó → neva (stem for subjuntivo_imp is regular -ar preterito stem)
+            // -er/-ir: llovió → llovie (stem)
+            const sgPreterito = conjugateVerb(baseVerb, 'preterito', 'él/ella/usted');
+            if (typeof sgPreterito === 'string' && sgPreterito !== 'N/A') {
+                if (ending === 'ar') {
+                    // -ar verbs: subjImp stem = infinitive stem (same as preterito)
+                    ellosPreterito = stem + 'aron'; // simulate: nevaron → neva
+                } else {
+                    // -er/-ir verbs: from 3sg -ió → -ieron
+                    if (sgPreterito.endsWith('ió')) {
+                        ellosPreterito = sgPreterito.slice(0, -2) + 'ieron';
+                    } else {
+                        ellosPreterito = sgPreterito.replace(/ó$/, 'on');
+                    }
+                }
+            }
+        }
         const subjStem = typeof ellosPreterito === 'string' && ellosPreterito.endsWith('ron')
             ? ellosPreterito.slice(0, -3)
             : stem;
@@ -2696,7 +2729,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'futuro': ['iré', 'irás', 'irá', 'iremos', 'iréis', 'irán'],
             'condicional': ['iría', 'irías', 'iría', 'iríamos', 'iríais', 'irían'],
             'subjuntivo': ['vaya', 'vayas', 'vaya', 'vayamos', 'vayáis', 'vayan'],
-            'imperativo': ['ve', 'vaya', 'vayamos', 'id', 'vayan']
+            'imperativo': ['ve', 'vaya', 'vamos', 'id', 'vayan']
         },
         'ver': {
             'presente': ['veo', 'ves', 've', 'vemos', 'veis', 'ven'],
@@ -2795,13 +2828,14 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'futuro': ['valdré', 'valdrás', 'valdrá', 'valdremos', 'valdréis', 'valdrán'],
             'condicional': ['valdría', 'valdrías', 'valdría', 'valdríamos', 'valdríais', 'valdrían'],
             'subjuntivo': ['valga', 'valgas', 'valga', 'valgamos', 'valgáis', 'valgan'],
-            'imperativo': ['val', 'valga', 'valgamos', 'valed', 'valgan']
+            'imperativo': ['vale', 'valga', 'valgamos', 'valed', 'valgan']
         },
         'soler': {
             // 缺陷动词，仅现在时和过去未完成时常用
             'presente': ['suelo', 'sueles', 'suele', 'solemos', 'soléis', 'suelen'],
             'imperfecto': ['solía', 'solías', 'solía', 'solíamos', 'solíais', 'solían'],
-            'subjuntivo': ['suela', 'suelas', 'suela', 'solamos', 'soláis', 'suelan']
+            'subjuntivo': ['suela', 'suelas', 'suela', 'solamos', 'soláis', 'suelan'],
+            'imperativo': ['N/A', 'N/A', 'N/A', 'N/A', 'N/A']
         },
         'jugar': {
             'presente': ['juego', 'juegas', 'juega', 'jugamos', 'jugáis', 'juegan'],
@@ -2866,6 +2900,51 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'subjuntivo': ['vista', 'vistas', 'vista', 'vistamos', 'vistáis', 'vistan'],
             'imperativo': ['viste', 'vista', 'vistamos', 'vestid', 'vistan']
         },
+        'arrepentir': {
+            'presente': ['arrepiento', 'arrepientes', 'arrepiente', 'arrepentimos', 'arrepentís', 'arrepienten'],
+            'preterito': ['arrepentí', 'arrepentiste', 'arrepintió', 'arrepentimos', 'arrepentisteis', 'arrepintieron'],
+            'imperfecto': ['arrepentía', 'arrepentías', 'arrepentía', 'arrepentíamos', 'arrepentíais', 'arrepentían'],
+            'futuro': ['arrepentiré', 'arrepentirás', 'arrepentirá', 'arrepentiremos', 'arrepentiréis', 'arrepentirán'],
+            'condicional': ['arrepentiría', 'arrepentirías', 'arrepentiría', 'arrepentiríamos', 'arrepentiríais', 'arrepentirían'],
+            'subjuntivo': ['arrepienta', 'arrepientas', 'arrepienta', 'arrepintamos', 'arrepintáis', 'arrepientan'],
+            'imperativo': ['arrepiente', 'arrepienta', 'arrepintamos', 'arrepentid', 'arrepientan']
+        },
+        'divertir': {
+            'presente': ['divierto', 'diviertes', 'divierte', 'divertimos', 'divertís', 'divierten'],
+            'preterito': ['divertí', 'divertiste', 'divirtió', 'divertimos', 'divertisteis', 'divirtieron'],
+            'imperfecto': ['divertía', 'divertías', 'divertía', 'divertíamos', 'divertíais', 'divertían'],
+            'futuro': ['divertiré', 'divertirás', 'divertirá', 'divertiremos', 'divertiréis', 'divertirán'],
+            'condicional': ['divertiría', 'divertirías', 'divertiría', 'divertiríamos', 'divertiríais', 'divertirían'],
+            'subjuntivo': ['divierta', 'diviertas', 'divierta', 'divirtamos', 'divirtáis', 'diviertan'],
+            'imperativo': ['divierte', 'divierta', 'divirtamos', 'divertid', 'diviertan']
+        },
+        'despedir': {
+            'presente': ['despido', 'despides', 'despide', 'despedimos', 'despedís', 'despiden'],
+            'preterito': ['despedí', 'despediste', 'despidió', 'despedimos', 'despedisteis', 'despidieron'],
+            'imperfecto': ['despedía', 'despedías', 'despedía', 'despedíamos', 'despedíais', 'despedían'],
+            'futuro': ['despediré', 'despedirás', 'despedirá', 'despediremos', 'despediréis', 'despedirán'],
+            'condicional': ['despediría', 'despedirías', 'despediría', 'despediríamos', 'despediríais', 'despedirían'],
+            'subjuntivo': ['despida', 'despidas', 'despida', 'despidamos', 'despidáis', 'despidan'],
+            'imperativo': ['despide', 'despida', 'despidamos', 'despedid', 'despidan']
+        },
+        'convertir': {
+            'presente': ['convierto', 'conviertes', 'convierte', 'convertimos', 'convertís', 'convierten'],
+            'preterito': ['convertí', 'convertiste', 'convirtió', 'convertimos', 'convertisteis', 'convirtieron'],
+            'imperfecto': ['convertía', 'convertías', 'convertía', 'convertíamos', 'convertíais', 'convertían'],
+            'futuro': ['convertiré', 'convertirás', 'convertirá', 'convertiremos', 'convertiréis', 'convertirán'],
+            'condicional': ['convertiría', 'convertirías', 'convertiría', 'convertiríamos', 'convertiríais', 'convertirían'],
+            'subjuntivo': ['convierta', 'conviertas', 'convierta', 'convirtamos', 'convirtáis', 'conviertan'],
+            'imperativo': ['convierte', 'convierta', 'convirtamos', 'convertid', 'conviertan']
+        },
+        'desvestir': {
+            'presente': ['desvisto', 'desvistes', 'desviste', 'desvestimos', 'desvestís', 'desvisten'],
+            'preterito': ['desvestí', 'desvestiste', 'desvistió', 'desvestimos', 'desvestisteis', 'desvistieron'],
+            'imperfecto': ['desvestía', 'desvestías', 'desvestía', 'desvestíamos', 'desvestíais', 'desvestían'],
+            'futuro': ['desvestiré', 'desvestirás', 'desvestirá', 'desvestiremos', 'desvestiréis', 'desvestirán'],
+            'condicional': ['desvestiría', 'desvestirías', 'desvestiría', 'desvestiríamos', 'desvestiríais', 'desvestirían'],
+            'subjuntivo': ['desvista', 'desvistas', 'desvista', 'desvistamos', 'desvistáis', 'desvistan'],
+            'imperativo': ['desviste', 'desvista', 'desvistamos', 'desvestid', 'desvistan']
+        },
         'sentir': {
             'presente': ['siento', 'sientes', 'siente', 'sentimos', 'sentís', 'sienten'],
             'preterito': ['sentí', 'sentiste', 'sintió', 'sentimos', 'sentisteis', 'sintieron'],
@@ -2887,7 +2966,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
         'preferir': {
             'presente': ['prefiero', 'prefieres', 'prefiere', 'preferimos', 'preferís', 'prefieren'],
             'preterito': ['preferí', 'preferiste', 'prefirió', 'preferimos', 'preferisteis', 'prefirieron'],
-            'imperfecto': ['prefería', 'preferías', 'prefería', 'preferiamos', 'preferíais', 'preferían'],
+            'imperfecto': ['prefería', 'preferías', 'prefería', 'preferíamos', 'preferíais', 'preferían'],
             'futuro': ['preferiré', 'preferirás', 'preferirá', 'preferiremos', 'preferiréis', 'preferirán'],
             'condicional': ['preferiría', 'preferirías', 'preferiría', 'preferiríamos', 'preferiríais', 'preferirían'],
             'subjuntivo': ['prefiera', 'prefieras', 'prefiera', 'prefiramos', 'prefiráis', 'prefieran'],
@@ -2896,7 +2975,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
         'sugerir': {
             'presente': ['sugiero', 'sugieres', 'sugiere', 'sugerimos', 'sugerís', 'sugieren'],
             'preterito': ['sugerí', 'sugeriste', 'sugirió', 'sugerimos', 'sugeristeis', 'sugirieron'],
-            'imperfecto': ['sugería', 'sugerías', 'sugería', 'sugeriamos', 'sugeríais', 'sugerían'],
+            'imperfecto': ['sugería', 'sugerías', 'sugería', 'sugeríamos', 'sugeríais', 'sugerían'],
             'futuro': ['sugeriré', 'sugerirás', 'sugerirá', 'sugeriremos', 'sugeriréis', 'sugerirán'],
             'condicional': ['sugeriría', 'sugerirías', 'sugeriría', 'sugeriríamos', 'sugeriríais', 'sugerirían'],
             'subjuntivo': ['sugiera', 'sugieras', 'sugiera', 'sugiramos', 'sugiráis', 'sugieran'],
@@ -2940,7 +3019,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
         },
         'reír': {
             'presente': ['río', 'ríes', 'ríe', 'reímos', 'reís', 'ríen'],
-            'preterito': ['reí', 'reíste', 'rió', 'reímos', 'reísteis', 'rieron'],
+            'preterito': ['reí', 'reíste', 'rio', 'reímos', 'reísteis', 'rieron'],
             'imperfecto': ['reía', 'reías', 'reía', 'reíamos', 'reíais', 'reían'],
             'futuro': ['reiré', 'reirás', 'reirá', 'reiremos', 'reiréis', 'reirán'],
             'condicional': ['reiría', 'reirías', 'reiría', 'reiríamos', 'reiríais', 'reirían'],
@@ -2958,7 +3037,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
         },
         'freír': {
             'presente': ['frío', 'fríes', 'fríe', 'freímos', 'freís', 'fríen'],
-            'preterito': ['freí', 'freíste', 'frió', 'freímos', 'freísteis', 'frieron'],
+            'preterito': ['freí', 'freíste', 'frio', 'freímos', 'freísteis', 'frieron'],
             'imperfecto': ['freía', 'freías', 'freía', 'freíamos', 'freíais', 'freían'],
             'futuro': ['freiré', 'freirás', 'freirá', 'freiremos', 'freiréis', 'freirán'],
             'condicional': ['freiría', 'freirías', 'freiría', 'freiríamos', 'freiríais', 'freirían'],
@@ -3312,7 +3391,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'futuro': ['me volveré', 'te volverás', 'se volverá', 'nos volveremos', 'os volveréis', 'se volverán'],
             'condicional': ['me volvería', 'te volverías', 'se volvería', 'nos volveríamos', 'os volveríais', 'se volverían'],
             'subjuntivo': ['me vuelva', 'te vuelvas', 'se vuelva', 'nos volvamos', 'os volváis', 'se vuelvan'],
-            'imperativo': ['vuélvete', 'vuélvase', 'volvamos', 'volveos', 'vuélvanse']
+            'imperativo': ['vuélvete', 'vuélvase', 'volvámonos', 'volveos', 'vuélvanse']
         },
         // encontrar o→ue
         'encontrar': {
@@ -3332,7 +3411,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'futuro': ['me encontraré', 'te encontrarás', 'se encontrará', 'nos encontraremos', 'os encontraréis', 'se encontrarán'],
             'condicional': ['me encontraría', 'te encontrarías', 'se encontraría', 'nos encontraríamos', 'os encontraríais', 'se encontrarían'],
             'subjuntivo': ['me encuentre', 'te encuentres', 'se encuentre', 'nos encontremos', 'os encontréis', 'se encuentren'],
-            'imperativo': ['encuéntrate', 'encuéntrese', 'encontrémonos', 'encontraos', 'encuéntren']
+            'imperativo': ['encuéntrate', 'encuéntrese', 'encontrémonos', 'encontraos', 'encuéntrense']
         },
         // despertar e→ie
         'despertar': {
@@ -3423,6 +3502,96 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'condicional': ['me vestiría', 'te vestirías', 'se vestiría', 'nos vestiríamos', 'os vestiríais', 'se vestirían'],
             'subjuntivo': ['me vista', 'te vistas', 'se vista', 'nos vistamos', 'os vistáis', 'se vistan'],
             'imperativo': ['vístete', 'vístase', 'vistámonos', 'vestíos', 'vístanse']
+        },
+        // convertir e→ie/i
+        'convertir': {
+            'presente': ['convierto', 'conviertes', 'convierte', 'convertimos', 'convertís', 'convierten'],
+            'preterito': ['convertí', 'convertiste', 'convirtió', 'convertimos', 'convertisteis', 'convirtieron'],
+            'imperfecto': ['convertía', 'convertías', 'convertía', 'convertíamos', 'convertíais', 'convertían'],
+            'futuro': ['convertiré', 'convertirás', 'convertirá', 'convertiremos', 'convertiréis', 'convertirán'],
+            'condicional': ['convertiría', 'convertirías', 'convertiría', 'convertiríamos', 'convertiríais', 'convertirían'],
+            'subjuntivo': ['convierta', 'conviertas', 'convierta', 'convirtamos', 'convirtáis', 'conviertan'],
+            'imperativo': ['convierte', 'convierta', 'convirtamos', 'convertid', 'conviertan']
+        },
+        // convertirse e→ie/i (代词式)
+        'convertirse': {
+            'presente': ['me convierto', 'te conviertes', 'se convierte', 'nos convertimos', 'os convertís', 'se convierten'],
+            'preterito': ['me convertí', 'te convertiste', 'se convirtió', 'nos convertimos', 'os convertisteis', 'se convirtieron'],
+            'imperfecto': ['me convertía', 'te convertías', 'se convertía', 'nos convertíamos', 'os convertíais', 'se convertían'],
+            'futuro': ['me convertiré', 'te convertirás', 'se convertirá', 'nos convertiremos', 'os convertiréis', 'se convertirán'],
+            'condicional': ['me convertiría', 'te convertirías', 'se convertiría', 'nos convertiríamos', 'os convertiríais', 'se convertirían'],
+            'subjuntivo': ['me convierta', 'te conviertas', 'se convierta', 'nos convirtamos', 'os convirtáis', 'se conviertan'],
+            'imperativo': ['conviértete', 'conviértase', 'convirtámonos', 'convertíos', 'conviértanse']
+        },
+        // desvestir e→i
+        'desvestir': {
+            'presente': ['desvisto', 'desvistes', 'desviste', 'desvestimos', 'desvestís', 'desvisten'],
+            'preterito': ['desvestí', 'desvestiste', 'desvistió', 'desvestimos', 'desvestisteis', 'desvistieron'],
+            'imperfecto': ['desvestía', 'desvestías', 'desvestía', 'desvestíamos', 'desvestíais', 'desvestían'],
+            'futuro': ['desvestiré', 'desvestirás', 'desvestirá', 'desvestiremos', 'desvestiréis', 'desvestirán'],
+            'condicional': ['desvestiría', 'desvestirías', 'desvestiría', 'desvestiríamos', 'desvestiríais', 'desvestirían'],
+            'subjuntivo': ['desvista', 'desvistas', 'desvista', 'desvistamos', 'desvistáis', 'desvistan'],
+            'imperativo': ['desviste', 'desvista', 'desvistamos', 'desvestid', 'desvistan']
+        },
+        // desvestirse e→i (代词式)
+        'desvestirse': {
+            'presente': ['me desvisto', 'te desvistes', 'se desviste', 'nos desvestimos', 'os desvestís', 'se desvisten'],
+            'preterito': ['me desvestí', 'te desvestiste', 'se desvistió', 'nos desvestimos', 'os desvestisteis', 'se desvistieron'],
+            'imperfecto': ['me desvestía', 'te desvestías', 'se desvestía', 'nos desvestíamos', 'os desvestíais', 'se desvestían'],
+            'futuro': ['me desvestiré', 'te desvestirás', 'se desvestirá', 'nos desvestiremos', 'os desvestiréis', 'se desvestirán'],
+            'condicional': ['me desvestiría', 'te desvestirías', 'se desvestiría', 'nos desvestiríamos', 'os desvestiríais', 'se desvestirían'],
+            'subjuntivo': ['me desvista', 'te desvistas', 'se desvista', 'nos desvistamos', 'os desvistáis', 'se desvistan'],
+            'imperativo': ['desvístete', 'desvístase', 'desvistámonos', 'desvestíos', 'desvístanse']
+        },
+        // parecer（yo: parezco, subjuntivo: parezca）
+        'parecer': {
+            'presente': ['parezco', 'pareces', 'parece', 'parecemos', 'parecéis', 'parecen'],
+            'preterito': ['parecí', 'pareciste', 'pareció', 'parecimos', 'parecisteis', 'parecieron'],
+            'imperfecto': ['parecía', 'parecías', 'parecía', 'parecíamos', 'parecíais', 'parecían'],
+            'futuro': ['pareceré', 'parecerás', 'parecerá', 'pareceremos', 'pareceréis', 'parecerán'],
+            'condicional': ['parecería', 'parecerías', 'parecería', 'pareceríamos', 'pareceríais', 'parecerían'],
+            'subjuntivo': ['parezca', 'parezcas', 'parezca', 'parezcamos', 'parezcáis', 'parezcan'],
+            'imperativo': ['parece', 'parezca', 'parezcamos', 'pareced', 'parezcan']
+        },
+        // parecerse（代词式）
+        'parecerse': {
+            'presente': ['me parezco', 'te pareces', 'se parece', 'nos parecemos', 'os parecéis', 'se parecen'],
+            'preterito': ['me parecí', 'te pareciste', 'se pareció', 'nos parecimos', 'os parecisteis', 'se parecieron'],
+            'imperfecto': ['me parecía', 'te parecías', 'se parecía', 'nos parecíamos', 'os parecíais', 'se parecían'],
+            'futuro': ['me pareceré', 'te parecerás', 'se parecerá', 'nos pareceremos', 'os pareceréis', 'se parecerán'],
+            'condicional': ['me parecería', 'te parecerías', 'se parecería', 'nos pareceríamos', 'os pareceríais', 'se parecerían'],
+            'subjuntivo': ['me parezca', 'te parezcas', 'se parezca', 'nos parezcamos', 'os parezcáis', 'se parezcan'],
+            'imperativo': ['parécete', 'parézcase', 'parezcámonos', 'pareceos', 'parézcanse']
+        },
+        // enviar（重音移动 í 在 yo/tú/él/ellos 单数/第三复数）
+        'enviar': {
+            'presente': ['envío', 'envías', 'envía', 'enviamos', 'enviáis', 'envían'],
+            'preterito': ['envié', 'enviaste', 'envió', 'enviamos', 'enviasteis', 'enviaron'],
+            'imperfecto': ['enviaba', 'enviabas', 'enviaba', 'enviábamos', 'enviabais', 'enviaban'],
+            'futuro': ['enviaré', 'enviarás', 'enviará', 'enviaremos', 'enviaréis', 'enviarán'],
+            'condicional': ['enviaría', 'enviarías', 'enviaría', 'enviaríamos', 'enviaríais', 'enviarían'],
+            'subjuntivo': ['envíe', 'envíes', 'envíe', 'enviemos', 'enviéis', 'envíen'],
+            'imperativo': ['envía', 'envíe', 'enviemos', 'enviad', 'envíen']
+        },
+        // acercar（-car 正字法）
+        'acercar': {
+            'presente': ['acerco', 'acercas', 'acerca', 'acercamos', 'acercáis', 'acercan'],
+            'preterito': ['acerqué', 'acercaste', 'acercó', 'acercamos', 'acercasteis', 'acercaron'],
+            'imperfecto': ['acercaba', 'acercabas', 'acercaba', 'acercábamos', 'acercabais', 'acercaban'],
+            'futuro': ['acercaré', 'acercarás', 'acercará', 'acercaremos', 'acercaréis', 'acercarán'],
+            'condicional': ['acercaría', 'acercarías', 'acercaría', 'acercaríamos', 'acercaríais', 'acercarían'],
+            'subjuntivo': ['acerque', 'acerques', 'acerque', 'acerquemos', 'acerquéis', 'acerquen'],
+            'imperativo': ['acerca', 'acerque', 'acerquemos', 'acercad', 'acerquen']
+        },
+        // acercarse（-car 正字法，代词式）
+        'acercarse': {
+            'presente': ['me acerco', 'te acercas', 'se acerca', 'nos acercamos', 'os acercáis', 'se acercan'],
+            'preterito': ['me acerqué', 'te acercaste', 'se acercó', 'nos acercamos', 'os acercasteis', 'se acercaron'],
+            'imperfecto': ['me acercaba', 'te acercabas', 'se acercaba', 'nos acercábamos', 'os acercabais', 'se acercaban'],
+            'futuro': ['me acercaré', 'te acercarás', 'se acercará', 'nos acercaremos', 'os acercaréis', 'se acercarán'],
+            'condicional': ['me acercaría', 'te acercarías', 'se acercaría', 'nos acercaríamos', 'os acercaríais', 'se acercarían'],
+            'subjuntivo': ['me acerque', 'te acerques', 'se acerque', 'nos acerquemos', 'os acerquéis', 'se acerquen'],
+            'imperativo': ['acércate', 'acérquese', 'acerquémonos', 'acercaos', 'acérquense']
         }
     };
 
@@ -3468,8 +3637,18 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'er': ['e', 'a', 'amos', 'ed', 'an'],
             'ir': ['e', 'a', 'amos', 'id', 'an']
         };
-        const conjugated = stem + imperativoEndings[ending][impIdx];
-        return isReflexive ? buildReflexiveImperative(conjugated) : appendVerbTail(conjugated);
+        let conjugatedImp = stem + imperativoEndings[ending][impIdx];
+        // 正字法变化（usted/nosotros/ustedes 走虚拟式音，需要 c→qu / g→gu / z→c）
+        if (impIdx !== 0 && impIdx !== 3) { // 不是 tú 和 vosotros
+            if (stem.endsWith('c') && ending === 'ar') {
+                conjugatedImp = conjugatedImp.replace(/^(.*?)c([eéi])/, '$1qu$2');
+            } else if (stem.endsWith('g') && ending === 'ar') {
+                conjugatedImp = conjugatedImp.replace(/^(.*?)g([eéi])/, '$1gu$2');
+            } else if (stem.endsWith('z') && ending === 'ar') {
+                conjugatedImp = conjugatedImp.replace(/^(.*?)z([eéi])/, '$1c$2');
+            }
+        }
+        return isReflexive ? buildReflexiveImperative(conjugatedImp) : appendVerbTail(conjugatedImp);
     }
 
     // 其他时态：查不规则表
@@ -3515,6 +3694,26 @@ function conjugateVerb(infinitive, tense, pronoun) {
     } else {
         // 其他时态使用词干 + 词尾
         conjugated = stem + endings[ending][tense][pronounIndex];
+    }
+
+    // 正字法变化（orthographic changes）
+    // -car：c→qu（yo preterito, 虚拟式现在时全部, 命令式 usted/nosotros/ustedes）
+    // -gar：g→gu（相同位置）
+    // -zar：z→c（相同位置）
+    // 注意：命令式已在上面单独处理，这里只处理 preterito yo 和 subjuntivo
+    const needsOrthographic = (tense === 'preterito' && pronoun === 'yo') ||
+        (tense === 'subjuntivo');
+    if (needsOrthographic) {
+        if (stem.endsWith('c') && ending === 'ar') {
+            // -car: buscar→busqu-
+            conjugated = conjugated.replace(/^(.*?)c([eéi])/, '$1qu$2');
+        } else if (stem.endsWith('g') && ending === 'ar') {
+            // -gar: llegar→llegu-
+            conjugated = conjugated.replace(/^(.*?)g([eéi])/, '$1gu$2');
+        } else if (stem.endsWith('z') && ending === 'ar') {
+            // -zar: rezar→rec-
+            conjugated = conjugated.replace(/^(.*?)z([eéi])/, '$1c$2');
+        }
     }
     
     // 如果是代词式动词，添加相应的代词
