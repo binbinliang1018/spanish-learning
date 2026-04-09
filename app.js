@@ -668,7 +668,7 @@ function initDailyPractice() {
     } else {
         renderConjugationPlaceholder(
             'dailyConjugationGrid',
-            '点击“开始今日挑战”后，这里会显示 6 个人称输入框。',
+            '点击"开始今日挑战"后，这里会显示 6 个人称输入框。',
             '本轮固定 2 个复合时态，且至少 3 题是本时态不规则变位。'
         );
     }
@@ -817,7 +817,7 @@ function getVerbTypeLabel(verb, tense) {
 
 function getIrregularListLabel(tense) {
     if (isDerivedFormTense(tense)) {
-        return '该时态涉及的常见特殊过去分词（不计入“不规则动词”筛选）';
+        return '该时态涉及的常见特殊过去分词（不计入"不规则动词"筛选）';
     }
     return '该时态不规则动词';
 }
@@ -1102,7 +1102,7 @@ function initSelfCheckPractice() {
 
     renderConjugationPlaceholder(
         'lookupConjugationGrid',
-        '输入动词并点击“开始自查”后，这里会显示对应人称输入框。',
+        '输入动词并点击"开始自查"后，这里会显示对应人称输入框。',
         '支持所有已收录时态。'
     );
     renderTenseRuleBox('lookupTenseRuleBox', tenseSelect.value || 'presente');
@@ -1257,7 +1257,7 @@ function checkLookupAnswer() {
     if (!lookupContext) {
         const result = document.getElementById('lookupResult');
         result.className = 'result show error';
-        result.innerHTML = '请先输入动词并点击“开始自查”。';
+        result.innerHTML = '请先输入动词并点击"开始自查"。';
         return;
     }
 
@@ -1306,7 +1306,7 @@ function checkLookupAnswer() {
     const result = document.getElementById('lookupResult');
     if (correct === total) {
         result.className = 'result show success';
-        result.innerHTML = `<strong>🎉 全对！</strong> ${correct}/${total} 正确<br>如需继续，直接换词或换时态后再点“开始自查”。`;
+        result.innerHTML = `<strong>🎉 全对！</strong> ${correct}/${total} 正确<br>如需继续，直接换词或换时态后再点"开始自查"。`;
     } else {
         addWrongVerbToReview(lookupContext.verb.inf, lookupContext.tense);
         result.className = 'result show error';
@@ -1314,7 +1314,7 @@ function checkLookupAnswer() {
     }
 
     document.getElementById('lookupCheckBtn').disabled = true;
-    document.getElementById('lookupShowAnswerBtn').disabled = true;
+    document.getElementById('lookupShowAnswerBtn').disabled = correct === total;
 }
 
 function showLookupAnswer() {
@@ -1327,7 +1327,7 @@ function showLookupAnswer() {
     if (!lookupContext) {
         const result = document.getElementById('lookupResult');
         result.className = 'result show error';
-        result.innerHTML = '请先输入动词并点击“开始自查”。';
+        result.innerHTML = '请先输入动词并点击"开始自查"。';
         return;
     }
 
@@ -1337,6 +1337,18 @@ function showLookupAnswer() {
         const result = document.getElementById('lookupResult');
         result.className = 'result show error';
         result.innerHTML = '刚才的输入框没有正确显示，已自动重载，请先再试一次。';
+        return;
+    }
+
+    // 如果格子都是 correct / almost 状态（已经答对过了），给友好提示
+    const allCorrect = Array.from(inputs).every(inp =>
+        inp.classList.contains('correct') || inp.classList.contains('almost')
+    );
+    if (allCorrect) {
+        const result = document.getElementById('lookupResult');
+        result.className = 'result show success';
+        result.innerHTML = '🎉 你已经全对了！不需要看答案了。';
+        document.getElementById('lookupShowAnswerBtn').disabled = true;
         return;
     }
 
@@ -1637,7 +1649,7 @@ function completeDailyPractice() {
 
 function showDailySummary() {
     document.getElementById('dailyVerbInfinitive').textContent = '今日挑战完成！';
-    document.getElementById('dailyVerbMeaning').textContent = '你可以点击“再练一次”马上开始新一轮。';
+    document.getElementById('dailyVerbMeaning').textContent = '你可以点击"再练一次"马上开始新一轮。';
     document.getElementById('dailyVerbTense').textContent = '';
     document.getElementById('dailyCurrent').textContent = DAILY_VERB_COUNT;
     document.getElementById('dailyTotal').textContent = DAILY_VERB_COUNT;
@@ -1645,13 +1657,13 @@ function showDailySummary() {
     renderConjugationPlaceholder(
         'dailyConjugationGrid',
         '今天的 10 题已经完成。',
-        '点击下方“再练一次”会重新生成一组练习，不会再看到一块空白。'
+        '点击下方"再练一次"会重新生成一组练习，不会再看到一块空白。'
     );
     document.getElementById('dailyResult').innerHTML = '';
     document.getElementById('dailyCheckBtn').disabled = true;
     document.getElementById('dailyShowAnswerBtn').disabled = true;
     document.getElementById('dailyStatus').textContent = '太棒了！今日挑战已完成。';
-    document.getElementById('dailyTenseRuleBox').innerHTML = '<div class="tense-rule"><strong>今日状态：</strong>本轮已完成；如需继续练习，可直接点击“再练一次”。</div>';
+    document.getElementById('dailyTenseRuleBox').innerHTML = '<div class="tense-rule"><strong>今日状态：</strong>本轮已完成；如需继续练习，可直接点击"再练一次"。</div>';
     
     // 统计结果
     const correctOnFirstTry = dailyState.results.filter(r => r.correct).length;
@@ -1753,7 +1765,7 @@ function resetTrainerDisplay() {
 
     renderConjugationPlaceholder(
         'trainerConjugationGrid',
-        '点击“开始训练”后开始答题。',
+        '点击"开始训练"后开始答题。',
         '每轮 6 题。'
     );
 
@@ -2264,7 +2276,7 @@ function checkTrainerAnswer() {
         if (!selected) {
             const result = document.getElementById('trainerResult');
             result.className = 'result show error';
-            result.innerHTML = '请先选一个答案，再点击“检查答案”。';
+            result.innerHTML = '请先选一个答案，再点击"检查答案"。';
             return;
         }
 
@@ -2284,7 +2296,7 @@ function checkTrainerAnswer() {
     if (!userAnswer) {
         const result = document.getElementById('trainerResult');
         result.className = 'result show error';
-        result.innerHTML = '请先填写答案，再点击“检查答案”。';
+        result.innerHTML = '请先填写答案，再点击"检查答案"。';
         return;
     }
 
@@ -4805,7 +4817,7 @@ function renderWeakPoints() {
 
     const weakPointEntries = getWeakPointEntries(12);
     if (weakPointEntries.length === 0) {
-        weakPoints.innerHTML = '<p>这里会按“单词 + 时态 + 人称”列出最容易出错的内容。</p>';
+        weakPoints.innerHTML = '<p>这里会按"单词 + 时态 + 人称"列出最容易出错的内容。</p>';
         return;
     }
 

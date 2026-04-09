@@ -265,7 +265,7 @@ const irregularVerbsByTense = {
         "construir", "destruir", "incluir", "concluir", "huir",
         // o→ue
         "poder", "dormir", "morir", "mover", "doler", "soler", "jugar",
-        "acostarse",
+        "acostarse", "acordarse",
         // e→ie
         "querer", "venir", "sentir", "mentir", "preferir", "sugerir", "divertirse", "arrepentirse",
         "encender", "defender", "perder", "entender", "pensar", "empezar", "sentarse",
@@ -472,7 +472,7 @@ const irregularVerbGroupsByTense = {
             id: "stem_o_ue",
             label: "原形词干含 o / u 的重读变化动词",
             rule: "这组按原形词干里的 o / u 来记；重读位常变 ue，nosotros/vosotros 通常回到原词干：puedo, duermes, juegan。",
-            verbs: ["poder", "dormir", "morir", "mover", "doler", "soler", "jugar", "acostarse"]
+            verbs: ["poder", "dormir", "morir", "mover", "doler", "soler", "jugar", "acostarse", "acordarse"]
         },
         {
             id: "stem_e_ie",
@@ -654,7 +654,7 @@ const irregularVerbGroupsByTense = {
             id: "o_ue_group",
             label: "原形词干含 o / u 的重读变化动词",
             rule: "这组按原形词干里的 o / u 来记；重读位保持词干变化：pueda, duerma, muera, mueva, duela, suela, juegue；nosotros/vosotros 常回到原词干。",
-            verbs: ["poder", "dormir", "morir", "mover", "doler", "soler", "jugar"]
+            verbs: ["poder", "dormir", "morir", "mover", "doler", "soler", "jugar", "acostarse", "acordarse"]
         },
         {
             id: "e_ie_group",

@@ -90,6 +90,18 @@ header h1 {
     font-weight: 600;
 }
 
+.tab-btn-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.tab-btn-link:hover {
+    background: rgba(255,255,255,0.25);
+}
+
 /* 内容区域 */
 .tab-content {
     display: none;
@@ -311,6 +323,12 @@ header h1 {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 500;
+}
+
+.btn:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .btn-primary {
