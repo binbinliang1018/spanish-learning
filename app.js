@@ -839,6 +839,17 @@ function initDailyPractice() {
     if (dailyRestartBtn) dailyRestartBtn.addEventListener('click', startDailyPractice);
     if (dailyNextBtn) dailyNextBtn.addEventListener('click', goToNextDailyVerb);
     
+    // ULTIMATE-TEST-FIX: 确保"开始每日练习"按钮在页面加载时是可见的
+    if (dailyStartBtn && dailyStartBtn.style.display === 'none') {
+        console.log('[ULTIMATE-FIX🚀] 发现 dailyStartBtn 被隐藏了，立即恢复显示');
+        dailyStartBtn.style.display = 'inline-block';
+    }
+    
+    // 确保其他按钮在开始练习前是隐藏的
+    if (dailyCheckBtn) dailyCheckBtn.style.display = 'none';
+    if (dailyShowAnswerBtn) dailyShowAnswerBtn.style.display = 'none';
+    if (dailyNextBtn) dailyNextBtn.style.display = 'none';
+    
     console.log('[URGENT-FIX🚀] initDailyPractice: 按钮事件绑定完成');
     
     // 检查是否有进行中的每日练习
@@ -1709,7 +1720,15 @@ function startDailyPractice() {
 
 function restoreDailyPractice() {
     ensureDailyQuestionPlan();
-    document.getElementById('dailyStartBtn').style.display = 'none';
+    
+    // 只有在有进行中的练习时才隐藏开始按钮
+    const dailyStartBtn = document.getElementById('dailyStartBtn');
+    if (dailyStartBtn && dailyState.currentIndex > 0) {
+        dailyStartBtn.style.display = 'none';
+    } else {
+        console.log('[DEBUG] 首次加载页面，保持开始按钮可见');
+    }
+    
     document.getElementById('dailyCheckBtn').disabled = false;
     document.getElementById('dailyShowAnswerBtn').disabled = false;
     loadDailyVerb();
