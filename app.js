@@ -651,6 +651,34 @@ function enableOwnerAccess() {
     }
 }
 
+// ============ 强制重置所有访问设置 ============
+function forceResetAllAccess() {
+    try {
+        if (!confirm('⚠️ 确定要重置所有访问设置吗？这会将所有设置恢复为默认值，并刷新页面。')) {
+            return;
+        }
+        
+        console.log('[RESET] 强制重置所有访问设置');
+        
+        // 清除所有相关存储
+        localStorage.removeItem(ACCESS_OWNER_STORAGE_KEY);
+        localStorage.removeItem(ACCESS_CODE_STORAGE_KEY);
+        localStorage.removeItem('spanishLearningAccessMode');
+        localStorage.removeItem('dailyState');
+        localStorage.removeItem('reviewState');
+        localStorage.removeItem('speakingStats');
+        
+        // 立即刷新页面重新初始化
+        setTimeout(() => {
+            location.reload();
+        }, 100);
+        
+    } catch (error) {
+        console.error('[RESET] 重置失败:', error);
+        alert('重置失败: ' + error.message);
+    }
+}
+
 function unlockApprovedAccess() {
     const codeInput = document.getElementById('accessCodeInput');
     const code = codeInput.value.trim();
