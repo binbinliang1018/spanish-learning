@@ -25,6 +25,7 @@
             <button class="tab-btn" data-tab="review">错题重练</button>
             <button class="tab-btn" data-tab="trainer">变位训练</button>
             <button class="tab-btn" data-tab="speaking">口语练习</button>
+            <a href="writing.html" class="tab-btn tab-btn-link">✍️ 写作训练</a>
         </nav>
 
         <!-- 每日练习 -->
@@ -129,7 +130,7 @@
 
                             <div class="owner-access-box">
                                 <p class="owner-access-note">如果这是 Frances 自己的设备，可直接进入，不需要再走朋友审批流程。</p>
-                                <button class="btn btn-secondary btn-small" id="ownerDirectAccessBtn">我是 Frances，直接进入</button>
+                                <button class="btn btn-secondary btn-small" id="ownerDirectAccessBtn" onclick="enableOwnerAccess()">我是 Frances，直接进入</button>
                             </div>
 
                             <div class="result" id="accessGateResult"></div>

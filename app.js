@@ -427,6 +427,14 @@ function bindAccessGateEvents() {
     const clearBtn = document.getElementById('clearAccessBtn');
     const codeInput = document.getElementById('accessCodeInput');
 
+    console.log('[DEBUG] 绑定访问门控事件，按钮状态:', {
+        emailBtn: !!emailBtn,
+        whatsappBtn: !!whatsappBtn,
+        unlockBtn: !!unlockBtn,
+        ownerBtn: !!ownerBtn,
+        clearBtn: !!clearBtn
+    });
+
     if (emailBtn) {
         emailBtn.addEventListener('click', () => sendAccessRequest('email'));
     }
@@ -440,7 +448,18 @@ function bindAccessGateEvents() {
     }
 
     if (ownerBtn) {
-        ownerBtn.addEventListener('click', enableOwnerAccess);
+        console.log('[DEBUG] 绑定 ownerBtn 点击事件');
+        ownerBtn.addEventListener('click', function(e) {
+            console.log('[DEBUG] ownerBtn 被点击了', e);
+            enableOwnerAccess();
+        });
+        
+        // 添加双击事件绑定作为备份
+        ownerBtn.addEventListener('dblclick', function(e) {
+            console.log('[DEBUG] ownerBtn 被双击了', e);
+            showAccessGateResult('按钮响应中，请稍候...', 'success');
+            setTimeout(() => enableOwnerAccess(), 50);
+        });
     }
 
     if (clearBtn) {
@@ -504,13 +523,23 @@ function sendAccessRequest(channel) {
 }
 
 function enableOwnerAccess() {
-    localStorage.setItem(ACCESS_OWNER_STORAGE_KEY, 'true');
-    refreshAccessGate();
-    showAccessGateResult('已切换为 Frances 本机使用模式，全部模块现在都可以使用。', 'success');
+    try {
+        console.log('[DEBUG] enableOwnerAccess 函数被调用');
+        localStorage.setItem(ACCESS_OWNER_STORAGE_KEY, 'true');
+        refreshAccessGate();
+        showAccessGateResult('已切换为 Frances 本机使用模式，全部模块现在都可以使用。', 'success');
 
-    const appShell = document.getElementById('appShell');
-    if (appShell) {
-        appShell.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const appShell = document.getElementById('appShell');
+        if (appShell) {
+            appShell.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        console.log('[DEBUG] 用户锁定状态已更新');
+        return true;
+    } catch (error) {
+        console.error('[DEBUG] enableOwnerAccess 出错:', error);
+        showAccessGateResult(`启用失败: ${error.message}，请刷新页面或尝试其他入口。`, 'error');
+        return false;
     }
 }
 
@@ -5205,4 +5234,12 @@ function backToReviewList() {
     document.getElementById('reviewPracticeArea').style.display = 'none';
     
     renderWrongVerbsList();
+}
+
+// ============ 全局函数导出（供 onclick 备用） ============
+if (typeof window !== "undefined") {
+    window.enableOwnerAccess = enableOwnerAccess;
+    window.unlockApprovedAccess = unlockApprovedAccess;
+    window.clearApprovedAccess = clearApprovedAccess;
+    console.log("[DEBUG] 访问门控全局函数已导出");
 }
