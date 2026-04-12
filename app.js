@@ -370,14 +370,15 @@ function initApp() {
     bindIrregularVerbGroupInteractions();
 }
 
-// ============ 终极修复：强制立即生效 ============
-// 确保在页面加载时立即设置访问权限，防止任何可能的卡顿
-console.log('[ULTIMATE-FIX🚀] 页面加载脚本开始执行');
-// 三重保险：直接操作 localStorage
-if (typeof localStorage !== 'undefined') {
+// ============ 强制访问权限 - 无脑修复 ============
+console.log('[FIX🚀] app.js 加载开始');
+try {
+    // 强制设置访问权限
     localStorage.setItem('spanishLearningOwnerAccess', 'true');
     localStorage.setItem('spanishLearningAccessMode', 'owner');
-    console.log('[ULTIMATE-FIX🚀] localStorage 设置完成');
+    console.log('[FIX🚀] 访问权限已强制设置');
+} catch (e) {
+    console.error('[FIX🚀] 设置失败:', e);
 }
 
 if (document.readyState === 'loading') {
@@ -441,14 +442,8 @@ function getAccessMode() {
 }
 
 function hasUnlockedAccess() {
-    // ULTRA-FIX: 完全绕过访问控制 - 应急修复
-    console.log('[ULTRA-FIX] hasUnlockedAccess 被调用，立即返回 true');
-    
-    // 双重保险：确保本地存储中有正确的标记
-    localStorage.setItem(ACCESS_OWNER_STORAGE_KEY, 'true');
-    localStorage.setItem(ACCESS_MODE_STORAGE_KEY, 'owner');
-    
-    // 永远返回 true，让 Frances 可以直接访问
+    // SUPER-SIMPLE-FIX: 最简单直接的修复
+    console.log('[FIX🚀] hasUnlockedAccess: 直接返回 true');
     return true;
 }
 
