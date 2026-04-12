@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简测试页面</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .btn { padding: 10px 20px; background: blue; color: white; border: none; cursor: pointer; }
+        .btn:hover { background: darkblue; }
+    </style>
+</head>
+<body>
+    <h1>🚀 极简测试页面</h1>
+    <p>如果这个页面能工作，说明基础JavaScript没问题。</p>
+    
+    <div style="margin: 20px 0;">
+        <button class="btn" id="testBtn1">测试按钮 1 (console.log)</button>
+        <button class="btn" id="testBtn2">测试按钮 2 (alert)</button>
+        <button class="btn" id="testBtn3">测试按钮 3 (更改文本)</button>
+    </div>
+    
+    <div id="result" style="margin: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px;">
+        <strong>结果区：</strong> <span id="resultText">等待测试...</span>
+    </div>
+    
+    <div style="margin-top: 30px; border-top: 1px solid #ccc; padding: 20px;">
+        <h3>诊断信息：</h3>
+        <div id="diagnostic">
+            <p>页面加载时间: <span id="timeInfo">...</span></p>
+            <p>按钮状态: <span id="btnStatus">检查中...</span></p>
+        </div>
+    </div>
+
+<script>
+// 极简测试代码 - 确保JavaScript能执行
+console.log('🚀 极简测试页面JavaScript已加载');
+
+// 测试按钮1：简单的控制台日志
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ DOM已完全加载');
+    document.getElementById('timeInfo').textContent = new Date().toLocaleTimeString();
+    
+    // 测试按钮1
+    const btn1 = document.getElementById('testBtn1');
+    if (btn1) {
+        btn1.addEventListener('click', function() {
+            console.log('✅ testBtn1 被点击了！');
+            document.getElementById('btnStatus').textContent = '按钮1工作正常';
+        });
+    }
+    
+    // 测试按钮2
+    const btn2 = document.getElementById('testBtn2');
+    if (btn2) {
+        btn2.addEventListener('click', function() {
+            alert('✅ testBtn2 正常工作！');
+            document.getElementById('btnStatus').textContent = '按钮2工作正常';
+        });
+    }
+    
+    // 测试按钮3
+    const btn3 = document.getElementById('testBtn3');
+    if (btn3) {
+        btn3.addEventListener('click', function() {
+            const resultText = document.getElementById('resultText');
+            resultText.textContent = '✅ testBtn3 成功更改了文本！' + new Date().toLocaleTimeString();
+            resultText.style.color = 'green';
+            document.getElementById('btnStatus').textContent = '按钮3工作正常';
+        });
+    }
+    
+    document.getElementById('btnStatus').textContent = '所有按钮事件绑定完成';
+    console.log('✅ 所有按钮事件绑定完成');
+});
+
+// 确保JavaScript加载错误能被捕获
+window.addEventListener('error', function(e) {
+    console.error('❌ JavaScript错误:', e.message);
+    const result = document.getElementById('diagnostic');
+    if (result) {
+        result.innerHTML += `<p style="color:red;">❌ JavaScript错误: ${e.message}</p>`;
+    }
+});
+</script>
+
+</body>
+</html>

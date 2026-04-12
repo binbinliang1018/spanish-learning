@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原应用极简测试</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px; background: #f5f7fb; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; }
+        .tab-btn { 
+            padding: 12px 24px; background: #e9ecef; border: none; border-radius: 8px; 
+            cursor: pointer; font-size: 16px; 
+        }
+        .tab-btn.active { background: #4dabf7; color: white; }
+        .tab-content { 
+            background: white; padding: 25px; border-radius: 12px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 20px;
+            min-height: 300px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #4dabf7 0%, #1971c2 100%);
+            color: white; padding: 14px 30px; border: none; border-radius: 10px;
+            cursor: pointer; font-size: 16px; font-weight: bold;
+        }
+        .btn-primary:hover { background: linear-gradient(135deg, #3d9be7 0%, #1862a5 100%); }
+        .debug { 
+            background: #fff3cd; padding: 15px; border-radius: 8px; 
+            border: 1px solid #ffc107; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="appShell">
+        <h1 style="color: #333;">🇪🇸 binbin的西班牙语每日学习</h1>
+        <p style="color: #666; margin-bottom: 20px;">极简测试版本 - 只保留核心功能</p>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="daily">每日练习</button>
+            <button class="tab-btn" data-tab="lookup">自查动词</button>
+            <button class="tab-btn" data-tab="review">错题重练</button>
+        </div>
+        
+        <div class="tab-content" id="dailyContent">
+            <h2 style="color: #1971c2;">每日练习</h2>
+            <p id="dateInfo" style="color: #666;">加载时间: ...</p>
+            <p style="margin: 25px 0;">点击按钮开始您的今日西班牙语学习之旅</p>
+            <button class="btn-primary" id="dailyStartBtn">开始今日挑战</button>
+            
+            <div id="exerciseArea" style="display: none; margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <p><strong>练习内容将在这里显示</strong></p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="lookupContent" style="display: none;">
+            <h2 style="color: #1971c2;">自查动词</h2>
+            <p>输入动词原形进行自查练习</p>
+            <input type="text" id="verbInput" placeholder="例如: cantar" style="padding: 10px; margin-right: 10px;">
+            <button class="btn-primary" id="selfCheckBtn">开始自查</button>
+        </div>
+        
+        <div class="tab-content" id="reviewContent" style="display: none;">
+            <h2 style="color: #1971c2;">错题重练</h2>
+            <p>复习之前的错题</p>
+            <button class="btn-primary" id="reviewStartBtn">开始复习</button>
+        </div>
+        
+        <div class="debug">
+            <h3 style="color: #856404;">🔧 调试信息</h3>
+            <p>JavaScript状态: <span id="jsStatus">检查中...</span></p>
+            <p>按钮点击计数: <span id="clickCount">0</span></p>
+            <p>最后点击的按钮: <span id="lastClicked">无</span></p>
+            <p>控制台日志: <span id="consoleStatus">未检测到错误</span></p>
+        </div>
+    </div>
+
+<script>
+console.log('🚀 极简应用JavaScript已加载');
+let clickCount = 0;
+
+// 核心初始化函数
+function initApp() {
+    try {
+        console.log('1. 开始初始化');
+        document.getElementById('jsStatus').textContent = '正在初始化...';
+        
+        // 初始化日期
+        const now = new Date();
+        const dateStr = now.getFullYear() + '-' + 
+                       String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                       String(now.getDate()).padStart(2, '0') + ' ' +
+                       ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][now.getDay()];
+        document.getElementById('dateInfo').textContent = dateStr + ' 练习状态';
+        
+        // 初始化tab切换
+        initTabs();
+        
+        // 初始化每日练习
+        initDailyPractice();
+        
+        // 初始化自查动词
+        initSelfCheck();
+        
+        // 初始化错题重练
+        initReviewPractice();
+        
+        document.getElementById('jsStatus').textContent = '✅ 初始化完成';
+        document.getElementById('consoleStatus').textContent = '✅ JavaScript正常执行';
+        console.log('✅ 初始化和所有按钮事件绑定完成');
+    } catch (error) {
+        document.getElementById('jsStatus').textContent = '❌ 初始化出错: ' + error.message;
+        console.error('初始化错误:', error);
+    }
+}
+
+// Tab切换逻辑
+function initTabs() {
+    try {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有active类
+                tabBtns.forEach(b => b.classList.remove('active'));
+                // 添加active类到当前按钮
+                this.classList.add('active');
+                
+                // 隐藏所有tab内容
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                
+                // 显示对应tab内容
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId + 'Content').style.display = 'block';
+                
+                updateClickInfo('Tab切换: ' + tabId);
+                
+                console.log('切换tab到:', tabId);
+            });
+        });
+        console.log('✅ Tab切换绑定完成');
+    } catch (error) {
+        console.error('Tab切换错误:', error);
+    }
+}
+
+// 每日练习功能
+function initDailyPractice() {
+    try {
+        const dailyStartBtn = document.getElementById('dailyStartBtn');
+        if (dailyStartBtn) {
+            console.log('找到每日练习按钮');
+            dailyStartBtn.addEventListener('click', function() {
+                console.log('点击了"开始今日挑战"按钮');
+                updateClickInfo('开始今日挑战');
+                
+                // 隐藏开始按钮
+                this.style.display = 'none';
+                
+                // 显示练习区域
+                const exerciseArea = document.getElementById('exerciseArea');
+                if (exerciseArea) {
+                    exerciseArea.style.display = 'block';
+                    exerciseArea.innerHTML = `
+                        <h3>🎉 这是第1题</h3>
+                        <p>西班牙语动词变位题目将在这里显示...</p>
+                        <button id="nextBtn" class="btn-primary">下一题</button>
+                    `;
+                    
+                    // 绑定下一题按钮
+                    document.getElementById('nextBtn').addEventListener('click', function() {
+                        updateClickInfo('下一题');
+                    });
+                }
+            });
+        } else {
+            console.error('❌ 找不到每日练习按钮');
+        }
+    } catch (error) {
+        console.error('每日练习初始化错误:', error);
+    }
+}
+
+// 自查动词功能
+function initSelfCheck() {
+    try {
+        const selfCheckBtn = document.getElementById('selfCheckBtn');
+        if (selfCheckBtn) {
+            selfCheckBtn.addEventListener('click', function() {
+                const verb = document.getElementById('verbInput').value || '未输入';
+                console.log('点击了"开始自查"按钮，动词:', verb);
+                updateClickInfo('自查动词: ' + verb);
+            });
+        }
+    } catch (error) {
+        console.error('自查动词错误:', error);
+    }
+}
+
+// 错题重练功能
+function initReviewPractice() {
+    try {
+        const reviewStartBtn = document.getElementById('reviewStartBtn');
+        if (reviewStartBtn) {
+            reviewStartBtn.addEventListener('click', function() {
+                console.log('点击了"开始复习"按钮');
+                updateClickInfo('错题重练');
+            });
+        }
+    } catch (error) {
+        console.error('错题重练错误:', error);
+    }
+}
+
+// 辅助函数
+function updateClickInfo(action) {
+    clickCount++;
+    document.getElementById('clickCount').textContent = clickCount;
+    document.getElementById('lastClicked').textContent = action;
+}
+
+// 错误捕获
+window.addEventListener('error', function(e) {
+    console.error('全局JavaScript错误:', e.message);
+    document.getElementById('consoleStatus').textContent = '❌ JavaScript错误: ' + e.message;
+});
+
+// DOM加载完成后启动
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✅ DOM完全加载，开始初始化应用');
+    initApp();
+});
+
+</script>
+
+</body>
+</html>
