@@ -2754,7 +2754,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
         if (verbEnding === 'ar') return verbStem + 'ando';
         return verbStem + 'iendo';
     }
-    
+
     // 处理独立过去分词（participio）
     if (tense === 'participio') {
         // 过去分词没有人称变化，无论代词语法是什么，都返回同一个形式
@@ -2762,7 +2762,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
         // 反身动词的过去分词也通常不加代词：acostarse → acostado (不是 "se acostado")
         return appendVerbTail(participle);
     }
-    
+
     // 处理独立现在分词（gerundio）
     if (tense === 'gerundio') {
         const gerundioForm = getGerundio(baseVerb);
@@ -2779,7 +2779,7 @@ function conjugateVerb(infinitive, tense, pronoun) {
         }
         return appendVerbTail(gerundioForm);
     }
-    
+
     // 虚拟式过去未完成时
     if (tense === 'subjuntivo_imperfecto') {
         const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
@@ -2811,7 +2811,9 @@ function conjugateVerb(infinitive, tense, pronoun) {
                 }
             }
         }
-        const subjStem = typeof ellosPreterito === 'string' && ellosPreterito.endsWith('ron')
+
+        // 词干提取：从 ellos 完美形式到词干
+        const subjStem = (ellosPreterito && ellosPreterito !== 'N/A')
             ? ellosPreterito.slice(0, -3)
             : stem;
         const accentMap = {
@@ -2821,6 +2823,15 @@ function conjugateVerb(infinitive, tense, pronoun) {
             o: 'ó',
             u: 'ú'
         };
+        const accentedStem = subjStem.replace(/[aeiou](?=[^aeiou]*$)/, vowel => accentMap[vowel] || vowel);
+        const baseForForm = pronoun === 'nosotros' ? accentedStem : subjStem;
+        const conjugated = baseForForm + subjEndings[pronounIndex];
+        return isReflexive
+            ? appendVerbTail(`${reflexivePronouns[pronoun]} ${conjugated}`)
+            : appendVerbTail(conjugated);
+    }
+    
+    
         const accentedStem = subjStem.replace(/[aeiou](?=[^aeiou]*$)/, vowel => accentMap[vowel] || vowel);
         const baseForForm = pronoun === 'nosotros' ? accentedStem : subjStem;
         const conjugated = baseForForm + subjEndings[pronounIndex];
