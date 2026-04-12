@@ -372,9 +372,13 @@ function initApp() {
 
 // ============ 终极修复：强制立即生效 ============
 // 确保在页面加载时立即设置访问权限，防止任何可能的卡顿
-console.log('[ULTIMATE-FIX] 页面加载脚本开始执行');
-localStorage.setItem('spanishLearningOwnerAccess', 'true');
-localStorage.setItem('spanishLearningAccessMode', 'owner');
+console.log('[ULTIMATE-FIX🚀] 页面加载脚本开始执行');
+// 三重保险：直接操作 localStorage
+if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('spanishLearningOwnerAccess', 'true');
+    localStorage.setItem('spanishLearningAccessMode', 'owner');
+    console.log('[ULTIMATE-FIX🚀] localStorage 设置完成');
+}
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initApp);
@@ -397,8 +401,22 @@ if (document.readyState === 'loading') {
 }
 
 function initAccessGate() {
-    bindAccessGateEvents();
-    refreshAccessGate();
+    console.log('[ULTIMATE-FIX🚀] initAccessGate 执行开始');
+    try {
+        bindAccessGateEvents();
+        refreshAccessGate();
+        console.log('[ULTIMATE-FIX🚀] initAccessGate 执行成功');
+    } catch (err) {
+        console.error('[ULTIMATE-FIX🚀] initAccessGate 错误:', err);
+        // 出错时强制设置访问权限并刷新
+        setTimeout(() => {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('spanishLearningOwnerAccess', 'true');
+                localStorage.setItem('spanishLearningAccessMode', 'owner');
+                location.reload(); // 强制刷新页面
+            }
+        }, 500);
+    }
 }
 
 function isAccessApproved() {
