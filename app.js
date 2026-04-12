@@ -2811,7 +2811,6 @@ function finishTrainerQuestion({ isCorrect, accentOnly = false, usedAnswerKey = 
         result.innerHTML = usedAnswerKey
             ? `<strong>💡 已显示答案</strong><br>正确答案是 <strong>${question.answer}</strong>（${tenseName}），已加入错题重练。<br>继续把这个时态的 6 个人称写全。`
             : `<strong>❌ 这题答错了</strong><br>你的答案：${userAnswer || '（空）'}<br>正确答案：<strong>${question.answer}</strong>（${tenseName}），已加入错题重练。<br>继续把这个时态的 6 个人称写全。`;
-    }
 }
 
 function goToNextTrainerQuestion() {
