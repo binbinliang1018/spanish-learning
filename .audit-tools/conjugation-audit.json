@@ -1,0 +1,4432 @@
+{
+  "summary": {
+    "verbEntryCount": 171,
+    "uniqueVerbCount": 168,
+    "duplicateEntries": [
+      {
+        "verb": "querer",
+        "count": 2
+      },
+      {
+        "verb": "venir",
+        "count": 2
+      },
+      {
+        "verb": "oír",
+        "count": 2
+      }
+    ],
+    "referenceErrors": {},
+    "checkedForms": 12936,
+    "mismatchCount": 559,
+    "verbsWithMismatchCount": 44
+  },
+  "results": [
+    {
+      "verb": "abrir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "abierto"
+    },
+    {
+      "verb": "aburrirse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "aburrido"
+    },
+    {
+      "verb": "acabarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "acabado"
+    },
+    {
+      "verb": "aceptar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "aceptado"
+    },
+    {
+      "verb": "acercarse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "me acercé",
+          "expected": "me acerqué"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "me acerce",
+          "expected": "me acerque"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "te acerces",
+          "expected": "te acerques"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "se acerce",
+          "expected": "se acerque"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "nos acercemos",
+          "expected": "nos acerquemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "os acercéis",
+          "expected": "os acerquéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "se acercen",
+          "expected": "se acerquen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "acercese",
+          "expected": "acerquese"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "acercemonos",
+          "expected": "acerquemonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "acercense",
+          "expected": "acerquense"
+        }
+      ],
+      "participle": "acercado"
+    },
+    {
+      "verb": "acordarse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "acuérdate",
+          "expected": "acuerdate"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "acuérdese",
+          "expected": "acuerdese"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "acordémonos",
+          "expected": "acordemonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "acuérdense",
+          "expected": "acuerdense"
+        }
+      ],
+      "participle": "acordado"
+    },
+    {
+      "verb": "acostarse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "acuéstate",
+          "expected": "acuestate"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "acuéstese",
+          "expected": "acuestese"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "acostémonos",
+          "expected": "acostemonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "acuéstense",
+          "expected": "acuestense"
+        }
+      ],
+      "participle": "acostado"
+    },
+    {
+      "verb": "alegrarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "alegrado"
+    },
+    {
+      "verb": "alejarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "alejado"
+    },
+    {
+      "verb": "aparecer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "aparecido"
+    },
+    {
+      "verb": "aprender",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "aprendido"
+    },
+    {
+      "verb": "arrepentirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "me arrepentiera",
+          "expected": "me arrepintiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "te arrepentieras",
+          "expected": "te arrepintieras"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se arrepentiera",
+          "expected": "se arrepintiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "nos arrepentiéramos",
+          "expected": "nos arrepintiéramos"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "os arrepentierais",
+          "expected": "os arrepintierais"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se arrepentieran",
+          "expected": "se arrepintieran"
+        }
+      ],
+      "participle": "arrepentido"
+    },
+    {
+      "verb": "atreverse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "atrevido"
+    },
+    {
+      "verb": "ayudar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "ayudado"
+    },
+    {
+      "verb": "beber",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "bebido"
+    },
+    {
+      "verb": "buscar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "buscé",
+          "expected": "busqué"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "busce",
+          "expected": "busque"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "busces",
+          "expected": "busques"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "busce",
+          "expected": "busque"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "buscemos",
+          "expected": "busquemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "buscéis",
+          "expected": "busquéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "buscen",
+          "expected": "busquen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "busce",
+          "expected": "busque"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "buscemos",
+          "expected": "busquemos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "buscen",
+          "expected": "busquen"
+        }
+      ],
+      "participle": "buscado"
+    },
+    {
+      "verb": "caer",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "he caido",
+          "expected": "he caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "has caido",
+          "expected": "has caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "ha caido",
+          "expected": "ha caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "hemos caido",
+          "expected": "hemos caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "habéis caido",
+          "expected": "habéis caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "han caido",
+          "expected": "han caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "había caido",
+          "expected": "había caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "habías caido",
+          "expected": "habías caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "había caido",
+          "expected": "había caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "habíamos caido",
+          "expected": "habíamos caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "habíais caido",
+          "expected": "habíais caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habían caido",
+          "expected": "habían caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "habré caido",
+          "expected": "habré caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "habrás caido",
+          "expected": "habrás caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habrá caido",
+          "expected": "habrá caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "habremos caido",
+          "expected": "habremos caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "habréis caido",
+          "expected": "habréis caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrán caido",
+          "expected": "habrán caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "habría caido",
+          "expected": "habría caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "habrías caido",
+          "expected": "habrías caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habría caido",
+          "expected": "habría caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "habríamos caido",
+          "expected": "habríamos caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "habríais caido",
+          "expected": "habríais caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrían caido",
+          "expected": "habrían caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "haya caido",
+          "expected": "haya caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "hayas caido",
+          "expected": "hayas caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "haya caido",
+          "expected": "haya caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "hayamos caido",
+          "expected": "hayamos caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "hayáis caido",
+          "expected": "hayáis caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "hayan caido",
+          "expected": "hayan caído"
+        }
+      ],
+      "participle": "caído"
+    },
+    {
+      "verb": "caerse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "me he caido",
+          "expected": "me he caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "te has caido",
+          "expected": "te has caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se ha caido",
+          "expected": "se ha caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "nos hemos caido",
+          "expected": "nos hemos caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "os habéis caido",
+          "expected": "os habéis caído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se han caido",
+          "expected": "se han caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "me había caido",
+          "expected": "me había caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "te habías caido",
+          "expected": "te habías caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se había caido",
+          "expected": "se había caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "nos habíamos caido",
+          "expected": "nos habíamos caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "os habíais caido",
+          "expected": "os habíais caído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se habían caido",
+          "expected": "se habían caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "me habré caido",
+          "expected": "me habré caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "te habrás caido",
+          "expected": "te habrás caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se habrá caido",
+          "expected": "se habrá caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "nos habremos caido",
+          "expected": "nos habremos caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "os habréis caido",
+          "expected": "os habréis caído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se habrán caido",
+          "expected": "se habrán caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "me habría caido",
+          "expected": "me habría caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "te habrías caido",
+          "expected": "te habrías caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se habría caido",
+          "expected": "se habría caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "nos habríamos caido",
+          "expected": "nos habríamos caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "os habríais caido",
+          "expected": "os habríais caído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se habrían caido",
+          "expected": "se habrían caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "me haya caido",
+          "expected": "me haya caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "te hayas caido",
+          "expected": "te hayas caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se haya caido",
+          "expected": "se haya caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "nos hayamos caido",
+          "expected": "nos hayamos caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "os hayáis caido",
+          "expected": "os hayáis caído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se hayan caido",
+          "expected": "se hayan caído"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "cáete",
+          "expected": "caete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "cáigase",
+          "expected": "caigase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "caigámonos",
+          "expected": "caigamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "cáiganse",
+          "expected": "caiganse"
+        }
+      ],
+      "participle": "caído"
+    },
+    {
+      "verb": "cambiar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "cambiado"
+    },
+    {
+      "verb": "casarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "casado"
+    },
+    {
+      "verb": "comer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "comido"
+    },
+    {
+      "verb": "comprar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "comprado"
+    },
+    {
+      "verb": "comprender",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "comprendido"
+    },
+    {
+      "verb": "concluir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "concluido"
+    },
+    {
+      "verb": "conducir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "conducido"
+    },
+    {
+      "verb": "conocer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "conocido"
+    },
+    {
+      "verb": "conseguir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "conseguido"
+    },
+    {
+      "verb": "construir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "construido"
+    },
+    {
+      "verb": "convertirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente",
+          "pronoun": "yo",
+          "current": "me converto",
+          "expected": "me convierto"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "tú",
+          "current": "te convertes",
+          "expected": "te conviertes"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "él/ella/usted",
+          "current": "se converte",
+          "expected": "se convierte"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "ellos/ustedes",
+          "current": "se converten",
+          "expected": "se convierten"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "él/ella/usted",
+          "current": "se convertió",
+          "expected": "se convirtió"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "ellos/ustedes",
+          "current": "se convertieron",
+          "expected": "se convirtieron"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "me converta",
+          "expected": "me convierta"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "te convertas",
+          "expected": "te conviertas"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "se converta",
+          "expected": "se convierta"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "nos convertamos",
+          "expected": "nos convirtamos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "os convertáis",
+          "expected": "os convirtáis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "se convertan",
+          "expected": "se conviertan"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "me convertiera",
+          "expected": "me convirtiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "te convertieras",
+          "expected": "te convirtieras"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se convertiera",
+          "expected": "se convirtiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "nos convertiéramos",
+          "expected": "nos convirtiéramos"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "os convertierais",
+          "expected": "os convirtierais"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se convertieran",
+          "expected": "se convirtieran"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "convertete",
+          "expected": "conviertete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "convertase",
+          "expected": "conviertase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "convertamonos",
+          "expected": "convirtamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "convertanse",
+          "expected": "conviertanse"
+        }
+      ],
+      "participle": "convertido"
+    },
+    {
+      "verb": "corregir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "corregido"
+    },
+    {
+      "verb": "correr",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "corrido"
+    },
+    {
+      "verb": "crear",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "creado"
+    },
+    {
+      "verb": "crecer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "crecido"
+    },
+    {
+      "verb": "cumplir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "cumplido"
+    },
+    {
+      "verb": "dar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "dado"
+    },
+    {
+      "verb": "darse cuenta",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "dado"
+    },
+    {
+      "verb": "deber",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "debido"
+    },
+    {
+      "verb": "decidir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "decidido"
+    },
+    {
+      "verb": "decir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "dicho"
+    },
+    {
+      "verb": "defender",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "defendido"
+    },
+    {
+      "verb": "dejar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "dejado"
+    },
+    {
+      "verb": "desaparecer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "desaparecido"
+    },
+    {
+      "verb": "desayunarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "desayunado"
+    },
+    {
+      "verb": "descansar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "descansado"
+    },
+    {
+      "verb": "describir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "descrito"
+    },
+    {
+      "verb": "despedirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "me despediera",
+          "expected": "me despidiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "te despedieras",
+          "expected": "te despidieras"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se despediera",
+          "expected": "se despidiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "nos despediéramos",
+          "expected": "nos despidiéramos"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "os despedierais",
+          "expected": "os despidierais"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se despedieran",
+          "expected": "se despidieran"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "despídete",
+          "expected": "despidete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "despídase",
+          "expected": "despidase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "despidámonos",
+          "expected": "despidamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "vosotros",
+          "current": "despedíos",
+          "expected": "despedios"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "despídanse",
+          "expected": "despidanse"
+        }
+      ],
+      "participle": "despedido"
+    },
+    {
+      "verb": "despertarse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "despiértate",
+          "expected": "despiertate"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "despiértese",
+          "expected": "despiertese"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "despertémonos",
+          "expected": "despertemonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "despiértense",
+          "expected": "despiertense"
+        }
+      ],
+      "participle": "despertado"
+    },
+    {
+      "verb": "destruir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "destruido"
+    },
+    {
+      "verb": "desvestirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente",
+          "pronoun": "yo",
+          "current": "me desvesto",
+          "expected": "me desvisto"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "tú",
+          "current": "te desvestes",
+          "expected": "te desvistes"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "él/ella/usted",
+          "current": "se desveste",
+          "expected": "se desviste"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "ellos/ustedes",
+          "current": "se desvesten",
+          "expected": "se desvisten"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "él/ella/usted",
+          "current": "se desvestió",
+          "expected": "se desvistió"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "ellos/ustedes",
+          "current": "se desvestieron",
+          "expected": "se desvistieron"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "me desvesta",
+          "expected": "me desvista"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "te desvestas",
+          "expected": "te desvistas"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "se desvesta",
+          "expected": "se desvista"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "nos desvestamos",
+          "expected": "nos desvistamos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "os desvestáis",
+          "expected": "os desvistáis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "se desvestan",
+          "expected": "se desvistan"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "me desvestiera",
+          "expected": "me desvistiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "te desvestieras",
+          "expected": "te desvistieras"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se desvestiera",
+          "expected": "se desvistiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "nos desvestiéramos",
+          "expected": "nos desvistiéramos"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "os desvestierais",
+          "expected": "os desvistierais"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se desvestieran",
+          "expected": "se desvistieran"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "desvestete",
+          "expected": "desvistete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "desvestase",
+          "expected": "desvistase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "desvestamonos",
+          "expected": "desvistamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "desvestanse",
+          "expected": "desvistanse"
+        }
+      ],
+      "participle": "desvestido"
+    },
+    {
+      "verb": "discutir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "discutido"
+    },
+    {
+      "verb": "divertirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "me divertiera",
+          "expected": "me divirtiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "te divertieras",
+          "expected": "te divirtieras"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "se divertiera",
+          "expected": "se divirtiera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "nos divertiéramos",
+          "expected": "nos divirtiéramos"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "os divertierais",
+          "expected": "os divirtierais"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "se divertieran",
+          "expected": "se divirtieran"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "diviértete",
+          "expected": "diviertete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "diviértase",
+          "expected": "diviertase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "divirtámonos",
+          "expected": "divirtamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "vosotros",
+          "current": "divertíos",
+          "expected": "divertios"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "diviértanse",
+          "expected": "diviertanse"
+        }
+      ],
+      "participle": "divertido"
+    },
+    {
+      "verb": "divorciarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "divorciado"
+    },
+    {
+      "verb": "doler",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "dolido"
+    },
+    {
+      "verb": "dormir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "dormido"
+    },
+    {
+      "verb": "ducharse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "duchado"
+    },
+    {
+      "verb": "elegir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "elegido"
+    },
+    {
+      "verb": "empezar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "empezado"
+    },
+    {
+      "verb": "enamorarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "enamorado"
+    },
+    {
+      "verb": "encender",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "encendido"
+    },
+    {
+      "verb": "encontrarse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "encuéntrate",
+          "expected": "encuentrate"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "encuéntrese",
+          "expected": "encuentrese"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "encontrémonos",
+          "expected": "encontremonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "encuéntren",
+          "expected": "encuentrense"
+        }
+      ],
+      "participle": "encontrado"
+    },
+    {
+      "verb": "enfadarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "enfadado"
+    },
+    {
+      "verb": "enfermarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "enfermado"
+    },
+    {
+      "verb": "entender",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "entendido"
+    },
+    {
+      "verb": "entrar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "entrado"
+    },
+    {
+      "verb": "enviar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente",
+          "pronoun": "yo",
+          "current": "envio",
+          "expected": "envío"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "tú",
+          "current": "envias",
+          "expected": "envías"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "él/ella/usted",
+          "current": "envia",
+          "expected": "envía"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "ellos/ustedes",
+          "current": "envian",
+          "expected": "envían"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "envie",
+          "expected": "envíe"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "envies",
+          "expected": "envíes"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "envie",
+          "expected": "envíe"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "envien",
+          "expected": "envíen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "envia",
+          "expected": "envía"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "envie",
+          "expected": "envíe"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "envien",
+          "expected": "envíen"
+        }
+      ],
+      "participle": "enviado"
+    },
+    {
+      "verb": "esconder",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "escondido"
+    },
+    {
+      "verb": "escribir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "escrito"
+    },
+    {
+      "verb": "esperar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "esperado"
+    },
+    {
+      "verb": "estar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "estado"
+    },
+    {
+      "verb": "estudiar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "estudiado"
+    },
+    {
+      "verb": "explicar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "explicé",
+          "expected": "expliqué"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "explice",
+          "expected": "explique"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "explices",
+          "expected": "expliques"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "explice",
+          "expected": "explique"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "explicemos",
+          "expected": "expliquemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "explicéis",
+          "expected": "expliquéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "explicen",
+          "expected": "expliquen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "explice",
+          "expected": "explique"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "explicemos",
+          "expected": "expliquemos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "explicen",
+          "expected": "expliquen"
+        }
+      ],
+      "participle": "explicado"
+    },
+    {
+      "verb": "fijarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "fijado"
+    },
+    {
+      "verb": "freír",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "él/ella/usted",
+          "current": "frió",
+          "expected": "frio"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "friáis",
+          "expected": "friais"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "he freido",
+          "expected": "he freído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "has freido",
+          "expected": "has freído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "ha freido",
+          "expected": "ha freído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "hemos freido",
+          "expected": "hemos freído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "habéis freido",
+          "expected": "habéis freído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "han freido",
+          "expected": "han freído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "había freido",
+          "expected": "había freído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "habías freido",
+          "expected": "habías freído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "había freido",
+          "expected": "había freído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "habíamos freido",
+          "expected": "habíamos freído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "habíais freido",
+          "expected": "habíais freído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habían freido",
+          "expected": "habían freído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "habré freido",
+          "expected": "habré freído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "habrás freido",
+          "expected": "habrás freído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habrá freido",
+          "expected": "habrá freído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "habremos freido",
+          "expected": "habremos freído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "habréis freido",
+          "expected": "habréis freído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrán freido",
+          "expected": "habrán freído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "habría freido",
+          "expected": "habría freído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "habrías freido",
+          "expected": "habrías freído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habría freido",
+          "expected": "habría freído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "habríamos freido",
+          "expected": "habríamos freído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "habríais freido",
+          "expected": "habríais freído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrían freido",
+          "expected": "habrían freído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "haya freido",
+          "expected": "haya freído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "hayas freido",
+          "expected": "hayas freído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "haya freido",
+          "expected": "haya freído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "hayamos freido",
+          "expected": "hayamos freído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "hayáis freido",
+          "expected": "hayáis freído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "hayan freido",
+          "expected": "hayan freído"
+        }
+      ],
+      "participle": "freído"
+    },
+    {
+      "verb": "gastar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "gastado"
+    },
+    {
+      "verb": "hablar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "hablado"
+    },
+    {
+      "verb": "hacer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "hecho"
+    },
+    {
+      "verb": "hacerse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "hágase",
+          "expected": "hagase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "hagámonos",
+          "expected": "hagamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "háganse",
+          "expected": "haganse"
+        }
+      ],
+      "participle": "hecho"
+    },
+    {
+      "verb": "huir",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente",
+          "pronoun": "vosotros",
+          "current": "huís",
+          "expected": "huis"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "huí",
+          "expected": "hui"
+        }
+      ],
+      "participle": "huido"
+    },
+    {
+      "verb": "incluir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "incluido"
+    },
+    {
+      "verb": "interesarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "interesado"
+    },
+    {
+      "verb": "introducir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "introducido"
+    },
+    {
+      "verb": "ir",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "vayamos",
+          "expected": "vamos"
+        }
+      ],
+      "participle": "ido"
+    },
+    {
+      "verb": "irse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "váyase",
+          "expected": "vayase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "vámonos",
+          "expected": "vamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "vosotros",
+          "current": "idos",
+          "expected": "ios"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "váyanse",
+          "expected": "vayanse"
+        }
+      ],
+      "participle": "ido"
+    },
+    {
+      "verb": "jactarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "jactado"
+    },
+    {
+      "verb": "jugar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "jugado"
+    },
+    {
+      "verb": "lavarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "lavado"
+    },
+    {
+      "verb": "levantarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "levantado"
+    },
+    {
+      "verb": "llamar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "llamado"
+    },
+    {
+      "verb": "llamarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "llamado"
+    },
+    {
+      "verb": "llegar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "llegé",
+          "expected": "llegué"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "llege",
+          "expected": "llegue"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "lleges",
+          "expected": "llegues"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "llege",
+          "expected": "llegue"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "llegemos",
+          "expected": "lleguemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "llegéis",
+          "expected": "lleguéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "llegen",
+          "expected": "lleguen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "llege",
+          "expected": "llegue"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "llegemos",
+          "expected": "lleguemos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "llegen",
+          "expected": "lleguen"
+        }
+      ],
+      "participle": "llegado"
+    },
+    {
+      "verb": "llover",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "llovra",
+          "expected": "N/A"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "llovras",
+          "expected": "N/A"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "llovra",
+          "expected": "lloviera"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "llóvramos",
+          "expected": "N/A"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "llovrais",
+          "expected": "N/A"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "llovran",
+          "expected": "N/A"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "llove",
+          "expected": "N/A"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "llova",
+          "expected": "N/A"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "llovamos",
+          "expected": "N/A"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "vosotros",
+          "current": "lloved",
+          "expected": "N/A"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "llovan",
+          "expected": "N/A"
+        }
+      ],
+      "participle": "llovido"
+    },
+    {
+      "verb": "mandar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "mandado"
+    },
+    {
+      "verb": "mejorarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "mejorado"
+    },
+    {
+      "verb": "mentir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "mentido"
+    },
+    {
+      "verb": "meter",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "metido"
+    },
+    {
+      "verb": "mirar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "mirado"
+    },
+    {
+      "verb": "morir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "muerto"
+    },
+    {
+      "verb": "morirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "muérete",
+          "expected": "muerete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "muérase",
+          "expected": "muerase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "murámonos",
+          "expected": "muramonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "vosotros",
+          "current": "moríos",
+          "expected": "morios"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "muéranse",
+          "expected": "mueranse"
+        }
+      ],
+      "participle": "muerto"
+    },
+    {
+      "verb": "mover",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "movido"
+    },
+    {
+      "verb": "nacer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "nacido"
+    },
+    {
+      "verb": "necesitar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "necesitado"
+    },
+    {
+      "verb": "nevar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "nievo"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "nievas"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "nevamos"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "neváis"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "nievan"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "nevé"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "nevaste"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "nevamos"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "nevasteis"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "nevaron"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "nevaba"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "nevabas"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "nevábamos"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "nevabais"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "nevaban"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "nevaré"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "nevarás"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "nevaremos"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "nevaréis"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "nevarán"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "nevaría"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "nevarías"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "nevaríamos"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "nevaríais"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "nevarían"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "nieve"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "nieves"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "nevemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "nevéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "nieven"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "nevra",
+          "expected": "nevara"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "nevras",
+          "expected": "nevaras"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "nevra",
+          "expected": "nevara"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "névramos",
+          "expected": "neváramos"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "nevrais",
+          "expected": "nevarais"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "nevran",
+          "expected": "nevaran"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "neva",
+          "expected": "nieva"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "neve",
+          "expected": "nieve"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "neven",
+          "expected": "nieven"
+        }
+      ],
+      "participle": "nevado"
+    },
+    {
+      "verb": "olvidar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "olvidado"
+    },
+    {
+      "verb": "olvidarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "olvidado"
+    },
+    {
+      "verb": "oír",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "he oido",
+          "expected": "he oído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "has oido",
+          "expected": "has oído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "ha oido",
+          "expected": "ha oído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "hemos oido",
+          "expected": "hemos oído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "habéis oido",
+          "expected": "habéis oído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "han oido",
+          "expected": "han oído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "había oido",
+          "expected": "había oído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "habías oido",
+          "expected": "habías oído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "había oido",
+          "expected": "había oído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "habíamos oido",
+          "expected": "habíamos oído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "habíais oido",
+          "expected": "habíais oído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habían oido",
+          "expected": "habían oído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "habré oido",
+          "expected": "habré oído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "habrás oido",
+          "expected": "habrás oído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habrá oido",
+          "expected": "habrá oído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "habremos oido",
+          "expected": "habremos oído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "habréis oido",
+          "expected": "habréis oído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrán oido",
+          "expected": "habrán oído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "habría oido",
+          "expected": "habría oído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "habrías oido",
+          "expected": "habrías oído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habría oido",
+          "expected": "habría oído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "habríamos oido",
+          "expected": "habríamos oído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "habríais oido",
+          "expected": "habríais oído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrían oido",
+          "expected": "habrían oído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "haya oido",
+          "expected": "haya oído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "hayas oido",
+          "expected": "hayas oído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "haya oido",
+          "expected": "haya oído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "hayamos oido",
+          "expected": "hayamos oído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "hayáis oido",
+          "expected": "hayáis oído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "hayan oido",
+          "expected": "hayan oído"
+        }
+      ],
+      "participle": "oído"
+    },
+    {
+      "verb": "pagar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "pagé",
+          "expected": "pagué"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "page",
+          "expected": "pague"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "pages",
+          "expected": "pagues"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "page",
+          "expected": "pague"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "pagemos",
+          "expected": "paguemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "pagéis",
+          "expected": "paguéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "pagen",
+          "expected": "paguen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "page",
+          "expected": "pague"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "pagemos",
+          "expected": "paguemos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "pagen",
+          "expected": "paguen"
+        }
+      ],
+      "participle": "pagado"
+    },
+    {
+      "verb": "parecerse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente",
+          "pronoun": "yo",
+          "current": "me pareco",
+          "expected": "me parezco"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "me pareca",
+          "expected": "me parezca"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "te parecas",
+          "expected": "te parezcas"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "se pareca",
+          "expected": "se parezca"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "nos parecamos",
+          "expected": "nos parezcamos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "os parecáis",
+          "expected": "os parezcáis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "se parecan",
+          "expected": "se parezcan"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "parecase",
+          "expected": "parezcase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "parecamonos",
+          "expected": "parezcamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "parecanse",
+          "expected": "parezcanse"
+        }
+      ],
+      "participle": "parecido"
+    },
+    {
+      "verb": "pedir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "pedido"
+    },
+    {
+      "verb": "peinarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "peinado"
+    },
+    {
+      "verb": "pensar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "pensado"
+    },
+    {
+      "verb": "perder",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "perdido"
+    },
+    {
+      "verb": "permitir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "permitido"
+    },
+    {
+      "verb": "poder",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "podido"
+    },
+    {
+      "verb": "poner",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "puesto"
+    },
+    {
+      "verb": "ponerse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "póngase",
+          "expected": "pongase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "pongámonos",
+          "expected": "pongamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "pónganse",
+          "expected": "ponganse"
+        }
+      ],
+      "participle": "puesto"
+    },
+    {
+      "verb": "practicar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "practicé",
+          "expected": "practiqué"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "practice",
+          "expected": "practique"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "practices",
+          "expected": "practiques"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "practice",
+          "expected": "practique"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "practicemos",
+          "expected": "practiquemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "practicéis",
+          "expected": "practiquéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "practicen",
+          "expected": "practiquen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "practice",
+          "expected": "practique"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "practicemos",
+          "expected": "practiquemos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "practicen",
+          "expected": "practiquen"
+        }
+      ],
+      "participle": "practicado"
+    },
+    {
+      "verb": "preferir",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperfecto",
+          "pronoun": "nosotros",
+          "current": "preferiamos",
+          "expected": "preferíamos"
+        }
+      ],
+      "participle": "preferido"
+    },
+    {
+      "verb": "preocuparse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "preocupado"
+    },
+    {
+      "verb": "producir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "producido"
+    },
+    {
+      "verb": "prometer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "prometido"
+    },
+    {
+      "verb": "quedarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "quedado"
+    },
+    {
+      "verb": "quejarse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "quejate",
+          "expected": "quéjate"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "quejese",
+          "expected": "quéjese"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "quejemonos",
+          "expected": "quejémonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "quejense",
+          "expected": "quéjense"
+        }
+      ],
+      "participle": "quejado"
+    },
+    {
+      "verb": "querer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "querido"
+    },
+    {
+      "verb": "recibir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "recibido"
+    },
+    {
+      "verb": "reducir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "reducido"
+    },
+    {
+      "verb": "relampaguear",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "relampagueado"
+    },
+    {
+      "verb": "repetir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "repetido"
+    },
+    {
+      "verb": "responder",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "respondido"
+    },
+    {
+      "verb": "reunirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "reunámonos",
+          "expected": "reunamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "vosotros",
+          "current": "reuníos",
+          "expected": "reunios"
+        }
+      ],
+      "participle": "reunido"
+    },
+    {
+      "verb": "reír",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "él/ella/usted",
+          "current": "rió",
+          "expected": "rio"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "riáis",
+          "expected": "riais"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "he reido",
+          "expected": "he reído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "has reido",
+          "expected": "has reído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "ha reido",
+          "expected": "ha reído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "hemos reido",
+          "expected": "hemos reído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "habéis reido",
+          "expected": "habéis reído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "han reido",
+          "expected": "han reído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "había reido",
+          "expected": "había reído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "habías reido",
+          "expected": "habías reído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "había reido",
+          "expected": "había reído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "habíamos reido",
+          "expected": "habíamos reído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "habíais reido",
+          "expected": "habíais reído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habían reido",
+          "expected": "habían reído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "habré reido",
+          "expected": "habré reído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "habrás reido",
+          "expected": "habrás reído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habrá reido",
+          "expected": "habrá reído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "habremos reido",
+          "expected": "habremos reído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "habréis reido",
+          "expected": "habréis reído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrán reido",
+          "expected": "habrán reído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "habría reido",
+          "expected": "habría reído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "habrías reido",
+          "expected": "habrías reído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habría reido",
+          "expected": "habría reído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "habríamos reido",
+          "expected": "habríamos reído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "habríais reido",
+          "expected": "habríais reído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrían reido",
+          "expected": "habrían reído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "haya reido",
+          "expected": "haya reído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "hayas reido",
+          "expected": "hayas reído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "haya reido",
+          "expected": "haya reído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "hayamos reido",
+          "expected": "hayamos reído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "hayáis reido",
+          "expected": "hayáis reído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "hayan reido",
+          "expected": "hayan reído"
+        }
+      ],
+      "participle": "reído"
+    },
+    {
+      "verb": "roer",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "he roido",
+          "expected": "he roído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "has roido",
+          "expected": "has roído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "ha roido",
+          "expected": "ha roído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "hemos roido",
+          "expected": "hemos roído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "habéis roido",
+          "expected": "habéis roído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "han roido",
+          "expected": "han roído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "había roido",
+          "expected": "había roído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "habías roido",
+          "expected": "habías roído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "había roido",
+          "expected": "había roído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "habíamos roido",
+          "expected": "habíamos roído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "habíais roido",
+          "expected": "habíais roído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habían roido",
+          "expected": "habían roído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "habré roido",
+          "expected": "habré roído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "habrás roido",
+          "expected": "habrás roído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habrá roido",
+          "expected": "habrá roído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "habremos roido",
+          "expected": "habremos roído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "habréis roido",
+          "expected": "habréis roído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrán roido",
+          "expected": "habrán roído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "habría roido",
+          "expected": "habría roído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "habrías roido",
+          "expected": "habrías roído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habría roido",
+          "expected": "habría roído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "habríamos roido",
+          "expected": "habríamos roído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "habríais roido",
+          "expected": "habríais roído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrían roido",
+          "expected": "habrían roído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "haya roido",
+          "expected": "haya roído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "hayas roido",
+          "expected": "hayas roído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "haya roido",
+          "expected": "haya roído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "hayamos roido",
+          "expected": "hayamos roído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "hayáis roido",
+          "expected": "hayáis roído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "hayan roido",
+          "expected": "hayan roído"
+        }
+      ],
+      "participle": "roído"
+    },
+    {
+      "verb": "romper",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "roto"
+    },
+    {
+      "verb": "romperse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "roto"
+    },
+    {
+      "verb": "saber",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "sabido"
+    },
+    {
+      "verb": "salir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "salido"
+    },
+    {
+      "verb": "seguir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "seguido"
+    },
+    {
+      "verb": "sentarse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "siéntate",
+          "expected": "sientate"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "siéntese",
+          "expected": "sientese"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "sentémonos",
+          "expected": "sentemonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "siéntense",
+          "expected": "sientense"
+        }
+      ],
+      "participle": "sentado"
+    },
+    {
+      "verb": "sentir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "sentido"
+    },
+    {
+      "verb": "ser",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "sido"
+    },
+    {
+      "verb": "servir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "servido"
+    },
+    {
+      "verb": "soler",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "sole",
+          "expected": "suele"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "sola",
+          "expected": "suela"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "solan",
+          "expected": "suelan"
+        }
+      ],
+      "participle": "solido"
+    },
+    {
+      "verb": "sonreír",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "he sonreido",
+          "expected": "he sonreído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "has sonreido",
+          "expected": "has sonreído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "ha sonreido",
+          "expected": "ha sonreído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "hemos sonreido",
+          "expected": "hemos sonreído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "habéis sonreido",
+          "expected": "habéis sonreído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "han sonreido",
+          "expected": "han sonreído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "había sonreido",
+          "expected": "había sonreído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "habías sonreido",
+          "expected": "habías sonreído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "había sonreido",
+          "expected": "había sonreído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "habíamos sonreido",
+          "expected": "habíamos sonreído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "habíais sonreido",
+          "expected": "habíais sonreído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habían sonreido",
+          "expected": "habían sonreído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "habré sonreido",
+          "expected": "habré sonreído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "habrás sonreido",
+          "expected": "habrás sonreído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habrá sonreido",
+          "expected": "habrá sonreído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "habremos sonreido",
+          "expected": "habremos sonreído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "habréis sonreido",
+          "expected": "habréis sonreído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrán sonreido",
+          "expected": "habrán sonreído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "habría sonreido",
+          "expected": "habría sonreído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "habrías sonreido",
+          "expected": "habrías sonreído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habría sonreido",
+          "expected": "habría sonreído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "habríamos sonreido",
+          "expected": "habríamos sonreído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "habríais sonreido",
+          "expected": "habríais sonreído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrían sonreido",
+          "expected": "habrían sonreído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "haya sonreido",
+          "expected": "haya sonreído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "hayas sonreido",
+          "expected": "hayas sonreído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "haya sonreido",
+          "expected": "haya sonreído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "hayamos sonreido",
+          "expected": "hayamos sonreído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "hayáis sonreido",
+          "expected": "hayáis sonreído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "hayan sonreido",
+          "expected": "hayan sonreído"
+        }
+      ],
+      "participle": "sonreído"
+    },
+    {
+      "verb": "sorprender",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "sorprendido"
+    },
+    {
+      "verb": "sorprenderse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "sorprendido"
+    },
+    {
+      "verb": "subir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "subido"
+    },
+    {
+      "verb": "sufrir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "sufrido"
+    },
+    {
+      "verb": "sugerir",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperfecto",
+          "pronoun": "nosotros",
+          "current": "sugeriamos",
+          "expected": "sugeríamos"
+        }
+      ],
+      "participle": "sugerido"
+    },
+    {
+      "verb": "tañer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "tañido"
+    },
+    {
+      "verb": "temer",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "temido"
+    },
+    {
+      "verb": "tener",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "tenido"
+    },
+    {
+      "verb": "terminar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "terminado"
+    },
+    {
+      "verb": "terminarse",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "terminado"
+    },
+    {
+      "verb": "tocar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "tocé",
+          "expected": "toqué"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "toce",
+          "expected": "toque"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "toces",
+          "expected": "toques"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "él/ella/usted",
+          "current": "toce",
+          "expected": "toque"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "tocemos",
+          "expected": "toquemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "tocéis",
+          "expected": "toquéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "tocen",
+          "expected": "toquen"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "toce",
+          "expected": "toque"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "tocemos",
+          "expected": "toquemos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "tocen",
+          "expected": "toquen"
+        }
+      ],
+      "participle": "tocado"
+    },
+    {
+      "verb": "trabajar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "trabajado"
+    },
+    {
+      "verb": "traducir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "traducido"
+    },
+    {
+      "verb": "traer",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "yo",
+          "current": "he traido",
+          "expected": "he traído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "tú",
+          "current": "has traido",
+          "expected": "has traído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "ha traido",
+          "expected": "ha traído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "nosotros",
+          "current": "hemos traido",
+          "expected": "hemos traído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "vosotros",
+          "current": "habéis traido",
+          "expected": "habéis traído"
+        },
+        {
+          "tense": "presente_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "han traido",
+          "expected": "han traído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "yo",
+          "current": "había traido",
+          "expected": "había traído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "tú",
+          "current": "habías traido",
+          "expected": "habías traído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "había traido",
+          "expected": "había traído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "nosotros",
+          "current": "habíamos traido",
+          "expected": "habíamos traído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "vosotros",
+          "current": "habíais traido",
+          "expected": "habíais traído"
+        },
+        {
+          "tense": "pluscuamperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habían traido",
+          "expected": "habían traído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "yo",
+          "current": "habré traido",
+          "expected": "habré traído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "tú",
+          "current": "habrás traido",
+          "expected": "habrás traído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habrá traido",
+          "expected": "habrá traído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "nosotros",
+          "current": "habremos traido",
+          "expected": "habremos traído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "vosotros",
+          "current": "habréis traido",
+          "expected": "habréis traído"
+        },
+        {
+          "tense": "futuro_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrán traido",
+          "expected": "habrán traído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "yo",
+          "current": "habría traido",
+          "expected": "habría traído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "tú",
+          "current": "habrías traido",
+          "expected": "habrías traído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "habría traido",
+          "expected": "habría traído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "nosotros",
+          "current": "habríamos traido",
+          "expected": "habríamos traído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "vosotros",
+          "current": "habríais traido",
+          "expected": "habríais traído"
+        },
+        {
+          "tense": "condicional_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "habrían traido",
+          "expected": "habrían traído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "yo",
+          "current": "haya traido",
+          "expected": "haya traído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "tú",
+          "current": "hayas traido",
+          "expected": "hayas traído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "él/ella/usted",
+          "current": "haya traido",
+          "expected": "haya traído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "nosotros",
+          "current": "hayamos traido",
+          "expected": "hayamos traído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "vosotros",
+          "current": "hayáis traido",
+          "expected": "hayáis traído"
+        },
+        {
+          "tense": "subjuntivo_perfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "hayan traido",
+          "expected": "hayan traído"
+        }
+      ],
+      "participle": "traído"
+    },
+    {
+      "verb": "tronar",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "presente",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "trueno"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "truenas"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "tronamos"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "tronáis"
+        },
+        {
+          "tense": "presente",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "truenan"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "troné"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "tronaste"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "tronamos"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "tronasteis"
+        },
+        {
+          "tense": "preterito",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "tronaron"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "tronaba"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "tronabas"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "tronábamos"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "tronabais"
+        },
+        {
+          "tense": "imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "tronaban"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "tronaré"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "tronarás"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "tronaremos"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "tronaréis"
+        },
+        {
+          "tense": "futuro",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "tronarán"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "tronaría"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "tronarías"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "tronaríamos"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "tronaríais"
+        },
+        {
+          "tense": "condicional",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "tronarían"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "yo",
+          "current": "N/A",
+          "expected": "truene"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "tú",
+          "current": "N/A",
+          "expected": "truenes"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "nosotros",
+          "current": "N/A",
+          "expected": "tronemos"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "vosotros",
+          "current": "N/A",
+          "expected": "tronéis"
+        },
+        {
+          "tense": "subjuntivo",
+          "pronoun": "ellos/ustedes",
+          "current": "N/A",
+          "expected": "truenen"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "yo",
+          "current": "tronra",
+          "expected": "tronara"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "tú",
+          "current": "tronras",
+          "expected": "tronaras"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "él/ella/usted",
+          "current": "tronra",
+          "expected": "tronara"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "nosotros",
+          "current": "trónramos",
+          "expected": "tronáramos"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "vosotros",
+          "current": "tronrais",
+          "expected": "tronarais"
+        },
+        {
+          "tense": "subjuntivo_imperfecto",
+          "pronoun": "ellos/ustedes",
+          "current": "tronran",
+          "expected": "tronaran"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "trona",
+          "expected": "truena"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "trone",
+          "expected": "truene"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "tronen",
+          "expected": "truenen"
+        }
+      ],
+      "participle": "tronado"
+    },
+    {
+      "verb": "unir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "unido"
+    },
+    {
+      "verb": "usar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "usado"
+    },
+    {
+      "verb": "valer",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "val",
+          "expected": "vale"
+        }
+      ],
+      "participle": "valido"
+    },
+    {
+      "verb": "vender",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "vendido"
+    },
+    {
+      "verb": "venir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "venido"
+    },
+    {
+      "verb": "ver",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "visto"
+    },
+    {
+      "verb": "vestir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "vestido"
+    },
+    {
+      "verb": "vestirse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "vístete",
+          "expected": "vistete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "vístase",
+          "expected": "vistase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "vistámonos",
+          "expected": "vistamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "vosotros",
+          "current": "vestíos",
+          "expected": "vestios"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "vístanse",
+          "expected": "vistanse"
+        }
+      ],
+      "participle": "vestido"
+    },
+    {
+      "verb": "viajar",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "viajado"
+    },
+    {
+      "verb": "vivir",
+      "status": "ok",
+      "mismatches": [],
+      "participle": "vivido"
+    },
+    {
+      "verb": "volverse",
+      "status": "mismatch",
+      "mismatches": [
+        {
+          "tense": "imperativo",
+          "pronoun": "tú",
+          "current": "vuélvete",
+          "expected": "vuelvete"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "usted",
+          "current": "vuélvase",
+          "expected": "vuelvase"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "nosotros",
+          "current": "volvamos",
+          "expected": "volvamonos"
+        },
+        {
+          "tense": "imperativo",
+          "pronoun": "ustedes",
+          "current": "vuélvanse",
+          "expected": "vuelvanse"
+        }
+      ],
+      "participle": "vuelto"
+    }
+  ]
+}

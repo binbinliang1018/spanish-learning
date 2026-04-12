@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "spanish-verbs": "^3.4.0",
+    "spanishconjugator": "^2.0.1"
+  }
+}
