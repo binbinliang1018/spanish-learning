@@ -3385,6 +3385,16 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'subjuntivo': ['haya', 'hayas', 'haya', 'hayamos', 'hayáis', 'hayan'],
             'imperativo': ['he', 'haya', 'hayamos', 'habed', 'hayan']
         },
+        // caber — 完整不规则变位
+        'caber': {
+            'presente': ['quepo', 'cabes', 'cabe', 'cabemos', 'cabéis', 'caben'],
+            'preterito': ['cupe', 'cupiste', 'cupo', 'cupimos', 'cupisteis', 'cupieron'],
+            'imperfecto': ['cabía', 'cabías', 'cabía', 'cabíamos', 'cabíais', 'cabían'],
+            'futuro': ['cabré', 'cabrás', 'cabrá', 'cabremos', 'cabréis', 'cabrán'],
+            'condicional': ['cabría', 'cabrías', 'cabría', 'cabríamos', 'cabríais', 'cabrían'],
+            'subjuntivo': ['quepa', 'quepas', 'quepa', 'quepamos', 'quepáis', 'quepan'],
+            'imperativo': ['cabe', 'quepa', 'quepamos', 'cabed', 'quepan']
+        },
         // volver o→ue
         'volver': {
             'presente': ['vuelvo', 'vuelves', 'vuelve', 'volvemos', 'volvéis', 'vuelven'],
@@ -4886,7 +4896,7 @@ function renderWrongVerbsList() {
                     <span class="wrong-verb-tense">${tenseName}</span>
                     <span class="wrong-verb-attempts">错 ${item.attempts} 次</span>
                 </div>
-                <button class="btn btn-primary btn-small" onclick="startReviewPractice(${index})">开始复习</button>
+                <button class="btn btn-primary btn-small" onclick="startReviewPractice(${index})" data-verb="${item.verb}" data-tense="${item.tense}">开始复习</button>
             </div>
         `;
     }).join('');
@@ -4894,7 +4904,17 @@ function renderWrongVerbsList() {
 
 // 开始复习特定错题
 function startReviewPractice(index) {
-    const wrongItem = reviewState.wrongVerbs[index];
+    // 优先从按钮的 data-verb/data-tense 精确匹配，防止 index 因异步刷新错位
+    const btn = event && event.currentTarget;
+    const verbKey = btn?.dataset?.verb;
+    const tenseKey = btn?.dataset?.tense;
+    let wrongItem;
+    if (verbKey && tenseKey) {
+        wrongItem = reviewState.wrongVerbs.find(w => w.verb === verbKey && w.tense === tenseKey);
+    }
+    if (!wrongItem) {
+        wrongItem = reviewState.wrongVerbs[index];
+    }
     if (!wrongItem) return;
     
     // 设置当前复习状态 - 只复习选中的这一个动词
@@ -4918,6 +4938,10 @@ function loadReviewVerb() {
     if (!wrongItem) return;
     
     currentVerb = verbsData.find(v => v.inf === wrongItem.verb);
+    // 如果 verbsData 里找不到（例如 haber/caber 这类辅助动词），构造一个最小对象以防崩溃
+    if (!currentVerb) {
+        currentVerb = { inf: wrongItem.verb, meaning: '', type: 'irregular' };
+    }
     // 严格使用错题原来的时态，绝不更改
     currentTense = wrongItem.tense;
     
@@ -4928,13 +4952,13 @@ function loadReviewVerb() {
         ((reviewState.currentIndex / reviewState.currentVerbs.length) * 100) + '%';
     
     document.getElementById('reviewStatus').textContent = 
-        `复习错题 - 时态：${tenses[currentTense].name}（必须使用该时态）`;
+        `复习错题 - 时态：${tenses[currentTense]?.name || currentTense}（必须使用该时态）`;
     
     // 更新动词显示
     const verbType = getVerbTypeLabel(currentVerb, currentTense);
     document.getElementById('reviewVerbInfinitive').textContent = `${currentVerb.inf}${verbType ? ` ${verbType}` : ''}`;
     document.getElementById('reviewVerbMeaning').textContent = currentVerb.meaning;
-    document.getElementById('reviewVerbTense').textContent = tenses[currentTense].name;
+    document.getElementById('reviewVerbTense').textContent = tenses[currentTense]?.name || currentTense;
     
     // 显示时态规则和不规则动词列表
     renderTenseRuleBox('reviewTenseRuleBox', currentTense);

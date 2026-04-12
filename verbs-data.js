@@ -3,6 +3,7 @@ const verbsData = [
     // 常用动词
     { inf: "ser", meaning: "是（本质）", type: "irregular" },
     { inf: "estar", meaning: "是（状态）/在", type: "irregular" },
+    { inf: "haber", meaning: "（助动词）有/存在", type: "irregular" },
     { inf: "tener", meaning: "有", type: "irregular" },
     { inf: "hacer", meaning: "做/制造", type: "irregular" },
     { inf: "decir", meaning: "说", type: "irregular" },
@@ -10,6 +11,7 @@ const verbsData = [
     { inf: "ver", meaning: "看", type: "irregular" },
     { inf: "dar", meaning: "给", type: "irregular" },
     { inf: "saber", meaning: "知道", type: "irregular" },
+    { inf: "caber", meaning: "容纳/放得下", type: "irregular" },
     { inf: "conocer", meaning: "认识/了解", type: "irregular" },
     { inf: "poder", meaning: "能够", type: "irregular" },
     { inf: "querer", meaning: "想要/爱", type: "irregular" },
