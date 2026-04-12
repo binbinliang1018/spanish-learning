@@ -839,10 +839,20 @@ function initDailyPractice() {
     if (dailyRestartBtn) dailyRestartBtn.addEventListener('click', startDailyPractice);
     if (dailyNextBtn) dailyNextBtn.addEventListener('click', goToNextDailyVerb);
     
-    // ULTIMATE-TEST-FIX: 确保"开始每日练习"按钮在页面加载时是可见的
-    if (dailyStartBtn && dailyStartBtn.style.display === 'none') {
-        console.log('[ULTIMATE-FIX🚀] 发现 dailyStartBtn 被隐藏了，立即恢复显示');
+    // ULTIMATE-BUTTON-FIX: 强制重置按钮显示状态（防止界面暗/不可用）
+    if (dailyStartBtn) {
+        console.log('[ULTIMATE-FIX🚀] 强制重置 dailyStartBtn 所有显示属性');
         dailyStartBtn.style.display = 'inline-block';
+        dailyStartBtn.disabled = false;
+        dailyStartBtn.style.opacity = '1';
+        dailyStartBtn.style.pointerEvents = 'auto';
+        dailyStartBtn.style.cursor = 'pointer';
+        dailyStartBtn.style.visibility = 'visible';
+        dailyStartBtn.className = 'btn btn-primary'; // 重置类名
+        dailyStartBtn.textContent = '开始今日挑战';
+        
+        // 确保CSS样式应用到按钮
+        dailyStartBtn.setAttribute('style', dailyStartBtn.getAttribute('style') + '; display: inline-block !important; visibility: visible !important; opacity: 1 !important;');
     }
     
     // 确保其他按钮在开始练习前是隐藏的
