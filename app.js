@@ -678,7 +678,8 @@ function initDailyPractice() {
 const ALL_TENSES = [
     'presente', 'preterito', 'imperfecto', 'futuro', 'condicional',
     'subjuntivo', 'subjuntivo_imperfecto', 'presente_perfecto', 'pluscuamperfecto',
-    'futuro_perfecto', 'condicional_perfecto', 'subjuntivo_perfecto', 'imperativo'
+    'futuro_perfecto', 'condicional_perfecto', 'subjuntivo_perfecto', 'imperativo',
+    'participio', 'gerundio'
 ];
 
 const COMPOUND_TENSES = [
@@ -1167,15 +1168,30 @@ function renderLookupConjugationInputs(tense) {
     }
 
     grid.innerHTML = '';
-    tenses[tense].pronouns.forEach(pronoun => {
+    
+    // 特殊处理 participio 和 gerundio（非人称形式，只有一个输入框）
+    if (tense === 'participio' || tense === 'gerundio') {
+        const displayPronoun = tense === 'participio' ? '过去分词' : '现在分词';
+        const placeholder = tense === 'participio' ? '例如: hablado / comido / vivido' : '例如: hablando / comiendo / viviendo';
         const item = document.createElement('div');
         item.className = 'conjugation-item';
         item.innerHTML = `
-            <label>${pronoun}</label>
-            <input type="text" data-pronoun="${pronoun}" placeholder="变位形式..." autocomplete="off">
+            <label>${displayPronoun}</label>
+            <input type="text" data-pronoun="${tenses[tense].pronouns[0]}" placeholder="${placeholder}" autocomplete="off">
         `;
         grid.appendChild(item);
-    });
+    } else {
+        // 正常时态：6个人称输入框
+        tenses[tense].pronouns.forEach(pronoun => {
+            const item = document.createElement('div');
+            item.className = 'conjugation-item';
+            item.innerHTML = `
+                <label>${pronoun}</label>
+                <input type="text" data-pronoun="${pronoun}" placeholder="变位形式..." autocomplete="off">
+            `;
+            grid.appendChild(item);
+        });
+    }
 }
 
 function resetLookupResult() {
@@ -2626,8 +2642,72 @@ function conjugateVerb(infinitive, tense, pronoun) {
         return verbStem + 'ido';
     }
     
+    // 现在分词（gerundio）
+    function getGerundio(verb) {
+        const irregularGerundios = {
+            poder: 'pudiendo',
+            preferir: 'prefiriendo',  // e→i
+            sentir: 'sintiendo',      // e→i
+            dormir: 'durmiendo',      // o→u
+            morir: 'muriendo',        // o→u
+            pedir: 'pidiendo',        // e→i
+            repetir: 'repitiendo',    // e→i
+            servir: 'sirviendo',      // e→i
+            vestir: 'vistiendo',      // e→i
+            seguir: 'siguiendo',      // e→i
+            conseguir: 'consiguiendo', // e→i
+            elegir: 'eligiendo',      // e→i
+            corregir: 'corrigiendo',   // e→i
+            decir: 'diciendo',
+            hacer: 'haciendo',
+            oír: 'oyendo',
+            huir: 'huyendo',
+            construir: 'construyendo',
+            incluir: 'incluyendo',
+            concluir: 'concluyendo',
+            leer: 'leyendo',
+            creer: 'creyendo',
+            traer: 'trayendo',
+            caer: 'cayendo'
+        };
+
+        const normalizedVerb = normalizeVerbKey(verb);
+        if (irregularGerundios[normalizedVerb]) {
+            return irregularGerundios[normalizedVerb];
+        }
+
+        const verbStem = verb.slice(0, -2);
+        const verbEnding = verb.slice(-2);
+        if (verbEnding === 'ar') return verbStem + 'ando';
+        return verbStem + 'iendo';
+    }
+    
+    // 处理独立过去分词（participio）
+    if (tense === 'participio') {
+        // 过去分词没有人称变化，无论代词语法是什么，都返回同一个形式
+        const participle = getPastParticiple(baseVerb);
+        // 反身动词的过去分词也通常不加代词：acostarse → acostado (不是 "se acostado")
+        return appendVerbTail(participle);
+    }
+    
+    // 处理独立现在分词（gerundio）
+    if (tense === 'gerundio') {
+        const gerundioForm = getGerundio(baseVerb);
+        if (isReflexive) {
+            // 反身动词的现在分词：如 "acostándose"
+            // 对于 gerundio，反身代词附加在分词后：-ando/-iendo + 代词
+            const pronounSuffix = pronoun === 'participio' || pronoun === 'gerundio' ? 'se' : // 默认情况
+                                  pronoun === 'yo' ? 'me' :
+                                  pronoun === 'tú' ? 'te' :
+                                  pronoun === 'él/ella/usted' ? 'se' :
+                                  pronoun === 'nosotros' ? 'nos' :
+                                  pronoun === 'vosotros' ? 'os' : 'se';
+            return appendVerbTail(gerundioForm + pronounSuffix);
+        }
+        return appendVerbTail(gerundioForm);
+    }
+    
     // 处理复合时态
-    if (COMPOUND_TENSES.includes(tense)) {
         const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
         const haberForm = HABER_CONJUGATIONS[tense][pronounIndex];
         const participle = getPastParticiple(baseVerb);

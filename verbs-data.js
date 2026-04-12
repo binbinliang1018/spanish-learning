@@ -250,6 +250,16 @@ const tenses = {
         name: "命令式 (Imperativo)",
         pronouns: ["tú", "usted", "nosotros", "vosotros", "ustedes"],
         rule: "-ar: a/e/emos/ad/en  |  -er: e/a/amos/ed/an  |  -ir: e/a/amos/id/an"
+    },
+    participio: {
+        name: "过去分词 (Participio)",
+        pronouns: ["participio"],
+        rule: "-ar: -ado  |  -er/-ir: -ido（特殊：abrir/abierto, cubrir/cubierto, escribir/escrito, poner/puesto, etc.）"
+    },
+    gerundio: {
+        name: "现在分词 (Gerundio)",
+        pronouns: ["gerundio"],
+        rule: "-ar: -ando  |  -er/-ir: -iendo（特殊：poder/pudiendo, preferir/prefiriendo, dormir/durmiendo）"
     }
 };
 
