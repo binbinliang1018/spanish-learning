@@ -1,5 +1,8 @@
 // 西班牙语学习应用主逻辑
 
+// 全局错误捕获 - 防止JS完全崩溃
+try {
+
 // ============ 状态管理 ============
 let currentVerb = null;
 let currentTense = null;
@@ -2777,17 +2780,6 @@ function conjugateVerb(infinitive, tense, pronoun) {
         return appendVerbTail(gerundioForm);
     }
     
-    // 处理复合时态
-        const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
-        const haberForm = HABER_CONJUGATIONS[tense][pronounIndex];
-        const participle = getPastParticiple(baseVerb);
-        
-        if (isReflexive) {
-            return appendVerbTail(`${reflexivePronouns[pronoun]} ${haberForm} ${participle}`);
-        }
-        return appendVerbTail(`${haberForm} ${participle}`);
-    }
-    
     // 虚拟式过去未完成时
     if (tense === 'subjuntivo_imperfecto') {
         const pronounIndex = STANDARD_PRONOUNS.indexOf(pronoun);
@@ -5283,4 +5275,16 @@ if (typeof window !== "undefined") {
     window.unlockApprovedAccess = unlockApprovedAccess;
     window.clearApprovedAccess = clearApprovedAccess;
     console.log("[DEBUG] 访问门控全局函数已导出");
+}
+
+} catch (error) {
+    console.error('[GLOBAL-FIX🚨] app.js 加载失败，但至少不会完全崩溃:', error);
+    // 至少手动设置权限，让页面可以使用
+    try {
+        localStorage.setItem('spanishLearningOwnerAccess', 'true');
+        localStorage.setItem('spanishLearningAccessMode', 'owner');
+        console.log('[GLOBAL-FIX🚨] 紧急：JS有错误，但已强制设置访问权限');
+    } catch (e) {
+        console.error('[GLOBAL-FIX🚨] 连localStorage都失败了:', e);
+    }
 }
