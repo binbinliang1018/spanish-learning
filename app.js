@@ -450,7 +450,8 @@ function getAccessMode() {
 }
 
 function hasUnlockedAccess() {
-    // ULTIMATE-SIMPLE-FIX: 完全绕过所有权限检查
+    // ULTIMATE-FIX-2026-04-12: 完全绕过所有权限检查，直接返回true
+    console.log('[ULTIMATE-FIX🚀] hasUnlockedAccess: 无检查，直接返回 true (v202604121927)');
     return true;
 }
 
@@ -462,9 +463,10 @@ function focusAccessGate() {
 }
 
 function showLockedAccessPrompt(message = '请先在每日练习底部输入访问码，或由 Frances 本人直接进入；解锁后即可使用全部模块。') {
-    setActiveTab('daily');
-    showAccessGateResult(message, 'error');
-    focusAccessGate();
+    // ULTIMATE-FIX-2026-04-12: 什么都不做，直接允许访问
+    console.log(`[ULTIMATE-FIX🚀] showLockedAccessPrompt 被调用但被绕过: "${message}" (v202604121927)`);
+    // 不显示任何提示，不跳转到访问控制区域，直接允许所有操作
+    return;
 }
 
 function bindAccessGateEvents() {
@@ -1480,14 +1482,25 @@ function showLookupAnswer() {
 }
 
 function startDailyPractice() {
-    if (!hasUnlockedAccess()) {
+    console.log('[DEBUG] startDailyPractice 被调用');
+    
+    // 调试信息：检查 hasUnlockedAccess 是否正常工作
+    const isUnlocked = hasUnlockedAccess();
+    console.log(`[DEBUG] hasUnlockedAccess() 返回: ${isUnlocked}`);
+    
+    if (!isUnlocked) {
+        console.log('[DEBUG] 权限检查失败，调用 showLockedAccessPrompt');
         showLockedAccessPrompt('请先在每日练习底部完成申请并解锁；解锁后才能开始每日练习。');
         return;
     }
 
     const today = new Date().toDateString();
+    console.log(`[DEBUG] 开始创建每日练习，日期: ${today}`);
+    
     const irregularQuestionCandidates = verbsData.filter(verb => getAvailableIrregularDailyTenses(verb).length > 0);
     const regularQuestionCandidates = verbsData.filter(verb => !irregularQuestionCandidates.some(item => item.inf === verb.inf));
+    
+    console.log(`[DEBUG] 动词数据: 总数=${verbsData.length}, 不规则候选=${irregularQuestionCandidates.length}, 规则候选=${regularQuestionCandidates.length}`);
 
     const selectedIrregular = shuffleArray([...irregularQuestionCandidates]).slice(0, 4);
     const selectedRegular = shuffleArray([...regularQuestionCandidates]).slice(0, 6);
@@ -1496,6 +1509,8 @@ function startDailyPractice() {
     );
     const selectedVerbs = shuffleArray([...selectedIrregular, ...selectedRegular, ...fallbackPool]).slice(0, DAILY_VERB_COUNT);
     const plannedQuestions = buildDailyQuestionPlan(selectedVerbs);
+    
+    console.log(`[DEBUG] 选择动词: ${selectedVerbs.length}个, 生成问题: ${plannedQuestions.length}个`);
 
     dailyState = {
         currentIndex: 0,
@@ -1507,12 +1522,15 @@ function startDailyPractice() {
     };
 
     saveDailyState();
+    console.log('[DEBUG] 每日练习状态已保存');
 
     // 重置UI
     document.getElementById('dailySummary').style.display = 'none';
     document.getElementById('dailyStartBtn').style.display = 'none';
     document.getElementById('dailyCheckBtn').disabled = false;
     document.getElementById('dailyShowAnswerBtn').disabled = false;
+    
+    console.log('[DEBUG] UI重置完成，准备加载第一个动词');
 
     loadDailyVerb();
 }
