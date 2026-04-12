@@ -360,9 +360,72 @@ const ACCESS_CONFIG = {
     ]
 };
 
+// ============ 终极锁定样式修复 ============
+function forceRemoveLockedStyles() {
+    console.log('[ULTIMATE-FIX🚀] 执行forceRemoveLockedStyles() - 移除所有暗化样式');
+    
+    // 1. 从body移除所有锁定相关类（关键：消除.app-shell--locked样式）
+    if (document.body.classList.contains('app-shell--locked')) {
+        console.log('[ULTIMATE-FIX🚀] 发现body有app-shell--locked类，立即移除');
+        document.body.classList.remove('app-shell--locked');
+    }
+    document.body.classList.remove('locked', 'disabled', 'blocked');
+    
+    // 2. 重置body样式，确保完全不透明
+    document.body.style.opacity = '1';
+    document.body.style.filter = 'none';
+    document.body.style.pointerEvents = 'auto';
+    
+    // 3. 重置所有section的状态
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+        section.classList.remove('locked', 'disabled', 'app-shell--locked');
+        section.style.opacity = '1';
+        section.style.filter = 'none';
+        section.style.pointerEvents = 'auto';
+    });
+    
+    // 4. 重置所有按钮的状态（特别是tab-btn和.btn）
+    const buttons = document.querySelectorAll('.tab-btn, .btn');
+    buttons.forEach(btn => {
+        btn.classList.remove('locked', 'disabled');
+        btn.style.opacity = '1';
+        btn.style.filter = 'none';
+        btn.style.pointerEvents = 'auto';
+        btn.disabled = false;
+    });
+    
+    // 5. 强制重置每日练习区域
+    const dailyContent = document.getElementById('dailyContent');
+    if (dailyContent) {
+        dailyContent.classList.remove('locked', 'disabled');
+        dailyContent.style.opacity = '1';
+        dailyContent.style.filter = 'none';
+        dailyContent.style.pointerEvents = 'auto';
+    }
+    
+    // 6. 强制重置所有选项卡按钮
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(tab => {
+        tab.classList.remove('locked', 'disabled');
+        tab.style.opacity = '1';
+        tab.style.filter = 'none';
+        tab.style.pointerEvents = 'auto';
+    });
+    
+    console.log('[ULTIMATE-FIX🚀] 锁定样式已完全移除，界面应完全正常');
+}
+
 // ============ 初始化 ============
 function initApp() {
-    console.log('[URGENT-FIX🚀] initApp 开始执行');
+    console.log('[ULTIMATE-FIX🚀] initApp 开始执行');
+    
+    // 🚀 第一步：立即强制移除所有锁定样式，确保界面不暗
+    try {
+        forceRemoveLockedStyles();
+    } catch (err) {
+        console.error('[ULTIMATE-FIX🚀] forceRemoveLockedStyles错误:', err);
+    }
     
     try {
         initAccessGate();
@@ -423,7 +486,17 @@ function initApp() {
         console.error('[URGENT-FIX🚀] bindIrregularVerbGroupInteractions 错误:', err);
     }
     
-    console.log('[URGENT-FIX🚀] initApp 执行完成');
+    console.log('[ULTIMATE-FIX🚀] initApp 执行完成');
+    
+    // 🚀 最终安全措施：500ms后再次检查锁定样式
+    setTimeout(() => {
+        console.log('[ULTIMATE-FIX🚀] 最终锁定样式检查');
+        try {
+            forceRemoveLockedStyles();
+        } catch (err) {
+            console.error('[ULTIMATE-FIX🚀] 最终检查错误:', err);
+        }
+    }, 500);
 }
 
 // ============ 强制访问权限 - 无脑修复 ============
