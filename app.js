@@ -1174,7 +1174,15 @@ function getIrregularListLabel(tense) {
 }
 
 function getDailySimpleTenses() {
-    return ALL_TENSES.filter(tense => !COMPOUND_TENSES.includes(tense));
+    // 排除分词时态（participio, gerundio）和复合时态
+    const EXCLUDED_TENSES = [
+        ...COMPOUND_TENSES,
+        'participio',
+        'gerundio',
+        'imperativo'  // 命令式也不需要
+    ];
+    
+    return ALL_TENSES.filter(tense => !EXCLUDED_TENSES.includes(tense));
 }
 
 function getAvailableIrregularDailyTenses(verb) {
@@ -1523,11 +1531,13 @@ function renderLookupConjugationInputs(tense) {
     if (tense === 'participio' || tense === 'gerundio') {
         const displayPronoun = tense === 'participio' ? '过去分词' : '现在分词';
         const placeholder = tense === 'participio' ? '例如: hablado / comido / vivido' : '例如: hablando / comiendo / viviendo';
+        // 使用标准的代词标签而不是"participio"/"gerundio"
+        const dataPronoun = tense === 'participio' ? 'past_participle' : 'present_participle';
         const item = document.createElement('div');
         item.className = 'conjugation-item';
         item.innerHTML = `
             <label>${displayPronoun}</label>
-            <input type="text" data-pronoun="${tenses[tense].pronouns[0]}" placeholder="${placeholder}" autocomplete="off">
+            <input type="text" data-pronoun="${dataPronoun}" placeholder="${placeholder}" autocomplete="off">
         `;
         grid.appendChild(item);
     } else {
@@ -2928,6 +2938,15 @@ function conjugateVerb(infinitive, tense, pronoun) {
     const infinitiveParts = String(infinitive || '').trim().split(/\s+/);
     const infinitiveTail = infinitiveParts.slice(1).join(' ');
     infinitive = infinitiveParts[0] || '';
+
+    // 映射特殊代词标签到标准标签
+    if (pronoun === 'past_participle') {
+        tense = 'participio';
+        pronoun = 'participio';
+    } else if (pronoun === 'present_participle') {
+        tense = 'gerundio';
+        pronoun = 'gerundio';
+    }
 
     function appendVerbTail(form) {
         return infinitiveTail ? `${form} ${infinitiveTail}` : form;
