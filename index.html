@@ -51,11 +51,18 @@
                     <!-- 动态生成 -->
                 </div>
 
+                <!-- 调试信息 -->
+                <div id="dailyDebugInfo" style="margin-bottom: 10px; padding: 8px; background: #f0f8ff; border-radius: 6px; font-size: 12px; color: #555;">
+                    <strong>调试状态：</strong> 
+                    <span id="dailyDebugStatus">等待初始化...</span>
+                </div>
+                
                 <div class="actions">
                     <button class="btn btn-primary" id="dailyCheckBtn" disabled>检查答案</button>
                     <button class="btn btn-secondary" id="dailyShowAnswerBtn" disabled>显示答案</button>
                     <button class="btn btn-success" id="dailyStartBtn">开始今日挑战</button>
                     <button class="btn btn-primary" id="dailyNextBtn" style="display: none;">下一题 →</button>
+                    <button class="btn btn-outline-secondary" id="dailyRefreshBtn" style="margin-top: 5px;" onclick="location.reload()">强制刷新页面</button>
                 </div>
 
                 <div class="result" id="dailyResult"></div>
@@ -383,6 +390,6 @@
     <script async src="https://code.responsivevoice.org/responsivevoice.js?key=Demo"></script>
     <script src="verbs-data.js?v=202604052330"></script>
     <script src="speaking-data.js?v=202604062215"></script>
-    <script src="app.js?v=202604121927"></script>
+    <script src="app.js?v=202604121931"></script>
 </body>
 </html>

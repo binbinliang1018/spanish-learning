@@ -362,15 +362,68 @@ const ACCESS_CONFIG = {
 
 // ============ 初始化 ============
 function initApp() {
-    initAccessGate();
-    initDate();
-    initTabs();
-    initDailyPractice();
-    initSelfCheckPractice();
-    initReviewPractice();
-    initVerbPractice();
-    initSpeakingPractice();
-    bindIrregularVerbGroupInteractions();
+    console.log('[URGENT-FIX🚀] initApp 开始执行');
+    
+    try {
+        initAccessGate();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initAccessGate 错误:', err);
+    }
+    
+    try {
+        initDate();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initDate 错误:', err);
+    }
+    
+    try {
+        initTabs();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initTabs 错误:', err);
+    }
+    
+    try {
+        initDailyPractice();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initDailyPractice 错误:', err);
+        // 特别的恢复逻辑：确保至少能显示基本的每日练习界面
+        const grid = document.getElementById('dailyConjugationGrid');
+        if (grid) {
+            grid.innerHTML = '<div class="placeholder">每日练习初始化失败。请刷新页面。</div>';
+        }
+    }
+    
+    try {
+        initSelfCheckPractice();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initSelfCheckPractice 错误:', err);
+    }
+    
+    try {
+        initReviewPractice();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initReviewPractice 错误:', err);
+    }
+    
+    try {
+        initVerbPractice();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initVerbPractice 错误:', err);
+    }
+    
+    try {
+        initSpeakingPractice();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] initSpeakingPractice 错误:', err);
+    }
+    
+    try {
+        bindIrregularVerbGroupInteractions();
+    } catch (err) {
+        console.error('[URGENT-FIX🚀] bindIrregularVerbGroupInteractions 错误:', err);
+    }
+    
+    console.log('[URGENT-FIX🚀] initApp 执行完成');
 }
 
 // ============ 强制访问权限 - 无脑修复 ============
@@ -737,24 +790,75 @@ function initTabs() {
 
 // ============ 每日练习 ============
 function initDailyPractice() {
-    document.getElementById('dailyStartBtn').addEventListener('click', startDailyPractice);
-    document.getElementById('dailyCheckBtn').addEventListener('click', checkDailyAnswer);
-    document.getElementById('dailyShowAnswerBtn').addEventListener('click', showDailyAnswer);
-    document.getElementById('dailyRestartBtn').addEventListener('click', startDailyPractice);
-    document.getElementById('dailyNextBtn').addEventListener('click', goToNextDailyVerb);
+    console.log('[URGENT-FIX🚀] initDailyPractice 开始执行');
+    
+    // 添加空检查，防止因元素不存在导致JS错误
+    const dailyStartBtn = document.getElementById('dailyStartBtn');
+    const dailyCheckBtn = document.getElementById('dailyCheckBtn');
+    const dailyShowAnswerBtn = document.getElementById('dailyShowAnswerBtn');
+    const dailyRestartBtn = document.getElementById('dailyRestartBtn');
+    const dailyNextBtn = document.getElementById('dailyNextBtn');
+    
+    if (dailyStartBtn) {
+        console.log('[URGENT-FIX🚀] 绑定 dailyStartBtn 点击事件');
+        dailyStartBtn.addEventListener('click', startDailyPractice);
+    } else {
+        console.error('[URGENT-FIX🚀] dailyStartBtn 元素不存在！');
+    }
+    
+    if (dailyCheckBtn) dailyCheckBtn.addEventListener('click', checkDailyAnswer);
+    if (dailyShowAnswerBtn) dailyShowAnswerBtn.addEventListener('click', showDailyAnswer);
+    if (dailyRestartBtn) dailyRestartBtn.addEventListener('click', startDailyPractice);
+    if (dailyNextBtn) dailyNextBtn.addEventListener('click', goToNextDailyVerb);
+    
+    console.log('[URGENT-FIX🚀] initDailyPractice: 按钮事件绑定完成');
     
     // 检查是否有进行中的每日练习
     const today = new Date().toDateString();
+    console.log(`[URGENT-FIX🚀] 今日日期: ${today}, dailyState.date: ${dailyState.date}, isActive: ${dailyState.isActive}`);
+    
     if (dailyState.date === today && dailyState.isActive) {
+        console.log('[URGENT-FIX🚀] 恢复进行中的每日练习');
         restoreDailyPractice();
     } else if (dailyState.date === today && dailyState.currentIndex >= DAILY_VERB_COUNT) {
+        console.log('[URGENT-FIX🚀] 显示总结');
         showDailySummary();
     } else {
+        console.log('[URGENT-FIX🚀] 显示占位符');
         renderConjugationPlaceholder(
             'dailyConjugationGrid',
             '点击"开始今日挑战"后，这里会显示 6 个人称输入框。',
             '本轮固定 2 个复合时态，且至少 3 题是本时态不规则变位。'
         );
+    }
+    
+    console.log('[URGENT-FIX🚀] initDailyPractice 执行完成');
+    
+    // 更新调试状态显示
+    updateDailyDebugStatus('ready');
+}
+
+// 更新调试状态显示
+function updateDailyDebugStatus(status) {
+    const debugElement = document.getElementById('dailyDebugStatus');
+    if (!debugElement) return;
+    
+    const statusMap = {
+        'ready': '✅ 每日练习已就绪 (' + (new Date().toLocaleTimeString()) + ')',
+        'starting': '🚀 开始每日练习...',
+        'error': '❌ 初始化失败',
+        'active': '✅ 练习进行中',
+        'complete': '✅ 今日已完成'
+    };
+    
+    debugElement.textContent = statusMap[status] || status;
+    
+    // 如果是错误状态，添加诊断按钮
+    if (status === 'error') {
+        const debugDiv = document.getElementById('dailyDebugInfo');
+        if (debugDiv) {
+            debugDiv.innerHTML += '<div style="margin-top: 5px;"><button onclick="tryInitDailyPractice()" class="btn-sm btn-danger">重试初始化</button></div>';
+        }
     }
 }
 
@@ -823,6 +927,46 @@ function getLocalDateKey(date = new Date()) {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+}
+
+// 全局诊断和重试函数
+function diagnoseDailyPracticeIssue() {
+    console.log('[诊断开始] 检查每日练习问题...');
+    
+    const issues = [];
+    const elements = [
+        { id: 'dailyStartBtn', name: '开始按钮' },
+        { id: 'dailyConjugationGrid', name: '输入框容器' },
+        { id: 'dailyDebugInfo', name: '调试信息' }
+    ];
+    
+    elements.forEach(el => {
+        const element = document.getElementById(el.id);
+        if (!element) {
+            issues.push(`❌ ${el.name} (${el.id}) 不存在`);
+        } else {
+            issues.push(`✅ ${el.name} 存在`);
+        }
+    });
+    
+    console.log('[诊断结果]', issues.join('\n'));
+    alert('诊断结果：\n' + issues.join('\n'));
+    
+    return issues;
+}
+
+function tryInitDailyPractice() {
+    console.log('[重试] 手动重新初始化每日练习...');
+    updateDailyDebugStatus('starting');
+    
+    try {
+        initDailyPractice();
+        updateDailyDebugStatus('ready');
+        console.log('[重试成功] 每日练习已重试初始化');
+    } catch (err) {
+        console.error('[重试失败]', err);
+        updateDailyDebugStatus('error');
+    }
 }
 
 function parseStoredDate(value) {
