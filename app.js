@@ -3163,6 +3163,16 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'subjuntivo': ['defienda', 'defiendas', 'defienda', 'defendamos', 'defendáis', 'defiendan'],
             'imperativo': ['defiende', 'defienda', 'defendamos', 'defended', 'defiendan']
         },
+        // parecer -ecer 动词 z→c
+        'parecer': {
+            'presente': ['parezco', 'pareces', 'parece', 'parecemos', 'parecéis', 'parecen'],
+            'preterito': ['parecí', 'pareciste', 'pareció', 'parecimos', 'parecisteis', 'parecieron'],
+            'imperfecto': ['parecía', 'parecías', 'parecía', 'parecíamos', 'parecíais', 'parecían'],
+            'futuro': ['pareceré', 'parecerás', 'parecerá', 'pareceremos', 'pareceréis', 'parecerán'],
+            'condicional': ['parecería', 'parecerías', 'parecería', 'pareceríamos', 'pareceríais', 'parecerían'],
+            'subjuntivo': ['parezca', 'parezcas', 'parezca', 'parezcamos', 'parezcáis', 'parezcan'],
+            'imperativo': ['parece', 'parezca', 'parezcamos', 'pareced', 'parezcan']
+        },
         'perder': {
             'presente': ['pierdo', 'pierdes', 'pierde', 'perdemos', 'perdéis', 'pierden'],
             'preterito': ['perdí', 'perdiste', 'perdió', 'perdimos', 'perdisteis', 'perdieron'],
@@ -3286,6 +3296,66 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'condicional': ['me volvería', 'te volverías', 'se volvería', 'nos volveríamos', 'os volveríais', 'se volverían'],
             'subjuntivo': ['me vuelva', 'te vuelvas', 'se vuelva', 'nos volvamos', 'os volváis', 'se vuelvan'],
             'imperativo': ['vuélvete', 'vuélvase', 'volvamos', 'volveos', 'vuélvanse']
+        },
+        // devolver o→ue (类似 volver)
+        'devolver': {
+            'presente': ['devuelvo', 'devuelves', 'devuelve', 'devolvemos', 'devolvéis', 'devuelven'],
+            'preterito': ['devolví', 'devolviste', 'devolvió', 'devolvimos', 'devolvisteis', 'devolvieron'],
+            'imperfecto': ['devolvía', 'devolvías', 'devolvía', 'devolvíamos', 'devolvíais', 'devolvían'],
+            'futuro': ['devolveré', 'devolverás', 'devolverá', 'devolveremos', 'devolveréis', 'devolverán'],
+            'condicional': ['devolvería', 'devolverías', 'devolvería', 'devolveríamos', 'devolveríais', 'devolverían'],
+            'subjuntivo': ['devuelva', 'devuelvas', 'devuelva', 'devolvamos', 'devolváis', 'devuelvan'],
+            'imperativo': ['devuelve', 'devuelva', 'devolvamos', 'devolved', 'devuelvan']
+        },
+        // contar o→ue
+        'contar': {
+            'presente': ['cuento', 'cuentas', 'cuenta', 'contamos', 'contáis', 'cuentan'],
+            'preterito': ['conté', 'contaste', 'contó', 'contamos', 'contasteis', 'contaron'],
+            'imperfecto': ['contaba', 'contabas', 'contaba', 'contábamos', 'contabais', 'contaban'],
+            'futuro': ['contaré', 'contarás', 'contará', 'contaremos', 'contaréis', 'contarán'],
+            'condicional': ['contaría', 'contarías', 'contaría', 'contaríamos', 'contaríais', 'contarían'],
+            'subjuntivo': ['cuente', 'cuentes', 'cuente', 'contemos', 'contéis', 'cuenten'],
+            'imperativo': ['cuenta', 'cuente', 'contemos', 'contad', 'cuenten']
+        },
+        // mostrar o→ue
+        'mostrar': {
+            'presente': ['muestro', 'muestras', 'muestra', 'mostramos', 'mostráis', 'muestran'],
+            'preterito': ['mostré', 'mostraste', 'mostró', 'mostramos', 'mostrasteis', 'mostraron'],
+            'imperfecto': ['mostraba', 'mostrabas', 'mostraba', 'mostrábamos', 'mostrabais', 'mostraban'],
+            'futuro': ['mostraré', 'mostrarás', 'mostrará', 'mostraremos', 'mostraréis', 'mostrarán'],
+            'condicional': ['mostraría', 'mostrarías', 'mostraría', 'mostraríamos', 'mostraríais', 'mostrarían'],
+            'subjuntivo': ['muestre', 'muestres', 'muestre', 'mostremos', 'mostréis', 'muestren'],
+            'imperativo': ['muestra', 'muestre', 'mostremos', 'mostrad', 'muestren']
+        },
+        // sostener e→ie (类似 tener)
+        'sostener': {
+            'presente': ['sostengo', 'sostienes', 'sostiene', 'sostenemos', 'sostenéis', 'sostienen'],
+            'preterito': ['sostuve', 'sostuviste', 'sostuvo', 'sostuvimos', 'sostuvisteis', 'sostuvieron'],
+            'imperfecto': ['sostenía', 'sostenías', 'sostenía', 'sosteníamos', 'sosteníais', 'sostenían'],
+            'futuro': ['sostendré', 'sostendrás', 'sostendrá', 'sostendremos', 'sostendréis', 'sostendrán'],
+            'condicional': ['sostendría', 'sostendrías', 'sostendría', 'sostendríamos', 'sostendríais', 'sostendrían'],
+            'subjuntivo': ['sostenga', 'sostengas', 'sostenga', 'sostengamos', 'sostengáis', 'sostengan'],
+            'imperativo': ['sostén', 'sostenga', 'sostengamos', 'sostened', 'sostengan']
+        },
+        // cojer -ger 动词 g→j
+        'cojer': {
+            'presente': ['cojo', 'coges', 'coge', 'cogemos', 'cogéis', 'cogen'],
+            'preterito': ['cojí', 'cojiste', 'cojió', 'cojimos', 'cojisteis', 'cojieron'],
+            'imperfecto': ['cojía', 'cojías', 'cojía', 'cojíamos', 'cojíais', 'cojían'],
+            'futuro': ['cojeré', 'cojerás', 'cojerá', 'cojeremos', 'cojeréis', 'cojerán'],
+            'condicional': ['cojería', 'cojerías', 'cojería', 'cojeríamos', 'cojeríais', 'cojerían'],
+            'subjuntivo': ['coja', 'cojas', 'coja', 'cojamos', 'cojáis', 'cojan'],
+            'imperativo': ['coge', 'coja', 'cojamos', 'cojed', 'cojan']
+        },
+        // hervir e→i
+        'hervir': {
+            'presente': ['hiervo', 'hierves', 'hierve', 'hervimos', 'hervís', 'hierven'],
+            'preterito': ['herví', 'herviste', 'hirvió', 'hervimos', 'hervisteis', 'hirvieron'],
+            'imperfecto': ['hervía', 'hervías', 'hervía', 'hervíamos', 'hervíais', 'hervían'],
+            'futuro': ['herviré', 'hervirás', 'hervirá', 'herviremos', 'herviréis', 'hervirán'],
+            'condicional': ['herviría', 'hervirías', 'herviría', 'herviríamos', 'herviríais', 'hervirían'],
+            'subjuntivo': ['hierva', 'hiervas', 'hierva', 'hirvamos', 'hirváis', 'hiervan'],
+            'imperativo': ['hierven', 'hierva', 'hirvamos', 'hervid', 'hiervan']
         },
         // encontrar o→ue
         'encontrar': {
