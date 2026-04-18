@@ -3656,6 +3656,429 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'condicional': ['me vestiría', 'te vestirías', 'se vestiría', 'nos vestiríamos', 'os vestiríais', 'se vestirían'],
             'subjuntivo': ['me vista', 'te vistas', 'se vista', 'nos vistamos', 'os vistáis', 'se vistan'],
             'imperativo': ['vístete', 'vístase', 'vistámonos', 'vestíos', 'vístanse']
+        },
+        // ═══════════════════════════════════════════════════
+        // A1-C2 补充不规则动词（43个）
+        // ═══════════════════════════════════════════════════
+        // absolver — o→ue (presente/subj), absolv- (pret)
+        'absolver': {
+            'presente': ['absuelvo', 'absuelves', 'absuelve', 'absolvemos', 'absolvéis', 'absuelven'],
+            'preterito': ['absolví', 'absolviste', 'absolvió', 'absolvimos', 'absolvisteis', 'absolvieron'],
+            'imperfecto': ['absolvía', 'absolvías', 'absolvía', 'absolvíamos', 'absolvíais', 'absolvían'],
+            'futuro': ['absolveré', 'absolverás', 'absolverá', 'absolveremos', 'absolveréis', 'absolverán'],
+            'condicional': ['absolvería', 'absolverías', 'absolvería', 'absolveríamos', 'absolveríais', 'absolverían'],
+            'subjuntivo': ['absuelva', 'absuelvas', 'absuelva', 'absolvamos', 'absolváis', 'absuelvan'],
+            'imperativo': ['absuelve', 'absuelva', 'absolvamos', 'absolved', 'absuelvan']
+        },
+        // acordar — o→ue
+        'acordar': {
+            'presente': ['acuerdo', 'acuerdas', 'acuerda', 'acordamos', 'acordáis', 'acuerdan'],
+            'preterito': ['acordé', 'acordaste', 'acordó', 'acordamos', 'acordasteis', 'acordaron'],
+            'imperfecto': ['acordaba', 'acordabas', 'acordaba', 'acordábamos', 'acordabais', 'acordaban'],
+            'futuro': ['acordaré', 'acordarás', 'acordará', 'acordaremos', 'acordaréis', 'acordarán'],
+            'condicional': ['acordaría', 'acordarías', 'acordaría', 'acordaríamos', 'acordaríais', 'acordarían'],
+            'subjuntivo': ['acuerde', 'acuerdes', 'acuerde', 'acordemos', 'acordéis', 'acuerden'],
+            'imperativo': ['acuerda', 'acuerde', 'acordemos', 'acordad', 'acuerden']
+        },
+        // aprobar — o→ue
+        'aprobar': {
+            'presente': ['apruebo', 'apruebas', 'aprueba', 'aprobamos', 'aprobáis', 'aprueban'],
+            'preterito': ['aprobé', 'aprobaste', 'aprobó', 'aprobamos', 'aprobasteis', 'aprobaron'],
+            'imperfecto': ['aprobaba', 'aprobabas', 'aprobaba', 'aprobábamos', 'aprobabais', 'aprobaban'],
+            'futuro': ['aprobaré', 'aprobarás', 'aprobará', 'aprobaremos', 'aprobaréis', 'aprobarán'],
+            'condicional': ['aprobaría', 'aprobarías', 'aprobaría', 'aprobaríamos', 'aprobaríais', 'aprobarían'],
+            'subjuntivo': ['apruebe', 'apruebes', 'apruebe', 'aprobbemos', 'aprobad', 'aprueben'],
+            'imperativo': ['aprueba', 'apruebe', 'aprobbemos', 'aprobad', 'aprueben']
+        },
+        // atravesar — e→ie
+        'atravesar': {
+            'presente': ['atravieso', 'atraviesas', 'atraviesa', 'atravesamos', 'atravesáis', 'atraviesan'],
+            'preterito': ['atravesé', 'atravesaste', 'atravesó', 'atravesamos', 'atravesasteis', 'atravesaron'],
+            'imperfecto': ['atravesaba', 'atravesabas', 'atravesaba', 'atravesábamos', 'atravesabais', 'atravesaban'],
+            'futuro': ['atravesaré', 'atravesarás', 'atravesará', 'atravesaremos', 'atravesaréis', 'atravesarán'],
+            'condicional': ['atravesaría', 'atravesarías', 'atravesaría', 'atravesaríamos', 'atravesaríais', 'atravesarían'],
+            'subjuntivo': ['atraviese', 'atravieses', 'atraviese', 'atravesemos', 'atraveséis', 'atraviesen'],
+            'imperativo': ['atraviesa', 'atraviese', 'atravesemos', 'atravesad', 'atraviesen']
+        },
+        // brotar — o→ue
+        'brotar': {
+            'presente': ['brotue', 'brotues', 'brotue', 'brotamos', 'brotáis', 'brotuan'],
+            'preterito': ['broté', 'brotaste', 'brotó', 'brotamos', 'brotasteis', 'brotaron'],
+            'imperfecto': ['brotaba', 'brotabas', 'brotaba', 'brotábamos', 'brotabais', 'brotaban'],
+            'futuro': ['brotaré', 'brotarás', 'brotará', 'brotaremos', 'brotaréis', 'brotarán'],
+            'condicional': ['brotaría', 'brotarías', 'brotaría', 'brotaríamos', 'brotaríais', 'brotarían'],
+            'subjuntivo': ['brotue', 'brotues', 'brotue', 'brotamos', 'brotáis', 'brotuen'],
+            'imperativo': ['brota', 'brotue', 'brotamos', 'brotad', 'brotuen']
+        },
+        // cegar — e→ie
+        'cegar': {
+            'presente': ['ciego', 'ciegas', 'ciega', 'cegamos', 'cegáis', 'ciegan'],
+            'preterito': ['cegué', 'cegaste', 'cegó', 'cegamos', 'cegasteis', 'cegaron'],
+            'imperfecto': ['cegaba', 'cegabas', 'cegaba', 'cegábamos', 'cegabais', 'cegaban'],
+            'futuro': ['cegaré', 'cegarás', 'cegará', 'cegaremos', 'cegaréis', 'cegarán'],
+            'condicional': ['cegaría', 'cegarías', 'cegaría', 'cegaríamos', 'cegaríais', 'cegarían'],
+            'subjuntivo': ['ciegue', 'ciegues', 'ciegue', 'ceguemos', 'ceguéis', 'cieguen'],
+            'imperativo': ['ciega', 'ciegue', 'ceguemos', 'cegad', 'cieguen']
+        },
+        // cerrar — e→ie
+        'cerrar': {
+            'presente': ['cierro', 'cierras', 'cierra', 'cerramos', 'cerráis', 'cierran'],
+            'preterito': ['cerré', 'cerraste', 'cerró', 'cerramos', 'cerrasteis', 'cerraron'],
+            'imperfecto': ['cerraba', 'cerrabas', 'cerraba', 'cerrábamos', 'cerrabais', 'cerraban'],
+            'futuro': ['cerraré', 'cerrarás', 'cerrará', 'cerraremos', 'cerraréis', 'cerrarán'],
+            'condicional': ['cerraría', 'cerrarías', 'cerraría', 'cerraríamos', 'cerraríais', 'cerrarían'],
+            'subjuntivo': ['cierre', 'cierres', 'cierre', 'cerremos', 'cerréis', 'cierren'],
+            'imperativo': ['cierra', 'cierre', 'cerremos', 'cerrad', 'cierren']
+        },
+        // cocer — o→ue (cocer ≠ cocinar)
+        'cocer': {
+            'presente': ['cuezo', 'cueces', 'cuece', 'cocemos', 'cocéis', 'cuecen'],
+            'preterito': ['cocí', 'cociste', 'coció', 'cocimos', 'cocisteis', 'cocieron'],
+            'imperfecto': ['cocía', 'cocías', 'cocía', 'cocíamos', 'cocíais', 'cocían'],
+            'futuro': ['coceré', 'cocerás', 'cocerá', 'coceremos', 'coceréis', 'cocerán'],
+            'condicional': ['cocería', 'cocerías', 'cocería', 'coceríamos', 'coceríais', 'cocerían'],
+            'subjuntivo': ['cueza', 'cuezas', 'cueza', 'cozamos', 'cozáis', 'cuezan'],
+            'imperativo': ['cuece', 'cueza', 'cozamos', 'ced', 'cuezan']
+        },
+        // coger — g→j ( España)
+        'coger': {
+            'presente': ['cojo', 'coges', 'coge', 'cogemos', 'cogéis', 'cogen'],
+            'preterito': ['cogí', 'cogiste', 'cogió', 'cogimos', 'cogisteis', 'cogieron'],
+            'imperfecto': ['cogía', 'cogías', 'cogía', 'cogíamos', 'cogíais', 'cogían'],
+            'futuro': ['cogeré', 'cogerás', 'cogerá', 'cogeremos', 'cogeréis', 'cogerán'],
+            'condicional': ['cogería', 'cogerías', 'cogería', 'cogeríamos', 'cogeríais', 'cogerían'],
+            'subjuntivo': ['coja', 'cojas', 'coja', 'cojamos', 'cojáis', 'cojan'],
+            'imperativo': ['coge', 'coja', 'cojamos', 'coged', 'cojan']
+        },
+        // componer — irregular pret (compuse), o→ue (presente)
+        'componer': {
+            'presente': ['compongo', 'compones', 'compone', 'componemos', 'componéis', 'componen'],
+            'preterito': ['compuse', 'compusiste', 'compuso', 'compusimos', 'compusisteis', 'compusieron'],
+            'imperfecto': ['componía', 'componías', 'componía', 'componíamos', 'componíais', 'componían'],
+            'futuro': ['compondré', 'compondrás', 'compondrá', 'compondremos', 'compondréis', 'compondrán'],
+            'condicional': ['compondría', 'compondrías', 'compondría', 'compondríamos', 'compondríais', 'compondrían'],
+            'subjuntivo': ['componga', 'compongas', 'componga', 'compongamos', 'compongáis', 'compongan'],
+            'imperativo': ['compone', 'componga', 'compongamos', 'componed', 'compongan']
+        },
+        // conmover — o→ue
+        'conmover': {
+            'presente': ['conmuevo', 'conmueves', 'conmueve', 'conmovemos', 'conmovéis', 'conmueven'],
+            'preterito': ['conmoví', 'conmoviste', 'conmovió', 'conmovimos', 'conmovisteis', 'conmovieron'],
+            'imperfecto': ['conmovía', 'conmovías', 'conmovía', 'conmovíamos', 'conmovíais', 'conmovían'],
+            'futuro': ['conmoveré', 'conmoverás', 'conmoverá', 'conmoveremos', 'conmoveréis', 'conmoverán'],
+            'condicional': ['conmovería', 'conmoverías', 'conmovería', 'conmoveríamos', 'conmoveríais', 'conmoverían'],
+            'subjuntivo': ['conmueva', 'conmueras', 'conmueva', 'conmovamos', 'conmováis', 'conmuvan'],
+            'imperativo': ['conmueve', 'conmueva', 'conmovamos', 'conmoved', 'conmuvan']
+        },
+        // contribuir — -uir → -uyo (presente yo), -y (pret él)
+        'contribuir': {
+            'presente': ['contribuyo', 'contribuyes', 'contribuye', 'contribuimos', 'contribuís', 'contribuyen'],
+            'preterito': ['contribuí', 'contribuiste', 'contribuyó', 'contribuimos', 'contribuisteis', 'contribuyeron'],
+            'imperfecto': ['contribuía', 'contribuías', 'contribuía', 'contribuíamos', 'contribuíais', 'contribuían'],
+            'futuro': ['contribuiré', 'contribuirás', 'contribuirá', 'contribuiremos', 'contribuiréis', 'contribuirán'],
+            'condicional': ['contribuiría', 'contribuirías', 'contribuiría', 'contribuiríamos', 'contribuiríais', 'contribuirían'],
+            'subjuntivo': ['contribuya', 'contribuyas', 'contribuya', 'contribuyamos', 'contribuyáis', 'contribuyan'],
+            'imperativo': ['contribuye', 'contribuya', 'contribuyamos', 'contribuid', 'contribuyan']
+        },
+        // deducir — z→c (deduzco), irregular pret
+        'deducir': {
+            'presente': ['deduzco', 'deduces', 'deduce', 'deducimos', 'deducís', 'deducen'],
+            'preterito': ['deduje', 'dedujiste', 'dedujo', 'dedujimos', 'dedujisteis', 'dedujeron'],
+            'imperfecto': ['deducía', 'deducías', 'deducía', 'deducíamos', 'deducíais', 'deducían'],
+            'futuro': ['deduciré', 'deducirás', 'deducirá', 'deduciremos', 'deduciréis', 'deducirán'],
+            'condicional': ['deduciría', 'deducirías', 'deduciría', 'deduciríamos', 'deduciríais', 'deducirían'],
+            'subjuntivo': ['deduzca', 'deduzcas', 'deduzca', 'deduzcamos', 'deduzcáis', 'deduzcan'],
+            'imperativo': ['deduce', 'deduzca', 'deduzcamos', 'deducid', 'deduzcan']
+        },
+        // demorar — 规则动词，不需要irregulars，但保留以防 stem change 参考
+        'demorar': {
+            'presente': ['demoro', 'demoras', 'demora', 'demoramos', 'demoráis', 'demoran'],
+            'preterito': ['demoré', 'demoraste', 'demoró', 'demoramos', 'demorasteis', 'demoraron'],
+            'imperfecto': ['demoraba', 'demorabas', 'demoraba', 'demorábamos', 'demorabais', 'demoraban'],
+            'futuro': ['demoraré', 'demorarás', 'demorará', 'demoraremos', 'demoraréis', 'demorarán'],
+            'condicional': ['demoraría', 'demorarías', 'demoraría', 'demoraríamos', 'demoraríais', 'demorarían'],
+            'subjuntivo': ['demore', 'demores', 'demore', 'demoremos', 'demoréis', 'demoren'],
+            'imperativo': ['demora', 'demore', 'demoremos', 'demorad', 'demoren']
+        },
+        // ejercer — z→c (ejerczo)
+        'ejercer': {
+            'presente': ['ejerczo', 'ejerceres', 'ejerce', 'ejercemos', 'ejercéis', 'ejercen'],
+            'preterito': ['ejercí', 'ejerciste', 'ejerció', 'ejercimos', 'ejercisteis', 'ejercieron'],
+            'imperfecto': ['ejercía', 'ejercías', 'ejercía', 'ejercíamos', 'ejercíais', 'ejercían'],
+            'futuro': ['ejerceré', 'ejercerás', 'ejercerá', 'ejerceremos', 'ejerceréis', 'ejercerán'],
+            'condicional': ['ejercería', 'ejercerías', 'ejercería', 'ejerceríamos', 'ejerceríais', 'ejercerían'],
+            'subjuntivo': ['ejerza', 'ejerzas', 'ejerza', 'ejerzamos', 'ejerzáis', 'ejerzan'],
+            'imperativo': ['ejerce', 'ejerza', 'ejerzamos', 'ejercid', 'ejerzan']
+        },
+        // establecer — z→c (establezco)
+        'establecer': {
+            'presente': ['establezco', 'estableces', 'establece', 'establecemos', 'establecéis', 'establecen'],
+            'preterito': ['establecí', 'estableciste', 'estableció', 'establecimos', 'establecisteis', 'establecieron'],
+            'imperfecto': ['establecía', 'establecías', 'establecía', 'establecíamos', 'establecíais', 'establecían'],
+            'futuro': ['estableceré', 'establecerás', 'establecerá', 'estableceremos', 'estableceréis', 'establecerán'],
+            'condicional': ['establecería', 'establecerías', 'establecería', 'estableceríamos', 'estableceríais', 'establecerían'],
+            'subjuntivo': ['establezca', 'establezcas', 'establezca', 'establezcamos', 'establezcáis', 'establezcan'],
+            'imperativo': ['establece', 'establezca', 'establezcamos', 'estableced', 'establezcan']
+        },
+        // exponer — irregular (expongo), irregular pret
+        'exponer': {
+            'presente': ['expongo', 'expones', 'expone', 'exponemos', 'exponéis', 'exponen'],
+            'preterito': ['expuse', 'expusiste', 'expuso', 'expusimos', 'expusisteis', 'expusieron'],
+            'imperfecto': ['exponía', 'exponías', 'exponía', 'exponíamos', 'exponíais', 'exponían'],
+            'futuro': ['expondré', 'expondrás', 'expondrá', 'expondremos', 'expondréis', 'expondrán'],
+            'condicional': ['expondría', 'expondrías', 'expondría', 'expondríamos', 'expondríais', 'expondrían'],
+            'subjuntivo': ['exponga', 'expongas', 'exponga', 'expongamos', 'expongáis', 'expongan'],
+            'imperativo': ['expone', 'exponga', 'expongamos', 'exponed', 'expongan']
+        },
+        // forzar — 规则变位
+        'forzar': {
+            'presente': ['fuerzo', 'fuerzas', 'fuerza', 'forzamos', 'forzáis', 'fuerzan'],
+            'preterito': ['forcé', 'forzaste', 'forzó', 'forzamos', 'forzasteis', 'forzaron'],
+            'imperfecto': ['forzaba', 'forzabas', 'forzaba', 'forzábamos', 'forzabais', 'forzaban'],
+            'futuro': ['forzaré', 'forzarás', 'forzará', 'forzaremos', 'forzaréis', 'forzarán'],
+            'condicional': ['forzaría', 'forzarías', 'forzaría', 'forzaríamos', 'forzaríais', 'forzarían'],
+            'subjuntivo': ['fuerce', 'fuerces', 'fuerce', 'forcemos', 'forcéis', 'fuerce'],
+            'imperativo': ['fuerza', 'fuerce', 'forcemos', 'forzad', 'fuerce']
+        },
+        // fregar — e→ie
+        'fregar': {
+            'presente': ['friego', 'friegas', 'frega', 'fregamos', 'fregáis', 'friegan'],
+            'preterito': ['fregué', 'fregaste', 'fregó', 'fregamos', 'fregasteis', 'fregaron'],
+            'imperfecto': ['fregaba', 'fregabas', 'fregaba', 'fregábamos', 'fregabais', 'fregaban'],
+            'futuro': ['fregaré', 'fregarás', 'fregará', 'fregaremos', 'fregaréis', 'fregarán'],
+            'condicional': ['fregaría', 'fregarías', 'fregaría', 'fregaríamos', 'fregaríais', 'fregarían'],
+            'subjuntivo': ['fríegue', 'fríegues', 'fríegue', 'freguemos', 'freguéis', 'fríeguen'],
+            'imperativo': ['frega', 'fríegue', 'freguemos', 'fregad', 'fríeguen']
+        },
+        // gemir — e→i
+        'gemir': {
+            'presente': ['gimo', 'gimes', 'gime', 'gemimos', 'gemís', 'gimen'],
+            'preterito': ['gemí', 'gemiste', 'gimió', 'gemimos', 'gemisteis', 'gimieron'],
+            'imperfecto': ['gemía', 'gemías', 'gemía', 'gemíamos', 'gemíais', 'gemían'],
+            'futuro': ['gemiré', 'gemirás', 'gemirá', 'gemiremos', 'gemiréis', 'gemirán'],
+            'condicional': ['gemiría', 'gemirías', 'gemiría', 'gemiríamos', 'gemiríais', 'gemirían'],
+            'subjuntivo': ['gima', 'gimas', 'gima', 'gimamos', 'gimáis', 'giman'],
+            'imperativo': ['gime', 'gima', 'gimamos', 'gemid', 'giman']
+        },
+        // gobernar — e→ie (go) 只在规则变位内，但部分口语有变化，这里按规则处理
+        'gobernar': {
+            'presente': ['gobierno', 'gobiernas', 'gobierna', 'gobernamos', 'gobernáis', 'gobiernan'],
+            'preterito': ['goberné', 'gobernaste', 'gobernó', 'gobernamos', 'gobernasteis', 'gobernaron'],
+            'imperfecto': ['gobernaba', 'gobernabas', 'gobernaba', 'gobernábamos', 'gobernabais', 'gobernaban'],
+            'futuro': ['gobernaré', 'gobernarás', 'gobernará', 'gobernaremos', 'gobernaréis', 'gobernarán'],
+            'condicional': ['gobernaría', 'gobernarías', 'gobernaría', 'gobernaríamos', 'gobernaríais', 'gobernarían'],
+            'subjuntivo': ['gobierne', 'gobiernes', 'gobierne', 'gobernemos', 'gobernéis', 'gobiernen'],
+            'imperativo': ['gobierna', 'gobierne', 'gobernemos', 'gobernad', 'gobiernen']
+        },
+        // impedir — e→i
+        'impedir': {
+            'presente': ['impido', 'impides', 'impide', 'impedimos', 'impedís', 'impiden'],
+            'preterito': ['impedí', 'impediste', 'impidió', 'impedimos', 'impedisteis', 'impidieron'],
+            'imperfecto': ['impedía', 'impedías', 'impedía', 'impedíamos', 'impedíais', 'impedían'],
+            'futuro': ['impediré', 'impedirás', 'impedirá', 'impediremos', 'impediréis', 'impedirán'],
+            'condicional': ['impediría', 'impedirías', 'impediría', 'impediríamos', 'impediríais', 'impedirían'],
+            'subjuntivo': ['impida', 'impidas', 'impida', 'impidamos', 'impidáis', 'impidan'],
+            'imperativo': ['impide', 'impida', 'impidamos', 'impedid', 'impidan']
+        },
+        // medir — e→i
+        'medir': {
+            'presente': ['mido', 'mides', 'mide', 'medimos', 'medís', 'miden'],
+            'preterito': ['medí', 'mediste', 'midió', 'medimos', 'medisteis', 'midieron'],
+            'imperfecto': ['medía', 'medías', 'medía', 'medíamos', 'medíais', 'medían'],
+            'futuro': ['mediré', 'medirás', 'medirá', 'mediremos', 'mediréis', 'medirán'],
+            'condicional': ['mediría', 'medirías', 'mediría', 'mediríamos', 'mediríais', 'medirían'],
+            'subjuntivo': ['mida', 'midas', 'mida', 'midamos', 'midáis', 'midan'],
+            'imperativo': ['mide', 'mida', 'midamos', 'medid', 'midan']
+        },
+        // merecer — z→c (merezco)
+        'merecer': {
+            'presente': ['merezco', 'mereces', 'merece', 'merecemos', 'merecéis', 'merecen'],
+            'preterito': ['merecí', 'mereciste', 'mereció', 'merecimos', 'merecisteis', 'merecieron'],
+            'imperfecto': ['merecía', 'merecías', 'merecía', 'merecíamos', 'merecíais', 'merecían'],
+            'futuro': ['mereceré', 'merecerás', 'merecerá', 'mereceremos', 'mereceréis', 'merecerán'],
+            'condicional': ['merecería', 'merecerías', 'merecería', 'mereceríamos', 'mereceríais', 'merecerían'],
+            'subjuntivo': ['merezca', 'merezcas', 'merezca', 'merezcamos', 'merezcáis', 'merezcan'],
+            'imperativo': ['merece', 'merezca', 'merezcamos', 'mereced', 'merezcan']
+        },
+        // negar — e→ie
+        'negar': {
+            'presente': ['niego', 'niegas', 'niega', 'negamos', 'negáis', 'niegan'],
+            'preterito': ['negué', 'negaste', 'negó', 'negamos', 'negasteis', 'negaron'],
+            'imperfecto': ['negaba', 'negabas', 'negaba', 'negábamos', 'negabais', 'negaban'],
+            'futuro': ['negaré', 'negarás', 'negará', 'negaremos', 'negaréis', 'negarán'],
+            'condicional': ['negaría', 'negarías', 'negaría', 'negaríamos', 'negaríais', 'negarían'],
+            'subjuntivo': ['niegue', 'niegues', 'niegue', 'neguemos', 'neguéis', 'nieguen'],
+            'imperativo': ['niega', 'niegue', 'neguemos', 'negad', 'nieguen']
+        },
+        // obedecer — z→c (obedezco)
+        'obedecer': {
+            'presente': ['obedezco', 'obedeces', 'obedece', 'obedecemos', 'obedecéis', 'obedecen'],
+            'preterito': ['obedecí', 'obedeciste', 'obedeció', 'obedecimos', 'obedecisteis', 'obedecieron'],
+            'imperfecto': ['obedecía', 'obedecías', 'obedecía', 'obedecíamos', 'obedecíais', 'obedecían'],
+            'futuro': ['obedeceré', 'obedecerás', 'obedecerá', 'obedeceremos', 'obedeceréis', 'obedecerán'],
+            'condicional': ['obedecería', 'obedecerías', 'obedecería', 'obedeceríamos', 'obedeceríais', 'obedecerían'],
+            'subjuntivo': ['obedezca', 'obedezcas', 'obedezca', 'obedezcamos', 'obedezcáis', 'obedezcan'],
+            'imperativo': ['obedece', 'obedezca', 'obedezcamos', 'obedeced', 'obedezcan']
+        },
+        // oponer — irregular (opongo), irregular pret
+        'oponer': {
+            'presente': ['opongo', 'opones', 'opone', 'oponemos', 'oponéis', 'oponen'],
+            'preterito': ['opuse', 'opusiste', 'opuso', 'opusimos', 'opusisteis', 'opusieron'],
+            'imperfecto': ['oponía', 'oponías', 'oponía', 'oponíamos', 'oponíais', 'oponían'],
+            'futuro': ['opondré', 'opondrás', 'opondrá', 'opondremos', 'opondréis', 'opondrán'],
+            'condicional': ['opondría', 'opondrías', 'opondría', 'opondríamos', 'opondríais', 'opondrían'],
+            'subjuntivo': ['oponga', 'opongas', 'oponga', 'opongamos', 'opongáis', 'opongan'],
+            'imperativo': ['opone', 'oponga', 'opongamos', 'oponed', 'opongan']
+        },
+        // perseguir — e→i
+        'perseguir': {
+            'presente': ['persigo', 'persigues', 'persigue', 'perseguimos', 'perseguís', 'persiguen'],
+            'preterito': ['perseguí', 'perseguiste', 'persiguió', 'perseguimos', 'perseguisteis', 'persiguieron'],
+            'imperfecto': ['perseguía', 'perseguías', 'perseguía', 'perseguíamos', 'perseguíais', 'perseguían'],
+            'futuro': ['perseguiré', 'perseguirás', 'perseguirá', 'perseguiress', 'perseguiréis', 'perseguirán'],
+            'condicional': ['perseguiría', 'perseguirías', 'perseguiría', 'perseguiríamos', 'perseguiríais', 'perseguirían'],
+            'subjuntivo': ['persiga', 'persigas', 'persiga', 'persigamos', 'persigáis', 'persigan'],
+            'imperativo': ['persigue', 'persiga', 'persigamos', 'perseguid', 'persigan']
+        },
+        // probar — o→ue
+        'probar': {
+            'presente': ['pruebo', 'pruebas', 'prueba', 'probamos', 'probáis', 'prueban'],
+            'preterito': ['probé', 'probaste', 'probó', 'probamos', 'probasteis', 'probaron'],
+            'imperfecto': ['probaba', 'probabas', 'probaba', 'probábamos', 'probabais', 'probaban'],
+            'futuro': ['probaré', 'probarás', 'probará', 'probaremos', 'probaréis', 'probarán'],
+            'condicional': ['probaría', 'probarías', 'probaría', 'probaríamos', 'probaríais', 'probarían'],
+            'subjuntivo': ['pruebe', 'pruebes', 'pruebe', 'probemos', 'probéis', 'prueben'],
+            'imperativo': ['prueba', 'pruebe', 'probemos', 'probad', 'prueben']
+        },
+        // proteger — g→j (protejo)
+        'proteger': {
+            'presente': ['protejo', 'proteges', 'protege', 'protegemos', 'protegéis', 'protegen'],
+            'preterito': ['protejí', 'protegiste', 'protegió', 'protegimos', 'protegisteis', 'protegieron'],
+            'imperfecto': ['protegía', 'protegías', 'protegía', 'protegíamos', 'protegíais', 'protegían'],
+            'futuro': ['protegeré', 'protegerás', 'protegerá', 'protegeremos', 'protegeréis', 'protegerán'],
+            'condicional': ['protegería', 'protegerías', 'protegería', 'protegeríamos', 'protegeríais', 'protegerían'],
+            'subjuntivo': ['proteja', 'protejas', 'proteja', 'protejamos', 'protejáis', 'protejan'],
+            'imperativo': ['protege', 'proteja', 'protejamos', 'proteged', 'protejan']
+        },
+        // quebrar — e→ie
+        'quebrar': {
+            'presente': ['quiebro', 'quiebras', 'quiebra', 'quebramos', 'quebráis', 'quiebran'],
+            'preterito': ['quebré', 'quebraste', 'quebró', 'quebramos', 'quebrasteis', 'quebraron'],
+            'imperfecto': ['quebraba', 'quebrabas', 'quebraba', 'quebrábamos', 'quebrabais', 'quebraban'],
+            'futuro': ['quebraré', 'quebrarás', 'quebrará', 'quebraremos', 'quebraréis', 'quebrarán'],
+            'condicional': ['quebraría', 'quebrarías', 'quebraría', 'quebraríamos', 'quebraríais', 'quebrarían'],
+            'subjuntivo': ['quiebre', 'quiebres', 'quiebre', 'quebremos', 'quebremos', 'quiebren'],
+            'imperativo': ['quiebra', 'quiebre', 'quebremos', 'quebrad', 'quiebren']
+        },
+        // renovar — o→ue
+        'renovar': {
+            'presente': ['renuevo', 'renuevas', 'renueva', 'renovamos', 'renováis', 'renuevan'],
+            'preterito': ['renové', 'renovaste', 'renovó', 'renovamos', 'renovasteis', 'renovaron'],
+            'imperfecto': ['renovaba', 'renovabas', 'renovaba', 'renovábamos', 'renovabais', 'renovaban'],
+            'futuro': ['renovaré', 'renovarás', 'renovará', 'renovaremos', 'renovaréis', 'renovarán'],
+            'condicional': ['renovaría', 'renovarías', 'renovaría', 'renovaríamos', 'renovaríais', 'renovarían'],
+            'subjuntivo': ['renueve', 'renueves', 'renueve', 'renovemos', 'renovémos', 'renueven'],
+            'imperativo': ['renueva', 'renueve', 'renovemos', 'renovad', 'renueven']
+        },
+        // reponer — irregular (repongo), irregular pret
+        'reponer': {
+            'presente': ['repongo', 'repones', 'reponé', 'reponemos', 'reponéis', 'reponen'],
+            'preterito': ['repué', 'repusiste', 'repuso', 'repusimos', 'repusisteis', 'repusieron'],
+            'imperfecto': ['reponía', 'reponías', 'reponía', 'reponíamos', 'reponíais', 'reponían'],
+            'futuro': ['repondré', 'repondrás', 'repondrá', 'repondremos', 'repondréis', 'repondrán'],
+            'condicional': ['repondría', 'repondrías', 'repondría', 'repondríamos', 'repondríais', 'repondrían'],
+            'subjuntivo': ['reponga', 'repongas', 'reponga', 'repongamos', 'repongáis', 'repongan'],
+            'imperativo': ['repon', 'reponga', 'repongamos', 'reponed', 'repongan']
+        },
+        // requerir — e→i (requiero), irregular pret
+        'requerir': {
+            'presente': ['requiero', 'requieres', 'requiere', 'requerimos', 'requerís', 'requieren'],
+            'preterito': ['requerí', 'requeriste', 'requirió', 'requerimos', 'requeristeis', 'requirieron'],
+            'imperfecto': ['requería', 'requerías', 'requería', 'requeríamos', 'requeríais', 'requerían'],
+            'futuro': ['requeriré', 'requerirás', 'requerirá', 'requeriremos', 'requeriréis', 'requerirán'],
+            'condicional': ['requeriría', 'requerirías', 'requeriría', 'requeriríamos', 'requeriríais', 'requerirían'],
+            'subjuntivo': ['requiera', 'requieras', 'requiera', 'requiramos', 'requiráis', 'requieran'],
+            'imperativo': ['requiere', 'requiera', 'requiramos', 'requerid', 'requieran']
+        },
+        // retornar — 规则变位
+        'retornar': {
+            'presente': ['retorno', 'retornas', 'retorna', 'retornamos', 'retornáis', 'retornan'],
+            'preterito': ['retorné', 'retornaste', 'retornó', 'retornamos', 'retornasteis', 'retornaron'],
+            'imperfecto': ['retornaba', 'retornabas', 'retornaba', 'retornábamos', 'retornabais', 'retornaban'],
+            'futuro': ['retornaré', 'retornarás', 'retornará', 'retornaremos', 'retornaréis', 'retornarán'],
+            'condicional': ['retornaría', 'retornarías', 'retornaría', 'retornaríamos', 'retornaríais', 'retornarían'],
+            'subjuntivo': ['retorne', 'retornes', 'retorne', 'retornemos', 'retornéis', 'retornen'],
+            'imperativo': ['retorna', 'retorne', 'retornemos', 'retornad', 'retornen']
+        },
+        // rogar — o→ue
+        'rogar': {
+            'presente': ['ruego', 'ruegas', 'ruega', 'rogamos', 'rogáis', 'ruegan'],
+            'preterito': ['rogué', 'rogaste', 'rogó', 'rogamos', 'rogasteis', 'rogaron'],
+            'imperfecto': ['rogaba', 'rogabas', 'rogaba', 'rogábamos', 'rogabais', 'rogaban'],
+            'futuro': ['rogaré', 'rogarás', 'rogará', 'rogaremos', 'rogaréis', 'rogarán'],
+            'condicional': ['rogaría', 'rogarías', 'rogaría', 'rogaríamos', 'rogaríais', 'rogarían'],
+            'subjuntivo': ['ruegue', 'ruegues', 'ruegue', 'roguemos', 'roguéis', 'rueguen'],
+            'imperativo': ['ruega', 'ruegue', 'roguemos', 'rogad', 'rueguen']
+        },
+        // secar — 规则变位 (部分词典标注有 stem change，但实际标准用法无变化)
+        'secar': {
+            'presente': ['seco', 'secas', 'seca', 'secamos', 'secáis', 'secan'],
+            'preterito': ['sequé', 'secaste', 'secó', 'secamos', 'secasteis', 'secaron'],
+            'imperfecto': ['secaba', 'secabas', 'secaba', 'secábamos', 'secabais', 'secaban'],
+            'futuro': ['secaré', 'secarás', 'secará', 'secaremos', 'secaréis', 'secarán'],
+            'condicional': ['secaría', 'secarías', 'secaría', 'secaríamos', 'secaríais', 'secarían'],
+            'subjuntivo': ['seque', 'seques', 'seque', 'sequemos', 'sequéis', 'sequen'],
+            'imperativo': ['seca', 'seque', 'sequemos', 'secad', 'sequen']
+        },
+        // sonar — o→ue
+        'sonar': {
+            'presente': ['sueno', 'suenas', 'sueña', 'sonamos', 'sonáis', 'suenan'],
+            'preterito': ['soné', 'sonaste', 'sonó', 'sonamos', 'sonasteis', 'sonaron'],
+            'imperfecto': ['sonaba', 'sonabas', 'sonaba', 'sonábamos', 'sonabais', 'sonaban'],
+            'futuro': ['sonaré', 'sonarás', 'sonará', 'sonaremos', 'sonaréis', 'sonarán'],
+            'condicional': ['sonaría', 'sonarías', 'sonaría', 'sonaríamos', 'sonaríais', 'sonarían'],
+            'subjuntivo': ['sueñe', 'sueñes', 'sueñe', 'sonemos', 'sonemos', 'sueñen'],
+            'imperativo': ['sueña', 'sueñe', 'sonemos', 'sonad', 'sueñen']
+        },
+        // tejer — e→i (ti)  (tejo)
+        'tejer': {
+            'presente': ['tejo', 'tejes', 'teje', 'tejemos', 'tejéis', 'tejen'],
+            'preterito': ['tejí', 'tejiste', 'tejió', 'tejimos', 'tejisteis', 'tejieron'],
+            'imperfecto': ['tejía', 'tejías', 'tejía', 'tejíamos', 'tejíais', 'tejían'],
+            'futuro': ['tejeré', 'tejerás', 'tejerá', 'tejeremos', 'tejeréis', 'tejerán'],
+            'condicional': ['tejería', 'tejerías', 'tejería', 'tejeríamos', 'tejeríais', 'tejerían'],
+            'subjuntivo': ['teja', 'tejas', 'teja', 'tejamos', 'tejamos', 'tejan'],
+            'imperativo': ['teje', 'teja', 'tejamos', 'tejed', 'tejan']
+        },
+        // temblar — 规则变位
+        'temblar': {
+            'presente': ['tiemblo', 'tiemblas', 'tiembla', 'temblamos', 'tembláis', 'tiemblan'],
+            'preterito': ['temblé', 'temblaste', 'tembló', 'temblamos', 'temblasteis', 'temblaron'],
+            'imperfecto': ['temblaba', 'temblabas', 'temblaba', 'temblábamos', 'temblabais', 'temblaban'],
+            'futuro': ['temblaré', 'temblarás', 'temblará', 'temblaremos', 'temblaréis', 'temblarán'],
+            'condicional': ['temblaría', 'temblarías', 'temblaría', 'temblaríamos', 'temblaríais', 'temblarían'],
+            'subjuntivo': ['tiemble', 'tiembles', 'tiemble', 'temblemos', 'tembléis', 'tiemblen'],
+            'imperativo': ['tiembla', 'tiemble', 'temblemos', 'temblad', 'tiemblen']
+        },
+        // trocar — o→ue
+        'trocar': {
+            'presente': ['trueco', 'truecas', 'trueca', 'trocaron', 'trocáis', 'truecan'],
+            'preterito': ['troqué', 'trocaste', 'trocó', 'trocamos', 'trocasteis', 'trocaron'],
+            'imperfecto': ['trocaba', 'trocabas', 'trocaba', 'trocábamos', 'trocabais', 'trocaban'],
+            'futuro': ['trocaré', 'trocarás', 'trocará', 'trocaremos', 'trocaréis', 'trocarán'],
+            'condicional': ['trocaría', 'trocarías', 'trocaría', 'trocaríamos', 'trocaríais', 'trocarían'],
+            'subjuntivo': ['trueque', 'trueques', 'trueque', 'troquemos', 'troquémos', 'truequen'],
+            'imperativo': ['trueca', 'trueque', 'troquemos', 'trocad', 'truequen']
+        },
+        // yacer — irregular (yazco/yo), irregular
+        'yacer': {
+            'presente': ['yazco', 'yaces', 'yace', 'yacemos', 'yacéis', 'yacen'],
+            'preterito': ['yací', 'yaciste', 'yació', 'yacimos', 'yacisteis', 'yacieron'],
+            'imperfecto': ['yacía', 'yacías', 'yacía', 'yacíamos', 'yacíais', 'yacían'],
+            'futuro': ['yaceré', 'yacerás', 'yacerá', 'yaceremos', 'yaceréis', 'yacerán'],
+            'condicional': ['yacería', 'yacerías', 'yacería', 'yaceríamos', 'yaceríais', 'yacerían'],
+            'subjuntivo': ['yazca', 'yazcas', 'yazca', 'yazcamos', 'yazcáis', 'yazcan'],
+            'imperativo': ['yace', 'yazca', 'yazcamos', 'aced', 'yazcan']
         }
     };
 
