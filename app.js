@@ -2920,6 +2920,196 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'subjuntivo': ['consiga', 'consigas', 'consiga', 'consigamos', 'consigáis', 'consigan'],
             'imperativo': ['consigue', 'consiga', 'consigamos', 'conseguid', 'consigan']
         },
+        // caber c→zp
+        'caber': {
+            'presente': ['quepo', 'cabes', 'cabe', 'cabemos', 'cabéis', 'caben'],
+            'preterito': ['cupe', 'cupiste', 'cupo', 'cupimos', 'cupisteis', 'cupieron'],
+            'imperfecto': ['cabía', 'cabías', 'cabía', 'cabíamos', 'cabíais', 'cabían'],
+            'futuro': ['cabré', 'cabrás', 'cabrá', 'cabremos', 'cabréis', 'cabrán'],
+            'condicional': ['cabría', 'cabrías', 'cabría', 'cabríamos', 'cabríais', 'cabrían'],
+            'subjuntivo': ['quepa', 'quepas', 'quepa', 'quepamos', 'quepáis', 'quepan'],
+            'imperativo': ['cabe', 'quepa', 'quepamos', 'cabed', 'quepan']
+        },
+        // oler (huele)
+        'oler': {
+            'presente': ['huelo', 'hueles', 'huele', 'olemos', 'oléis', 'huelen'],
+            'preterito': ['olí', 'oliste', 'olió', 'olimos', 'olistéis', 'olieron'],
+            'imperfecto': ['olía', 'olías', 'olía', 'olíamos', 'olíais', 'olían'],
+            'futuro': ['oleré', 'olerás', 'olerá', 'oleremos', 'oleréis', 'olerán'],
+            'condicional': 'RULE',
+            'subjuntivo': ['huela', 'huelas', 'huela', 'olamos', 'oláis', 'huelan'],
+            'imperativo': ['huele', 'huela', 'olamos', 'oled', 'huelan']
+        },
+        // andar (不规则过去时)
+        'andar': {
+            'presente': ['ando', 'andas', 'anda', 'andamos', 'andáis', 'andan'],
+            'preterito': ['anduve', 'anduviste', 'anduvo', 'anduvimos', 'anduvisteis', 'anduvieron'],
+            'imperfecto': ['andaba', 'andabas', 'andaba', 'andábamos', 'andabais', 'andaban'],
+            'futuro': ['andaré', 'andarás', 'andará', 'andaremos', 'andaréis', 'andarán'],
+            'condicional': ['andaría', 'andarías', 'andaría', 'andaríamos', 'andaríais', 'andarían'],
+            'subjuntivo': ['ande', 'andes', 'ande', 'andemos', 'andéis', 'anden'],
+            'imperativo': ['anda', 'ande', 'andemos', 'andad', 'anden']
+        },
+        // acostar o→ue
+        'acostar': {
+            'presente': ['acuesto', 'acuestas', 'acuesta', 'acostamos', 'acostáis', 'acuestan'],
+            'preterito': ['acosté', 'acostaste', 'acostó', 'acostamos', 'acostasteis', 'acostaron'],
+            'imperfecto': ['acostaba', 'acostabas', 'acostaba', 'acostábamos', 'acostabais', 'acostaban'],
+            'futuro': ['acostaré', 'acostarás', 'acostará', 'acostaremos', 'acostaréis', 'acostarán'],
+            'condicional': ['acostaría', 'acostarías', 'acostaría', 'acostaríamos', 'acostaríais', 'acostarían'],
+            'subjuntivo': ['acueste', 'acuestes', 'acueste', 'acostemos', 'acostéis', 'acuesten'],
+            'imperativo': ['acuesta', 'acueste', 'acostemos', 'acostad', 'acuesten']
+        },
+        // almorzar o→ue
+        'almorzar': {
+            'presente': ['almuerzo', 'almuerzas', 'almuerza', 'almorzamos', 'almorzáis', 'almuerzan'],
+            'preterito': ['almorcé', 'almorzaste', 'almorzó', 'almorzamos', 'almorzasteis', 'almorzaron'],
+            'imperfecto': ['almorzaba', 'almorzabas', 'almorzaba', 'almorzábamos', 'almorzabais', 'almorzaban'],
+            'futuro': ['almorzaré', 'almorzarás', 'almorzará', 'almorzaremos', 'almorzaréis', 'almorzarán'],
+            'condicional': ['almorzaría', 'almorzarías', 'almorzaría', 'almorzaríamos', 'almorzaríais', 'almorzarían'],
+            'subjuntivo': ['almuerce', 'almuerces', 'almuerce', 'almorcemos', 'almorcéis', 'almuercen'],
+            'imperativo': ['almuerza', 'almuerce', 'almorcemos', 'almorzad', 'almuercen']
+        },
+        // costar o→ue
+        'costar': {
+            'presente': ['cuesto', 'cuestas', 'cuesta', 'costamos', 'costáis', 'cuestan'],
+            'preterito': ['costé', 'costaste', 'costó', 'costamos', 'costasteis', 'costaron'],
+            'imperfecto': ['costaba', 'costabas', 'costaba', 'costábamos', 'costabais', 'costaban'],
+            'futuro': ['costaré', 'costarás', 'costará', 'costaremos', 'costaréis', 'costarán'],
+            'condicional': ['costaría', 'costarías', 'costaría', 'costaríamos', 'costaríais', 'costarían'],
+            'subjuntivo': ['cueste', 'cuestes', 'cueste', 'costemos', 'costéis', 'cuesten'],
+            'imperativo': ['cuesta', 'cueste', 'costemos', 'costad', 'cuesten']
+        },
+        // sentar e→ie
+        'sentar': {
+            'presente': ['siento', 'sientas', 'sienta', 'sentamos', 'sentáis', 'sientan'],
+            'preterito': ['senté', 'sentaste', 'sentó', 'sentamos', 'sentasteis', 'sentaron'],
+            'imperfecto': ['sentaba', 'sentabas', 'sentaba', 'sentábamos', 'sentabais', 'sentaban'],
+            'futuro': ['sentaré', 'sentarás', 'sentará', 'sentaremos', 'sentaréis', 'sentarán'],
+            'condicional': ['sentaría', 'sentarías', 'sentaría', 'sentaríamos', 'sentaríais', 'sentarían'],
+            'subjuntivo': ['siente', 'sientes', 'siente', 'sentemos', 'sentéis', 'sienten'],
+            'imperativo': ['sienta', 'sienta', 'sentemos', 'sentad', 'sientan']
+        },
+        // mantener e→ie (类似 tener)
+        'mantener': {
+            'presente': ['mantengo', 'mantienes', 'mantiene', 'mantenemos', 'mantenéis', 'mantienen'],
+            'preterito': ['mantuve', 'mantuviste', 'mantuvo', 'mantuvimos', 'mantuvisteis', 'mantuvieron'],
+            'imperfecto': ['mantenía', 'mantenías', 'mantenía', 'manteníamos', 'manteníais', 'mantenían'],
+            'futuro': ['mantendré', 'mantendrás', 'mantendrá', 'mantendremos', 'mantendréis', 'mantendrán'],
+            'condicional': ['mantendría', 'mantendrías', 'mantendría', 'mantendríamos', 'mantendríais', 'mantendrían'],
+            'subjuntivo': ['mantenga', 'mantengas', 'mantenga', 'mantengamos', 'mantengáis', 'mantengan'],
+            'imperativo': ['mantén', 'mantenga', 'mantengamos', 'mantened', 'mantengan']
+        },
+        // recoger g→j
+        'recoger': {
+            'presente': ['recojo', 'recoges', 'recoge', 'recogemos', 'recogéis', 'recogen'],
+            'preterito': ['recogí', 'recogiste', 'recogió', 'recogimos', 'recogisteis', 'recogieron'],
+            'imperfecto': ['recogía', 'recogías', 'recogía', 'recogíamos', 'recogíais', 'recogían'],
+            'futuro': ['recogeré', 'recogerás', 'recogerá', 'recogeremos', 'recogeréis', 'recogerán'],
+            'condicional': ['recogería', 'recogerías', 'recogería', 'recogeríamos', 'recogeríais', 'recogerían'],
+            'subjuntivo': ['recoja', 'recojas', 'recoja', 'recojamos', 'recojáis', 'recojan'],
+            'imperativo': ['recoge', 'recoja', 'recojamos', 'recoged', 'recojan']
+        },
+        // reconocer z→c
+        'reconocer': {
+            'presente': ['reconozco', 'reconoces', 'reconoce', 'reconocemos', 'reconocéis', 'reconocen'],
+            'preterito': ['reconocí', 'reconociste', 'reconoció', 'reconocimos', 'reconocisteis', 'reconocieron'],
+            'imperfecto': ['reconocía', 'reconocías', 'reconocía', 'reconocíamos', 'reconocíais', 'reconocían'],
+            'futuro': ['reconoceré', 'reconocerás', 'reconocerá', 'reconoceremos', 'reconoceréis', 'reconocerán'],
+            'condicional': ['reconocería', 'reconocerías', 'reconocería', 'reconoceríamos', 'reconoceríais', 'reconocerían'],
+            'subjuntivo': ['reconozca', 'reconozcas', 'reconozca', 'reconozcamos', 'reconozcáis', 'reconozcan'],
+            'imperativo': ['reconoce', 'reconozca', 'reconozcamos', 'reconoced', 'reconozcan']
+        },
+        // resolver (类似 solver)
+        'resolver': {
+            'presente': ['resuelvo', 'resuelves', 'resuelve', 'resolvemos', 'resolvéis', 'resuelven'],
+            'preterito': ['resolví', 'resolviste', 'resolvió', 'resolvimos', 'resolvisteis', 'resolvieron'],
+            'imperfecto': ['resolvía', 'resolvías', 'resolvía', 'resolvíamos', 'resolvíais', 'resolvían'],
+            'futuro': ['resolveré', 'resolverás', 'resolverá', 'resolveremos', 'resolveréis', 'resolverán'],
+            'condicional': ['resolvería', 'resolverías', 'resolvería', 'resolveríamos', 'resolveríais', 'resolverían'],
+            'subjuntivo': ['resuelva', 'resuelvas', 'resuelva', 'resolvamos', 'resolváis', 'resuelvan'],
+            'imperativo': ['resuelve', 'resuelva', 'resolvamos', 'resolved', 'resuelvan']
+        },
+        // contener e→ie (tener 类)
+        'contener': {
+            'presente': ['contengo', 'contienes', 'contiene', 'contenemos', 'contenéis', 'contienen'],
+            'preterito': ['contuve', 'contuviste', 'contuvo', 'contuvimos', 'contuvisteis', 'contuvieron'],
+            'imperfecto': ['contenía', 'contenías', 'contenía', 'conteníamos', 'conteníais', 'contenían'],
+            'futuro': ['contendré', 'contendrás', 'contendrá', 'contendremos', 'contendréis', 'contendrán'],
+            'condicional': ['contendría', 'contendrías', 'contendría', 'contendríamos', 'contendríais', 'contendrían'],
+            'subjuntivo': ['contenga', 'contengas', 'contenga', 'contengamos', 'contengáis', 'contengan'],
+            'imperativo': ['contén', 'contenga', 'contengamos', 'contened', 'contengan']
+        },
+        // herir i→í
+        'herir': {
+            'presente': ['hiero', 'hieres', 'hiere', 'herimos', 'herís', 'hieren'],
+            'preterito': ['herí', 'heriste', 'hirió', 'herimos', 'heristeis', 'hirieron'],
+            'imperfecto': ['hería', 'herías', 'hería', 'heríamos', 'heríais', 'herían'],
+            'futuro': ['heriré', 'herirás', 'herirá', 'heriremos', 'heriréis', 'herirán'],
+            'condicional': ['heriría', 'herirías', 'heriría', 'heriríamos', 'heriríais', 'herirían'],
+            'subjuntivo': ['hiera', 'hieras', 'hiera', 'hiramos', 'hiráis', 'hieran'],
+            'imperativo': ['hiere', 'hiera', 'hiramos', 'herid', 'hieran']
+        },
+        // disponer o→ue (poner 类)
+        'disponer': {
+            'presente': ['dispongo', 'dispones', 'dispone', 'disponemos', 'disponéis', 'disponen'],
+            'preterito': ['disponé', 'disponiste', 'dispuso', 'disponemos', 'disponisteis', 'dispusieron'],
+            'imperfecto': ['disponía', 'disponías', 'disponía', 'disponíamos', 'disponíais', 'disponían'],
+            'futuro': ['dispondré', 'dispondrás', 'dispondrá', 'dispondremos', 'dispondréis', 'dispondrán'],
+            'condicional': ['dispondría', 'dispondrías', 'dispondría', 'dispondríamos', 'dispondríais', 'dispondrían'],
+            'subjuntivo': ['disponga', 'dispongas', 'disponga', 'dispongamos', 'dispongáis', 'dispongan'],
+            'imperativo': ['dispón', 'disponga', 'dispongamos', 'disposed', 'dispongan']
+        },
+        // dirigir (类似 pedir)
+        'dirigir': {
+            'presente': ['dirijo', 'diriges', 'dirige', 'dirigimos', 'dirigís', 'dirigen'],
+            'preterito': ['dirigí', 'dirigiste', 'dirigió', 'dirigimos', 'dirigisteis', 'dirigieron'],
+            'imperfecto': ['dirigía', 'dirigías', 'dirigía', 'dirigíamos', 'dirigíais', 'dirigían'],
+            'futuro': ['dirigiré', 'dirigirás', 'dirigirá', 'dirigiremos', 'dirigiréis', 'dirigirán'],
+            'condicional': ['dirigiría', 'dirigirías', 'dirigiría', 'dirigiríamos', 'dirigiríais', 'dirigirían'],
+            'subjuntivo': ['dirija', 'dirijas', 'dirija', 'dirijamos', 'dirijáis', 'dirijan'],
+            'imperativo': ['dirige', 'dirija', 'dirijamos', 'dirigid', 'dirijan']
+        },
+        // comenzar e→ie
+        'comenzar': {
+            'presente': ['comienzo', 'comienzas', 'comienza', 'comenzamos', 'comenzáis', 'comienzan'],
+            'preterito': ['comencé', 'comenzaste', 'comenzó', 'comenzamos', 'comenzasteis', 'comenzaron'],
+            'imperfecto': ['comenzaba', 'comenzabas', 'comenzaba', 'comenzábamos', 'comenzabais', 'comenzaban'],
+            'futuro': ['comenzaré', 'comenzarás', 'comenzará', 'comenzaremos', 'comenzaréis', 'comenzarán'],
+            'condicional': ['comenzaría', 'comenzarías', 'comenzaría', 'comenzaríamos', 'comenzaríais', 'comenzarían'],
+            'subjuntivo': ['comience', 'comiences', 'comience', 'comencemos', 'comencéis', 'comiencen'],
+            'imperativo': ['comienza', 'comience', 'comencemos', 'comenzad', 'comiencen']
+        },
+        // distinguir (类似 pedir)
+        'distinguir': {
+            'presente': ['distingo', 'distingues', 'distingue', 'distinguimos', 'distinguís', 'distinguen'],
+            'preterito': ['distinguí', 'distinguiste', 'distinguió', 'distinguimos', 'distinguisteis', 'distinguieron'],
+            'imperfecto': ['distinguía', 'distinguías', 'distinguía', 'distinguíamos', 'distinguíais', 'distinguían'],
+            'futuro': ['distinguiré', 'distinguirás', 'distinguirá', 'distinguiremos', 'distinguiréis', 'distinguirán'],
+            'condicional': ['distinguiría', 'distinguirías', 'distinguiría', 'distinguiríamos', 'distinguiríais', 'distinguirían'],
+            'subjuntivo': ['distinga', 'distingas', 'distinga', 'distingamos', 'distingáis', 'distingan'],
+            'imperativo': ['distingue', 'distinga', 'distingamos', 'distinguid', 'distingan']
+        },
+        // prever (类似 ver)
+        'prever': {
+            'presente': ['prevengo', 'prevés', 'prevé', 'preveemos', 'preveéis', 'prevén'],
+            'preterito': ['preveí', 'preveíste', 'previó', 'preveimos', 'preveísteis', 'previeron'],
+            'imperfecto': ['preveía', 'preveías', 'preveía', 'preveíamos', 'preveíais', 'preveían'],
+            'futuro': ['preveré', 'preverás', 'preverá', 'preveremos', 'preveréis', 'preverán'],
+            'condicional': ['prevería', 'preverías', 'prevería', 'preveríamos', 'preveríais', 'preverían'],
+            'subjuntivo': ['prevea', 'preveas', 'prevea', 'preveamos', 'preveáis', 'prevean'],
+            'imperativo': ['prevé', 'prevea', 'preveamos', 'preveed', 'prevean']
+        },
+        // suponer o→ue (poner 类)
+        'suponer': {
+            'presente': ['supongo', 'supones', 'supone', 'suponemos', 'suponéis', 'suponen'],
+            'preterito': ['supuse', 'supusiste', 'supuso', 'supusimos', 'supusisteis', 'supusieron'],
+            'imperfecto': ['suponía', 'suponías', 'suponía', 'suponíamos', 'suponíais', 'suponían'],
+            'futuro': ['supondré', 'supondrás', 'supondrá', 'supondremos', 'supondréis', 'supondrán'],
+            'condicional': ['supondría', 'supondrías', 'supondría', 'supondríamos', 'supondríais', 'supondrían'],
+            'subjuntivo': ['suponga', 'supongas', 'suponga', 'supongamos', 'supongáis', 'supongan'],
+            'imperativo': ['supón', 'suponga', 'supongamos', 'suponed', 'supongan']
+        },
         'elegir': {
             'presente': ['elijo', 'eliges', 'elige', 'elegimos', 'elegís', 'eligen'],
             'preterito': ['elegí', 'elegiste', 'eligió', 'elegimos', 'elegisteis', 'eligieron'],
