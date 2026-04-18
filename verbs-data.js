@@ -51,6 +51,7 @@ const verbsData = [
     { inf: "practicar", meaning: "练习", type: "ar" },
     { inf: "explicar", meaning: "解释", type: "ar" },
     { inf: "descansar", meaning: "休息", type: "ar" },
+    { inf: "guardar", meaning: "保存/保管", type: "ar" },
     
     // ER动词
     { inf: "comer", meaning: "吃", type: "er" },
