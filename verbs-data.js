@@ -1548,17 +1548,17 @@ const tenses = {
     presente: {
         name: "现在时 (Presente)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "-ar: o/as/a/amos/áis/an  |  -er/ir: o/es/e/imos/ís/en"
+        rule: "-ar: o/as/a/amos/áis/an  |  -er: o/es/e/emos/éis/en  |  -ir: o/es/e/imos/ís/en"
     },
     preterito: {
         name: "简单过去时 (Pretérito Indefinido)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "-ar: é/aste/ó/amos/asteis/aron  |  -er/ir: í/iste/ió/imos/isteis/ieron"
+        rule: "-ar: é/aste/ó/amos/asteis/aron  |  -er/-ir: í/iste/ió/imos/isteis/ieron"
     },
     imperfecto: {
         name: "过去未完成时 (Pretérito Imperfecto)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "-ar: aba/abas/aba/ábamos/abais/aban  |  -er/ir: ía/ías/ía/íamos/íais/ían"
+        rule: "-ar: aba/abas/aba/ábamos/abais/aban  |  -er/-ir: ía/ías/ía/íamos/íais/ían"
     },
     futuro: {
         name: "简单将来时 (Futuro Simple)",
@@ -1573,12 +1573,12 @@ const tenses = {
     subjuntivo: {
         name: "虚拟式现在时 (Presente de Subjuntivo)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "-ar: e/es/e/emos/éis/en  |  -er/ir: a/as/a/amos/áis/an"
+        rule: "-ar: e/es/e/emos/éis/en  |  -er/-ir: a/as/a/amos/áis/an"
     },
     subjuntivo_imperfecto: {
         name: "虚拟式过去未完成时 (Imperfecto de Subjuntivo)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "-ar: ara/aras/ara/áramos/arais/aran  |  -er/ir: iera/ieras/iera/iéramos/ierais/ieran"
+        rule: "-ar: ara/aras/ara/áramos/arais/aran  |  -er/-ir: iera/ieras/iera/iéramos/ierais/ieran"
     },
     presente_perfecto: {
         name: "现在完成时 (Pretérito Perfecto)",
