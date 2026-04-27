@@ -898,12 +898,12 @@ function getTenseRuleText(tense) {
     }
 
     if (!COMPOUND_TENSES.includes(tense)) {
-        return tenseInfo.rule || '无';
+        return (tenseInfo.rule || '无').replace(/\n/g, '<br>');
     }
 
     const haberRule = HABER_RULE_PATTERNS[tense];
     if (!haberRule) {
-        return tenseInfo.rule || '无';
+        return (tenseInfo.rule || '无').replace(/\n/g, '<br>');
     }
 
     return `haber ${haberRule.label} + participio pasado；haber ${haberRule.label}词尾：${haberRule.endingRule}`;

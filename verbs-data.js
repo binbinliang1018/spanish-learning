@@ -1579,7 +1579,7 @@ const tenses = {
     subjuntivo_imperfecto: {
         name: "虚拟式过去未完成时 (Imperfecto de Subjuntivo)",
         pronouns: ["yo", "tú", "él/ella/usted", "nosotros", "vosotros", "ellos/ustedes"],
-        rule: "-ar: ara/aras/ara/áramos/arais/aran  |  -er/-ir: iera/ieras/iera/iéramos/ierais/ieran"
+        rule: "-ra形（常用）-ar: ara/aras/ara/áramos/arais/aran  |  -er/-ir: iera/ieras/iera/iéramos/ierais/ieran\n-se形（正式）-ar: ase/ases/ase/ásemos/aseis/asen  |  -er/-ir: iese/ieses/iese/iésemos/ieseis/iesen"
     },
     presente_perfecto: {
         name: "现在完成时 (Pretérito Perfecto)",
