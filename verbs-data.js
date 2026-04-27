@@ -1518,6 +1518,7 @@ const verbsData = [
     { inf: "nacer", meaning: "出生", type: "irregular" },
     { inf: "crecer", meaning: "成长", type: "er" },
     { inf: "aparecer", meaning: "出现", type: "er" },
+    { inf: "apetecer", meaning: "想吃/想要/有胃口", type: "irregular" },
     { inf: "desaparecer", meaning: "消失", type: "er" },
     { inf: "conducir", meaning: "驾驶", type: "irregular" },
     { inf: "producir", meaning: "生产", type: "irregular" },

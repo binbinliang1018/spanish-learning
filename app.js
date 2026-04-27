@@ -3900,6 +3900,16 @@ function conjugateVerb(infinitive, tense, pronoun) {
             'subjuntivo': ['merezca', 'merezcas', 'merezca', 'merezcamos', 'merezcáis', 'merezcan'],
             'imperativo': ['merece', 'merezca', 'merezcamos', 'mereced', 'merezcan']
         },
+        // apetecer — z→c (apetezco)，与 parecer/merecer 同类
+        'apetecer': {
+            'presente': ['apetezco', 'apeteces', 'apetece', 'apetecemos', 'apetecéis', 'apetecen'],
+            'preterito': ['apetecí', 'apeteciste', 'apeteció', 'apetecimos', 'apetecisteis', 'apetecieron'],
+            'imperfecto': ['apetecía', 'apetecías', 'apetecía', 'apetecíamos', 'apetecíais', 'apetecían'],
+            'futuro': ['apeteceré', 'apetecerás', 'apetecerá', 'apeteceremos', 'apeteceréis', 'apetecerán'],
+            'condicional': ['apetecería', 'apetecerías', 'apetecería', 'apeteceríamos', 'apeteceríais', 'apetecerían'],
+            'subjuntivo': ['apetezca', 'apetezcas', 'apetezca', 'apetezcamos', 'apetezcáis', 'apetezcan'],
+            'imperativo': ['apetece', 'apetezca', 'apetezcamos', 'apeteced', 'apetezcan']
+        },
         // negar — e→ie
         'negar': {
             'presente': ['niego', 'niegas', 'niega', 'negamos', 'negáis', 'niegan'],
