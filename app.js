@@ -1287,7 +1287,7 @@ function checkLookupAnswer() {
             correct++;
         } else {
             input.classList.add('incorrect');
-            input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
+            input.value = `${userAnswer || '（空）'} → ${getDisplayAnswer(correctAnswer, lookupContext.tense)}`;
             weakPointItems.push({
                 verb: lookupContext.verb.inf,
                 tense: lookupContext.tense,
@@ -1343,7 +1343,7 @@ function showLookupAnswer() {
     const weakPointItems = [];
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
-        input.value = conjugateVerb(lookupContext.verb.inf, lookupContext.tense, pronoun);
+        input.value = getDisplayAnswer(conjugateVerb(lookupContext.verb.inf, lookupContext.tense, pronoun), lookupContext.tense);
         input.disabled = true;
         input.classList.remove('correct', 'incorrect', 'almost');
         input.classList.add('incorrect');
@@ -1503,7 +1503,7 @@ function checkDailyAnswer() {
             correct++;
         } else {
             input.classList.add('incorrect');
-            input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
+            input.value = `${userAnswer || '（空）'} → ${getDisplayAnswer(correctAnswer, currentTense)}`;
             hasError = true;
             weakPointItems.push({
                 verb: currentVerb.inf,
@@ -1592,7 +1592,7 @@ function showDailyAnswer() {
     const weakPointItems = [];
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
-        input.value = conjugateVerb(currentVerb.inf, currentTense, pronoun);
+        input.value = getDisplayAnswer(conjugateVerb(currentVerb.inf, currentTense, pronoun), currentTense);
         input.disabled = true;
         input.classList.add('incorrect');
         weakPointItems.push({
@@ -2229,6 +2229,25 @@ function normalizeTrailingReflexivePronoun(text) {
     return normalizeTrainerAnswer(text).replace(/\s+(me|te|se|nos|os)$/i, '$1');
 }
 
+function convertSubjImperfectoRaToSe(form) {
+    // -ra→-se 等价转换，用于 subjuntivo_imperfecto
+    return form
+        .replace(/rara$/, 'rase').replace(/raras$/, 'rases').replace(/raron$/, 'rasen')
+        .replace(/riera$/, 'riese').replace(/rieras$/, 'rieses').replace(/rieran$/, 'riesen')
+        .replace(/ramos$/, 'remos'); // -ramos → -remos
+}
+
+function getDisplayAnswer(answer, tense) {
+    // 虚拟式过去未完成时同时展示 -ra 和 -se 两套形式
+    if (tense === 'subjuntivo_imperfecto') {
+        const seForm = convertSubjImperfectoRaToSe(normalizeTrainerAnswer(answer));
+        if (seForm && seForm !== normalizeTrainerAnswer(answer)) {
+            return `${answer}（或 ${seForm}）`;
+        }
+    }
+    return answer;
+}
+
 function compareTrainerAnswer(userAnswer, correctAnswer) {
     const normalizedUser = normalizeTrainerAnswer(userAnswer);
     const normalizedCorrect = normalizeTrainerAnswer(correctAnswer);
@@ -2249,6 +2268,19 @@ function compareTrainerAnswer(userAnswer, correctAnswer) {
     }
 
     if (stripSpanishAccents(compactUser) === stripSpanishAccents(compactCorrect)) {
+        return { isCorrect: true, accentOnly: true };
+    }
+
+    // subjuntivo_imperfecto: -se 形也接受
+    const seForm = convertSubjImperfectoRaToSe(normalizedCorrect);
+    if (seForm && normalizedUser === seForm) {
+        return { isCorrect: true, accentOnly: false };
+    }
+    const seFormCompact = normalizeTrailingReflexivePronoun(seForm);
+    if (seFormCompact && compactUser === seFormCompact) {
+        return { isCorrect: true, accentOnly: true };
+    }
+    if (seForm && stripSpanishAccents(normalizedUser) === stripSpanishAccents(seForm)) {
         return { isCorrect: true, accentOnly: true };
     }
 
@@ -2289,7 +2321,7 @@ function checkTrainerAnswer() {
     }
 
     const comparison = compareTrainerAnswer(userAnswer, question.answer);
-    revealTrainerFillFeedback(question.answer, userAnswer, comparison, false);
+    revealTrainerFillFeedback(question.answer, userAnswer, comparison, false, question.item.tense);
     finishTrainerQuestion({
         isCorrect: comparison.isCorrect,
         accentOnly: comparison.accentOnly,
@@ -2305,7 +2337,7 @@ function showTrainerAnswer() {
     if (question.type === 'choice') {
         revealTrainerChoiceFeedback(question);
     } else {
-        revealTrainerFillFeedback(question.answer, '', null, true);
+        revealTrainerFillFeedback(question.answer, '', null, true, question.item.tense);
     }
 
     finishTrainerQuestion({
@@ -2339,7 +2371,7 @@ function revealTrainerChoiceFeedback(question, selectedValue = '') {
     });
 }
 
-function revealTrainerFillFeedback(correctAnswer, userAnswer = '', comparison = null, revealOnly = false) {
+function revealTrainerFillFeedback(correctAnswer, userAnswer = '', comparison = null, revealOnly = false, tense = '') {
     const input = document.getElementById('trainerFillInput');
     if (!input) return;
 
@@ -2347,7 +2379,7 @@ function revealTrainerFillFeedback(correctAnswer, userAnswer = '', comparison = 
     input.classList.remove('correct', 'incorrect', 'almost');
 
     if (revealOnly) {
-        input.value = correctAnswer;
+        input.value = getDisplayAnswer(correctAnswer, tense);
         input.classList.add('incorrect');
         return;
     }
@@ -2358,7 +2390,7 @@ function revealTrainerFillFeedback(correctAnswer, userAnswer = '', comparison = 
     }
 
     input.classList.add('incorrect');
-    input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
+    input.value = `${userAnswer || '（空）'} → ${getDisplayAnswer(correctAnswer, tense)}`;
 }
 
 function finishTrainerQuestion({ isCorrect, accentOnly = false, usedAnswerKey = false, userAnswer = '' }) {
@@ -5439,7 +5471,7 @@ function checkReviewAnswer() {
             correct++;
         } else {
             input.classList.add('incorrect');
-            input.value = `${userAnswer || '（空）'} → ${correctAnswer}`;
+            input.value = `${userAnswer || '（空）'} → ${getDisplayAnswer(correctAnswer, currentTense)}`;
             hasError = true;
             weakPointItems.push({
                 verb: currentVerb.inf,
@@ -5506,7 +5538,7 @@ function showReviewAnswer() {
 
     inputs.forEach(input => {
         const pronoun = input.dataset.pronoun;
-        input.value = conjugateVerb(currentVerb.inf, currentTense, pronoun);
+        input.value = getDisplayAnswer(conjugateVerb(currentVerb.inf, currentTense, pronoun), currentTense);
         input.disabled = true;
         input.classList.add('incorrect');
         weakPointItems.push({
