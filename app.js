@@ -724,13 +724,21 @@ const HABER_RULE_PATTERNS = {
 
 const DERIVED_FORM_TENSES = [...COMPOUND_TENSES];
 
-function normalizeVerbKey(value) {
-    return String(value || '')
+function normalizeVerbKey(value, stripReflexive) {
+    let result = String(value || '')
         .trim()
         .toLowerCase()
         .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/se$/, '');
+        .replace(/[\u0300-\u036f]/g, '');
+    if (stripReflexive !== false) {
+        result = result.replace(/se$/, '');
+    }
+    return result;
+}
+
+// 保留 se 后缀的归一化，用于查找/补全（区分自复动词与非自复动词）
+function normalizeVerbKeyStrict(value) {
+    return normalizeVerbKey(value, false);
 }
 
 function getLocalDateKey(date = new Date()) {
@@ -1069,7 +1077,7 @@ function initSelfCheckPractice() {
 
     const seenSuggestions = new Set();
     const suggestionOptions = verbsData.filter(verb => {
-        const key = normalizeVerbKey(verb.inf);
+        const key = normalizeVerbKeyStrict(verb.inf);
         if (seenSuggestions.has(key)) {
             return false;
         }
@@ -1113,17 +1121,25 @@ function sanitizeLookupVerbInput(value) {
 }
 
 function findVerbByLookupInput(value) {
-    const normalizedInput = normalizeVerbKey(value);
-    if (!normalizedInput) {
+    const normalizedStrict = normalizeVerbKeyStrict(value);
+    const normalizedLoose = normalizeVerbKey(value);
+    if (!normalizedStrict && !normalizedLoose) {
         return null;
     }
 
-    return verbsData.find(verb => normalizeVerbKey(verb.inf) === normalizedInput) || null;
+    // 优先精确匹配（保留 se 后缀，区分自复与非自复）
+    const exactMatch = verbsData.find(verb => normalizeVerbKeyStrict(verb.inf) === normalizedStrict);
+    if (exactMatch) {
+        return exactMatch;
+    }
+
+    // 回退到宽松匹配（去掉 se，兼容输入不带 se 的情况）
+    return verbsData.find(verb => normalizeVerbKey(verb.inf) === normalizedLoose) || null;
 }
 
 function isLikelySpanishInfinitive(value) {
     const firstToken = sanitizeLookupVerbInput(value).split(' ')[0] || '';
-    return /(ar|er|ir|arse|erse|irse)$/.test(normalizeVerbKey(firstToken));
+    return /(ar|er|ir|arse|erse|irse)$/.test(normalizeVerbKeyStrict(firstToken));
 }
 
 function buildLookupVerbRecord(value) {
