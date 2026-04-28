@@ -2344,7 +2344,12 @@ const irregularVerbsByTense = {
         "sentir", "mentir", "preferir", "sugerir",
         "seguir", "conseguir", "elegir", "corregir",
         "reír", "sonreír", "freír",
-        // jugar：jugué yo（正字法）
+        // 正字法变化：-car/-gar/-zar 的 yo 用 -qué/-gué/-cé
+        // 所有 -car/-gar/-zar 结尾动词均适用，此处仅列常用代表
+        "buscar", "tocar", "explicar", "practicar", "sacar", "destacar",
+        "pagar", "llegar", "cargar", "entregar", "apagar", "colgar",
+        "rechazar", "lanzar", "cruzar", "organizar", "analizar",
+        // jugar：jugué yo（已含 stem change，单独列出）
         "jugar",
         // -uir 第三人称 y
         "construir", "destruir", "incluir", "concluir", "huir"
@@ -2375,7 +2380,12 @@ const irregularVerbsByTense = {
         "pedir", "repetir", "servir", "vestir", "seguir", "conseguir", "elegir", "corregir",
         "reír", "sonreír", "freír",
         "encender", "defender", "perder", "entender", "pensar", "empezar",
-        "roer", "tañer"
+        "roer", "tañer",
+        // 正字法变化：-car/-gar/-zar 全部人称适用
+        // 所有 -car/-gar/-zar 结尾动词均适用，此处仅列常用代表
+        "buscar", "tocar", "explicar", "practicar", "sacar", "destacar",
+        "pagar", "llegar", "cargar", "entregar", "apagar", "colgar",
+        "rechazar", "lanzar", "cruzar", "organizar", "analizar"
     ],
     // 虚拟式过去未完成时：基于简单过去ellos词根
     subjuntivo_imperfecto: [
@@ -2404,7 +2414,11 @@ const irregularVerbsByTense = {
         "sentir", "mentir", "preferir", "sugerir",
         "reír", "sonreír", "freír",
         "encender", "defender", "perder", "entender", "pensar", "empezar",
-        "roer", "tañer"
+        "roer", "tañer",
+        // 正字法变化：-car/-gar/-zar 在 usted/nosotros/ustedes 中适用
+        "buscar", "tocar", "explicar", "practicar", "sacar", "destacar",
+        "pagar", "llegar", "cargar", "entregar", "apagar", "colgar",
+        "rechazar", "lanzar", "cruzar", "organizar", "analizar"
     ]
 };
 
@@ -2657,6 +2671,12 @@ const irregularVerbGroupsByTense = {
             label: "-uir 结尾动词",
             rule: "construir, destruir, incluir, concluir, huir 这组按原形 -uir 来记；第 3 人称常见 y：construyó, construyeron。",
             verbs: ["construir", "destruir", "incluir", "concluir", "huir"]
+        },
+        {
+            id: "orthographic_preterito",
+            label: "正字法变化：-car / -gar / -zar",
+            rule: "所有 -car/-gar/-zar 结尾的动词在简单过去时 yo 中有拼写调整：c→qu（busqué）、g→gu（pagué）、z→c（lancé）；其余人称不变。此处仅列常用代表，动库中所有同类动词均适用此规则。",
+            verbs: ["buscar", "tocar", "explicar", "practicar", "sacar", "destacar", "pagar", "llegar", "cargar", "entregar", "apagar", "colgar", "rechazar", "lanzar", "cruzar", "organizar", "analizar"]
         }
     ],
     imperfecto: [
@@ -2729,6 +2749,12 @@ const irregularVerbGroupsByTense = {
             label: "ver / roer / tañer 等单词特例",
             rule: "ver → vea，roer → roa，tañer → taña；这类更适合按单词记忆。",
             verbs: ["ver", "roer", "tañer"]
+        },
+        {
+            id: "orthographic_subj",
+            label: "正字法变化：-car / -gar / -zar",
+            rule: "所有 -car/-gar/-zar 结尾动词在虚拟式现在时全部人称中需要拼写调整：c→qu（busque/busquemos/busquéis）、g→gu（pague/paguemos/paguéis）、z→c（rechace/rechacemos/rechacéis）。此处仅列常用代表，动库中所有同类动词均适用此规则。",
+            verbs: ["buscar", "tocar", "explicar", "practicar", "sacar", "destacar", "pagar", "llegar", "cargar", "entregar", "apagar", "colgar", "rechazar", "lanzar", "cruzar", "organizar", "analizar"]
         }
     ],
     subjuntivo_imperfecto: [
@@ -2888,6 +2914,12 @@ const irregularVerbGroupsByTense = {
             label: "其他常见特例",
             rule: "estar, ver, roer, tañer 等更适合直接记具体命令式；vosotros 形式多数仍是原形去 -r 加 d。",
             verbs: ["estar", "ver", "roer", "tañer"]
+        },
+        {
+            id: "orthographic_imp",
+            label: "正字法变化：-car / -gar / -zar",
+            rule: "所有 -car/-gar/-zar 结尾动词在命令式的 usted/nosotros/ustedes 中需要拼写调整：c→qu（busque/busquemos/busquen）、g→gu（pague/paguemos/paguen）、z→c（rechace/rechacemos/rechacen）；肯定 tú 和 vosotros 不受影响。此处仅列常用代表，动库中所有同类动词均适用此规则。",
+            verbs: ["buscar", "tocar", "explicar", "practicar", "sacar", "destacar", "pagar", "llegar", "cargar", "entregar", "apagar", "colgar", "rechazar", "lanzar", "cruzar", "organizar", "analizar"]
         }
     ]
 };

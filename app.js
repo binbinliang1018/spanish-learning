@@ -4223,12 +4223,35 @@ function conjugateVerb(infinitive, tense, pronoun) {
 
     let conjugated;
     
-    // 将来时和条件式使用原形动词 + 词尾
+    // 将来时和条件式使用原形动词 + 词尾（无正字法变化）
     if (tense === 'futuro' || tense === 'condicional') {
         conjugated = baseVerb + endings[ending][tense][pronounIndex];
     } else {
         // 其他时态使用词干 + 词尾
         conjugated = stem + endings[ending][tense][pronounIndex];
+    }
+
+    // ============ 正字法变化自动校正 ============
+    // 某些词尾字母在特定环境下需要改为拼写等价形式以保持发音。
+    // 适用于虚拟式现在时（全部人称）、命令式、简单过去时 yo：
+    // -car → c→qu (buscar: busque, busquemos, busquéis)
+    // -gar → g→gu (pagar: pague, paguemos, paguéis; pagué)
+    // -zar → z→c  (rechazar: rechace, rechacemos, rechacéis)
+    const needsOrthoFix = (tense === 'subjuntivo' || tense === 'imperativo' ||
+        (tense === 'preterito' && pronounIndex === 0));
+    if (needsOrthoFix) {
+        if (baseVerb.endsWith('car')) {
+            // c 在 e/é/i/í 前变 qu
+            conjugated = conjugated.replace(/c([eéií])/g, 'qu$1');
+        }
+        else if (baseVerb.endsWith('gar')) {
+            // g 在 e/é/i/í 前（以及 gue/gui 中间）变 gu
+            conjugated = conjugated.replace(/g([eéiíué])/g, 'gu$1');
+        }
+        else if (baseVerb.endsWith('zar')) {
+            // z 在 e/é 前变 c
+            conjugated = conjugated.replace(/z([eé])/g, 'c$1');
+        }
     }
     
     // 如果是代词式动词，添加相应的代词
